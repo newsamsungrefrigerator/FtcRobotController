@@ -79,6 +79,7 @@ public class GyroBot extends NewCameraBot {
         double delta = getDeltaAngle();
 
         while (Math.abs(delta) > 2) {
+            onLoop();
             if (delta < 0) {
                 // turn clockwize
                 direction = -1;
@@ -113,6 +114,7 @@ public class GyroBot extends NewCameraBot {
         angle = getAngle();
         double power = pid.getOutput(angle, startAngle);
         while (Math.abs(power) > 0.06) {
+            onLoop();
             RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, startAngle, power));
             leftFront.setPower(-power);
             rightFront.setPower(power);
@@ -155,6 +157,7 @@ public class GyroBot extends NewCameraBot {
         double adjustPower = pid.getOutput(angle, originalAngle);
         int currentPosition = leftFront.getCurrentPosition();
         while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
+            onLoop();
             RobotLog.d(String.format("driveStraightByGyro : Current: %d - Start:%d > 10 => power: %.3f  +/- PID(source: %.3f, target: %.3f) = adjustPower: %.3f", currentPosition, startingPosition, maxPower, angle, originalAngle, adjustPower));
             switch (direction){
                 case DIRECTION_FORWARD:
