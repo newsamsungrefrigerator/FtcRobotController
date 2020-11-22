@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.bot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -23,7 +23,7 @@ public class OdometryBot extends GyroBot {
     final int hDirection = 1;
     final double radius = 10;
 
-    double previousVL = 0, previousVR = 0;
+    public double previousVL = 0, previousVR = 0;
     double angleChange = 0;
 
 
