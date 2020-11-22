@@ -2,7 +2,7 @@
 // backs up to the starting point using encoders to measure the distance.
 // This example assumes there is one encoder, attached to the left motor.
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.bot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,13 +17,13 @@ public class FourWheelDriveBot
 {
 
     // Gobilda 435 rpm DC motor : Encoder Countable Events Per Revolution (Output Shaft) : 383.6 * 2 (2:1 bevel gear ratio)
-    static final double DRIVING_MOTOR_TICK_COUNT = 767;
-    static final int DIRECTION_FORWARD = 1;
-    static final int DIRECTION_BACKWARD = 2;
-    static final int DIRECTION_LEFT = 3;
-    static final int DIRECTION_RIGHT = 4;
-    static final int DIRECTION_RQUARTER = 5;
-    static final int DIRECTION_LQUARTER = 6;
+    public static final double DRIVING_MOTOR_TICK_COUNT = 767;
+    public static final int DIRECTION_FORWARD = 1;
+    public static final int DIRECTION_BACKWARD = 2;
+    public static final int DIRECTION_LEFT = 3;
+    public static final int DIRECTION_RIGHT = 4;
+    public static final int DIRECTION_RQUARTER = 5;
+    public static final int DIRECTION_LQUARTER = 6;
 
     public DcMotorEx leftFront = null;
     public DcMotorEx rightFront = null;

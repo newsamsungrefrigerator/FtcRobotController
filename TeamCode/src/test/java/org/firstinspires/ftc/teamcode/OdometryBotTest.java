@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.firstinspires.ftc.teamcode.bot.OdometryBot;
+
 
 public class OdometryBotTest {
 
