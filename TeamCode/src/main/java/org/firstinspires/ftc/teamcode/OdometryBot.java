@@ -15,8 +15,17 @@ public class OdometryBot extends GyroBot {
 
     String verticalLeftEncoderName = "v1", verticalRightEncoderName = "v2", horizontalEncoderName = "h";
 
-    double xCurrentBlue = 0, yCurrentBlue = 0, thetaCurrentBlue = 60;
+    double xBlue = 0, yBlue = 0, thetaDEG = 0;
     double xRed = 0, yRed = 0;
+
+    final int vLDirection = 1;
+    final int vRDirection = -1;
+    final int hDirection = 1;
+    final double radius = 10;
+
+    double previousVL = 0, previousVR = 0;
+    double angleChange = 0;
+
 
     public OdometryBot(LinearOpMode opMode) {
         super(opMode);
@@ -47,20 +56,43 @@ public class OdometryBot extends GyroBot {
     }
 
     protected void onTick(){
-        RobotLog.d(String.format("Position, heading: %2d, %2d, %2d", xCurrentBlue, yCurrentBlue, thetaCurrentBlue));
-        opMode.telemetry.addData("X:", xCurrentBlue);
-        opMode.telemetry.addData("Y:", yCurrentBlue);
-        opMode.telemetry.addData("Theta:", thetaCurrentBlue);
+        RobotLog.d(String.format("Position, heading: %2d, %2d, %2d", xBlue, yBlue, thetaDEG));
+        opMode.telemetry.addData("X:", xBlue);
+        opMode.telemetry.addData("Y:", yBlue);
+        opMode.telemetry.addData("Theta:", thetaDEG);
         opMode.telemetry.update();
         super.onTick();
-        calculateCaseThree();
+        calculateCaseThree(verticalLeft.getCurrentPosition(), verticalRight.getCurrentPosition(), horizontal.getCurrentPosition(), thetaDEG);
     }
 
-    private void calculateCaseThree() {
-        xRed = horizontal.getCurrentPosition();
-        yRed = (verticalLeft.getCurrentPosition() + verticalRight.getCurrentPosition())/2;
+    public double[] calculateCaseThree(double vL, double vR, double h, double angleDEG) {
+        vL = vL * vLDirection;
+        vR = vR * vRDirection;
+        h = h * hDirection;
 
-        xCurrentBlue = Math.cos(Math.toRadians(thetaCurrentBlue - 90))*xRed + Math.cos(Math.toRadians(thetaCurrentBlue))*yRed;
-        yCurrentBlue = Math.sin(Math.toRadians(thetaCurrentBlue))*yRed + Math.sin(Math.toRadians(thetaCurrentBlue - 90))*xRed;
+        double lC = vL - previousVL;
+        double rC = vR - previousVR;
+
+        angleChange = ((lC - rC) / (Math.PI * radius * 2) * 360);
+
+        angleDEG = angleDEG + angleChange;
+        thetaDEG = angleDEG;
+
+//        System.out.println(String.format("%f, %f",angleChange, angleDEG));
+
+        xRed = h;
+        yRed = (vL + vR)/2;
+
+        xBlue = Math.cos(Math.toRadians(angleDEG - 90))*xRed + Math.cos(Math.toRadians(angleDEG))*yRed;
+        yBlue = Math.sin(Math.toRadians(angleDEG))*yRed + Math.sin(Math.toRadians(angleDEG - 90))*xRed;
+
+        previousVL = vL;
+        previousVR = vR;
+
+//        System.out.println(String.format("%f, %f", xBlue, yBlue));
+
+        double[] position = {xBlue, yBlue};
+
+        return position;
     }
 }
