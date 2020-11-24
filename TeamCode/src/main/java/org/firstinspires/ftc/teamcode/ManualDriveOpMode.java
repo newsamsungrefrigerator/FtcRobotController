@@ -4,6 +4,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.bot.OdometryBot;
+import org.firstinspires.ftc.teamcode.bot.ShooterBot;
+
 /**
  * Mecanum teleop (with an optional arcade mode)
  * * Left stick controls x/y translation.
@@ -14,7 +16,7 @@ import org.firstinspires.ftc.teamcode.bot.OdometryBot;
  */
 @TeleOp(name = "Manual Drive")
 public class ManualDriveOpMode extends LinearOpMode {
-    private OdometryBot robot = new OdometryBot(this);
+    private ShooterBot robot = new ShooterBot(this);
 
     @Override
     public void runOpMode() {
@@ -22,6 +24,7 @@ public class ManualDriveOpMode extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             robot.driveByHand(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+            robot.launchRing(gamepad1.right_bumper);
             robot.onLoop();
         }
     }
