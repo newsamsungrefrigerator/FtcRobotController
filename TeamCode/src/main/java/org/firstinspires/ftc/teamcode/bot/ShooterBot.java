@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class ShooterBot extends OdometryBot {
+public class ShooterBot extends FourWheelDriveBot {
     public DcMotor shooter = null;
     public Servo pusher = null;
 
@@ -65,6 +65,8 @@ public class ShooterBot extends OdometryBot {
         //save current time and position for next cycle
         lastTime = currentTime;
         lastPosition = currentPosition;
+        opMode.telemetry.addData("Shooter speed", currentShooterSpeed);
+        opMode.telemetry.update();
     }
 
     public void launchRing(boolean rightBumper) {
@@ -79,8 +81,7 @@ public class ShooterBot extends OdometryBot {
 
     protected void onTick(){
         spinShooter();
-        opMode.telemetry.addData("Shooter speed", currentShooterSpeed);
-        opMode.telemetry.update();
+
         super.onTick();
     }
 
