@@ -147,7 +147,7 @@ public class FourWheelDriveBot
     }
 
     public void onLoop(){
-        onLoop(500);
+        onLoop(100);
     }
     long lastOnLoopFinished = 0;
     public void onLoop(int interval){

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class ShooterBot extends OdometryBot {
+public class ShooterBot extends FourWheelDriveBot {
     public DcMotor shooter = null;
     public Servo pusher = null;
 
@@ -24,12 +24,12 @@ public class ShooterBot extends OdometryBot {
     final double lowShooterSpeedThreshold = 0.5;
 
     //the two speeds the shooter switches between to control itself
-    final double highShooterSpeed = -0.54;
-    final double lowShooterSpeed = -0.44;
+    final double highShooterSpeed = -0.5;
+    final double lowShooterSpeed = -0.4;
 
     //two positions of the pusher servo
-    final double pusherRetracted = 0.0;
-    final double pusherPushing = 0.2;
+    final double pusherRetracted = 0.35;
+    final double pusherPushing = 0.6;
 
     public ShooterBot(LinearOpMode opMode) {
         super(opMode);
@@ -71,7 +71,7 @@ public class ShooterBot extends OdometryBot {
         if (rightBumper) {
             pusher.setPosition(pusherPushing);
             for (int i = 0; i < 10; i++) {
-                onLoop(10);
+                onLoop(50);
             }
             pusher.setPosition(pusherRetracted);
         }
