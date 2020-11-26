@@ -58,7 +58,7 @@ public class ShooterBot extends OdometryBot {
             //increase shooter power to compensate
             shooter.setPower(highShooterSpeed);
         }
-        if (currentShooterSpeed > highShooterSpeed) {
+        if (currentShooterSpeed > highShooterSpeedThreshold) {
             //decrease shooter power to compensate
             shooter.setPower(lowShooterSpeed);
         }
