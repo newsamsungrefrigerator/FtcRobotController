@@ -17,19 +17,19 @@ public class ShooterBot extends GyroBot {
     double lastPosition = 0;
     double positionDifference = 0;
 
-    double currentShooterSpeed = 0;
+    double currentShooterSpeed = 1;
 
     //change these values to control what speed the shooter spins around
-    final double highShooterSpeedThreshold = 1;
-    final double lowShooterSpeedThreshold = 0.5;
+    final double highShooterSpeedThreshold = 1.04;
+    final double lowShooterSpeedThreshold = 1.03;
 
     //the two speeds the shooter switches between to control itself
     final double highShooterSpeed = -0.5;
-    final double lowShooterSpeed = -0.4;
+    final double lowShooterSpeed = -0.2;
 
     //two positions of the pusher servo
     final double pusherRetracted = 0.35;
-    final double pusherPushing = 0.6;
+    final double pusherPushing = 0.53;
 
     boolean shooterIsOn = false;
 
@@ -63,7 +63,7 @@ public class ShooterBot extends GyroBot {
             currentPosition = shooter.getCurrentPosition();
             positionDifference = Math.abs(currentPosition - lastPosition);
             //calculate current shooter speed
-            currentShooterSpeed = positionDifference / timeDifference;
+            currentShooterSpeed = positionDifference / (double)timeDifference;
             //check if current speed is less than or high than the two thresholds
             if (currentShooterSpeed < lowShooterSpeedThreshold) {
                 //increase shooter power to compensate
@@ -77,6 +77,9 @@ public class ShooterBot extends GyroBot {
             lastTime = currentTime;
             lastPosition = currentPosition;
             opMode.telemetry.addData("Shooter speed", currentShooterSpeed);
+            // opMode.telemetry.addData("Position Difference", positionDifference);
+                 //opMode.telemetry.addData("Time Difference", (double)timeDifference);
+            //opMode.telemetry.addData("Current Position", currentPosition);
             opMode.telemetry.update();
         } else {
             shooter.setPower(0);
@@ -86,12 +89,12 @@ public class ShooterBot extends GyroBot {
     public void launchRing(boolean rightBumper) {
         if (rightBumper) {
             pusher.setPosition(pusherRetracted);
-            for (int i = 0; i < 10; i++) {
-                onLoop(50);
+            for (int i = 0; i < 2; i++) {
+                onLoop(350);
             }
             pusher.setPosition(pusherPushing);
             for (int i = 0; i < 10; i++) {
-                onLoop(50);
+                onLoop(200);
             }
         }
     }

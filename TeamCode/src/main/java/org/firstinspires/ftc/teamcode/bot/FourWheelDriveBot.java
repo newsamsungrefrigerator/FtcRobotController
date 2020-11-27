@@ -152,16 +152,12 @@ public class FourWheelDriveBot
     long lastOnLoopFinished = 0;
     public void onLoop(int interval){
         long start = System.currentTimeMillis();
-        if (lastOnLoopFinished > 0 && start - lastOnLoopFinished > interval){
-            throw new RuntimeException("onLoop() has been called too long (" + (start - lastOnLoopFinished) + ") ago");
-        }
+
         //RobotLog.d("FourWDBot OnLoop start ");
         this.onTick();
         long timeElapsed = System.currentTimeMillis() - start;
         RobotLog.d("FourWDBot OnLoop stop @ " + timeElapsed);
-        if (timeElapsed > interval){
-            throw new RuntimeException("onTick() took too long (" + timeElapsed + ") to finish");
-        }
+
         opMode.sleep(interval - (int)timeElapsed);
         lastOnLoopFinished = System.currentTimeMillis();
 

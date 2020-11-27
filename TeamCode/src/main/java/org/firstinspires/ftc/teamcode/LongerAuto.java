@@ -23,12 +23,13 @@ public class LongerAuto extends LinearOpMode {
         if (numberOfRings == 0) {
             //drive to shooting position
             robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 1200, 0.7, false);
-            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 500, 0.6);
+            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 850, 0.6);
             for (int i = 0; i < 3; i++) {
                 robot.launchRing(true);
+                robot.onLoop(1300);
             }
             //align with target zone
-            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 500, 0.6);
+            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 850, 0.6);
             //drop wobble goal
             robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 200, 1, false);
             robot.driveStraightByGyro(robot.DIRECTION_BACKWARD, 200, 0.6, false);
@@ -38,9 +39,10 @@ public class LongerAuto extends LinearOpMode {
         } else if (numberOfRings == 1) {
             //drive to shooting position
             robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 1200, 0.7, false);
-            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 500, 0.6);
+            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 850, 0.6);
             for (int i = 0; i < 3; i++) {
                 robot.launchRing(true);
+                robot.onLoop(1300);
             }
             //drop wobble goal
             robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 650, 1, false);
@@ -49,12 +51,13 @@ public class LongerAuto extends LinearOpMode {
         } else if (numberOfRings == 4) {
             //drive to shooting position
             robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 1200, 0.7, false);
-            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 500, 0.6);
+            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 850, 0.6);
             for (int i = 0; i < 3; i++) {
                 robot.launchRing(true);
+                robot.onLoop(1300);
             }
             //align with target zone
-            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 500, 0.6);
+            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 850, 0.6);
             //drop wobble goal
             robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 1400, 1, false);
             robot.driveStraightByDistance(robot.DIRECTION_BACKWARD, 1100, 1);

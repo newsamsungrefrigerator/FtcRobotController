@@ -23,9 +23,10 @@ public class TempAuto extends LinearOpMode {
         if (numberOfRings == 0) {
             //drive to shooting position
             robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 1200, 0.7, false);
-            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 500, 0.6);
+            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 850, 0.6);
             for (int i = 0; i < 3; i++) {
                 robot.launchRing(true);
+
             }
         } else if (numberOfRings == 1) {
             //drive to shooting position
