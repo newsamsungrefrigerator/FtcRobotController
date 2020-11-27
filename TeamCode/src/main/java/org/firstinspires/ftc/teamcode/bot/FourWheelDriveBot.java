@@ -287,6 +287,7 @@ public class FourWheelDriveBot
 
         while (this.opMode.opModeIsActive() && rightFront.isBusy()) {
             opMode.sleep(10);
+            onLoop();
         }
         RobotLog.d(String.format("Stopping all motion!"));
         // Stop all motion;

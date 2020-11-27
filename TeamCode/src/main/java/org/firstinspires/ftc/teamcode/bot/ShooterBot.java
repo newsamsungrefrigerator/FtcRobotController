@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class ShooterBot extends FourWheelDriveBot {
+public class ShooterBot extends GyroBot {
     public DcMotor shooter = null;
     public Servo pusher = null;
 
@@ -31,6 +31,8 @@ public class ShooterBot extends FourWheelDriveBot {
     final double pusherRetracted = 0.35;
     final double pusherPushing = 0.6;
 
+    boolean shooterIsOn = false;
+
     public ShooterBot(LinearOpMode opMode) {
         super(opMode);
     }
@@ -41,47 +43,61 @@ public class ShooterBot extends FourWheelDriveBot {
         shooter = hwMap.get(DcMotor.class, "Shooter");
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pusher = hwMap.get(Servo.class, "Pusher");
-        pusher.setPosition(pusherRetracted);
+        pusher.setPosition(pusherPushing);
+    }
+
+    public void toggleShooter(boolean input) {
+        if (input) {
+            shooterIsOn = true;
+        } else {
+            shooterIsOn = false;
+        }
     }
 
     public void spinShooter() {
-        //calculate difference in time between last and current cycle
-        currentTime = System.currentTimeMillis();
-        timeDifference = currentTime - lastTime;
-        //calculate difference in position between last and current cycle
-        currentPosition = shooter.getCurrentPosition();
-        positionDifference = Math.abs(currentPosition - lastPosition);
-        //calculate current shooter speed
-        currentShooterSpeed = positionDifference / timeDifference;
-        //check if current speed is less than or high than the two thresholds
-        if (currentShooterSpeed < lowShooterSpeedThreshold) {
-            //increase shooter power to compensate
-            shooter.setPower(highShooterSpeed);
+        if (shooterIsOn) {
+            //calculate difference in time between last and current cycle
+            currentTime = System.currentTimeMillis();
+            timeDifference = currentTime - lastTime;
+            //calculate difference in position between last and current cycle
+            currentPosition = shooter.getCurrentPosition();
+            positionDifference = Math.abs(currentPosition - lastPosition);
+            //calculate current shooter speed
+            currentShooterSpeed = positionDifference / timeDifference;
+            //check if current speed is less than or high than the two thresholds
+            if (currentShooterSpeed < lowShooterSpeedThreshold) {
+                //increase shooter power to compensate
+                shooter.setPower(highShooterSpeed);
+            }
+            if (currentShooterSpeed > highShooterSpeedThreshold) {
+                //decrease shooter power to compensate
+                shooter.setPower(lowShooterSpeed);
+            }
+            //save current time and position for next cycle
+            lastTime = currentTime;
+            lastPosition = currentPosition;
+            opMode.telemetry.addData("Shooter speed", currentShooterSpeed);
+            opMode.telemetry.update();
+        } else {
+            shooter.setPower(0);
         }
-        if (currentShooterSpeed > highShooterSpeedThreshold) {
-            //decrease shooter power to compensate
-            shooter.setPower(lowShooterSpeed);
-        }
-        //save current time and position for next cycle
-        lastTime = currentTime;
-        lastPosition = currentPosition;
-        opMode.telemetry.addData("Shooter speed", currentShooterSpeed);
-        opMode.telemetry.update();
     }
 
     public void launchRing(boolean rightBumper) {
         if (rightBumper) {
+            pusher.setPosition(pusherRetracted);
+            for (int i = 0; i < 10; i++) {
+                onLoop(50);
+            }
             pusher.setPosition(pusherPushing);
             for (int i = 0; i < 10; i++) {
                 onLoop(50);
             }
-            pusher.setPosition(pusherRetracted);
         }
     }
 
     protected void onTick(){
         spinShooter();
-
         super.onTick();
     }
 
