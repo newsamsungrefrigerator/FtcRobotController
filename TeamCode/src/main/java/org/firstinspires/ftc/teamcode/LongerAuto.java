@@ -4,12 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.bot.GyroBot;
 import org.firstinspires.ftc.teamcode.bot.ShooterBot;
+import org.firstinspires.ftc.teamcode.bot.WobbleGoalBot;
 
 @Autonomous(name="Shooting Auto", group="Auto")
 
 public class LongerAuto extends LinearOpMode {
 
-    protected ShooterBot robot = new ShooterBot(this);
+    protected WobbleGoalBot robot = new WobbleGoalBot(this);
 
     @Override
     public void runOpMode() {

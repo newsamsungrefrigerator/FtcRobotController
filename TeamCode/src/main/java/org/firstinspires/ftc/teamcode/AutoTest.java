@@ -3,13 +3,14 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.bot.GyroBot;
+import org.firstinspires.ftc.teamcode.bot.WobbleGoalBot;
 
 
 @Autonomous(name="Auto Test", group="Auto")
 
 public class AutoTest extends LinearOpMode {
 
-    protected GyroBot robot = new GyroBot(this);
+    protected WobbleGoalBot robot = new WobbleGoalBot(this);
 
     @Override
     public void runOpMode() {
