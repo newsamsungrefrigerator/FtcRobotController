@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class WobbleGoalBot extends ShooterBot {
     public Servo wobbleArm = null;
 
-    //two positions of the pusher servo
+    //two positions of the wobble servo
     final double wobbleRetracted = 0.35;
     final double wobbleExtended = 0.53;
 
@@ -23,10 +23,12 @@ public class WobbleGoalBot extends ShooterBot {
         wobbleArm.setPosition(wobbleRetracted);
     }
 
+    //call openArm() to open the arm
     public void openArm() {
         wobbleArm.setPosition(wobbleExtended);
     }
 
+    //call closeArm() to close the arm
     public void closeArm() {
         wobbleArm.setPosition(wobbleRetracted);
     }
