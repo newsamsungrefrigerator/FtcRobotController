@@ -25,6 +25,7 @@ public class ManualDriveOpMode extends LinearOpMode {
         while (opModeIsActive()) {
             robot.driveByHand(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
             robot.launchRing(gamepad1.right_bumper);
+            robot.toggleShooter(gamepad1.left_bumper);
             robot.onLoop();
         }
     }
