@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.bot.OdometryBot;
 import org.firstinspires.ftc.teamcode.bot.ShooterBot;
+import org.firstinspires.ftc.teamcode.bot.WobbleGoalBot;
 
 /**
  * Mecanum teleop (with an optional arcade mode)
@@ -16,7 +17,7 @@ import org.firstinspires.ftc.teamcode.bot.ShooterBot;
  */
 @TeleOp(name = "Manual Drive")
 public class ManualDriveOpMode extends LinearOpMode {
-    private ShooterBot robot = new ShooterBot(this);
+    private WobbleGoalBot robot = new WobbleGoalBot(this);
 
     @Override
     public void runOpMode() {
@@ -26,6 +27,7 @@ public class ManualDriveOpMode extends LinearOpMode {
             robot.driveByHand(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
             robot.launchRing(gamepad1.right_bumper);
             robot.toggleShooter(gamepad1.left_bumper);
+            robot.toggleWobble(gamepad1.x);
             robot.onLoop();
         }
     }

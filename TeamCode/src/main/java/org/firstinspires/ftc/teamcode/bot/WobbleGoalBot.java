@@ -12,6 +12,8 @@ public class WobbleGoalBot extends ShooterBot {
     final double wobbleRetracted = 0.25;
     final double wobbleExtended = 0.53;
 
+    boolean isOpen = false;
+
     public WobbleGoalBot(LinearOpMode opMode) {
         super(opMode);
     }
@@ -31,5 +33,15 @@ public class WobbleGoalBot extends ShooterBot {
     //call closeArm() to close the arm
     public void closeArm() {
         wobbleArm.setPosition(wobbleRetracted);
+    }
+
+    public void toggleWobble(boolean button) {
+        if (button) {
+            if (isOpen) {
+                wobbleArm.setPosition(wobbleRetracted);
+            } else if (isOpen = false) {
+                wobbleArm.setPosition(wobbleExtended);
+            }
+        }
     }
 }
