@@ -167,7 +167,7 @@ public class NewCameraBot extends FourWheelDriveBot {
                 }
             }
         }
-        if (correctBoxes <= 2) {
+        if (correctBoxes <= 1) {
             return NORINGS;
         } else if (correctBoxes <= 5) {
             return ONERING;

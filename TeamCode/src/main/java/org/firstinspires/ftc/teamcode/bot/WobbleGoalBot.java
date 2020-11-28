@@ -9,7 +9,7 @@ public class WobbleGoalBot extends ShooterBot {
     public Servo wobbleArm = null;
 
     //two positions of the wobble servo
-    final double wobbleRetracted = 0.35;
+    final double wobbleRetracted = 0.25;
     final double wobbleExtended = 0.53;
 
     public WobbleGoalBot(LinearOpMode opMode) {
