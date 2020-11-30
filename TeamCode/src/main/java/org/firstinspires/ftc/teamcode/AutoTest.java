@@ -34,6 +34,7 @@ public class AutoTest extends LinearOpMode {
             robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 2600, 1, false);
             robot.driveStraightByDistance(robot.DIRECTION_BACKWARD, 1100, 1);
         }
+        robot.close();
 
     }
 

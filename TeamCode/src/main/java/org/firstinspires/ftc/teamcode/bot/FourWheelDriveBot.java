@@ -42,14 +42,14 @@ public class FourWheelDriveBot
     private double headingOffset = 0.0;
     protected LinearOpMode opMode;
 
-    OutputStreamWriter writer;
+    OutputStreamWriter onLoopWriter;
 
     public FourWheelDriveBot(LinearOpMode opMode) {
         this.opMode = opMode;
         try {
-            writer = new FileWriter("/sdcard/FIRST/onlooplog" + java.text.DateFormat.getDateTimeInstance().format(new Date()) + ".csv", true);
+            onLoopWriter = new FileWriter("/sdcard/FIRST/onlooplog_" + java.text.DateFormat.getDateTimeInstance().format(new Date()) + ".csv", true);
         } catch (IOException e) {
-            opMode.telemetry.addData("Exception", "onloop file writer open failed: " + e.toString());
+            throw new RuntimeException("onloop file writer open failed: " + e.toString());
         }
     }
     // manual drive
@@ -153,33 +153,65 @@ public class FourWheelDriveBot
 
     }
 
-    public void onLoop(){
-        onLoop(100, "default");
+    public void onLoop(String label){
+        onLoop(100, label);
     }
     long lastOnLoopFinished = 0;
+    String lastOnLoopLabel = "";
+    int onLoopTolerance = 100;
     public void onLoop(int interval, String label){
         long start = System.currentTimeMillis();
-        if (lastOnLoopFinished > 0 && start - lastOnLoopFinished > interval){
-            throw new RuntimeException("onLoop() has been called too long (" + (start - lastOnLoopFinished) + ") ago");
+        // TRICKY : DEBUG feature, please comment following block out before competition
+        if (lastOnLoopFinished > 0 && start - lastOnLoopFinished > (interval + onLoopTolerance)){
+            close();
+            throw new RuntimeException("onLoop(" + label + ") has been called too long (" + (start - lastOnLoopFinished) + ") ago, last onLoop label is "+lastOnLoopLabel);
         }
         //RobotLog.d("FourWDBot OnLoop start ");
         this.onTick();
         long timeElapsed = System.currentTimeMillis() - start;
         RobotLog.d("FourWDBot OnLoop stop @ " + timeElapsed);
+        // TRICKY : DEBUG feature, please comment following block out before competition
         if (timeElapsed > interval){
-            throw new RuntimeException("onTick() took too long (" + timeElapsed + ") to finish");
+            close();
+            throw new RuntimeException("onTick(" + label + ") took too long (" + timeElapsed + ") to finish, last onLoop label is " + lastOnLoopLabel);
         }
         try {
-            writer.write(String.format("%d, %d, %f, %s\n", interval, timeElapsed, start - lastOnLoopFinished, label));
+            RobotLog.d("onLoopWriter.write");
+            onLoopWriter.write(String.format("%d, %d, %d, %s\n", interval, timeElapsed, start - lastOnLoopFinished, label));
         } catch (IOException e) {
-            opMode.telemetry.addData("Exception", "onloop file write failed: " + e.toString());
+            throw new RuntimeException("onloop file writer write failed: " + e.toString());
         }
         opMode.sleep(interval - (int)timeElapsed);
         lastOnLoopFinished = System.currentTimeMillis();
-
+        lastOnLoopLabel = label;
     }
+
     protected void onTick(){
 
+    }
+
+    public void close(){
+        try {
+            RobotLog.d("onLoopWriter.close");
+            onLoopWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException("onloop file writer close failed: " + e.toString());
+        }
+    }
+
+    /**
+     * Not blocking sleep, sleep n milliseconds while keep the onLoop() called every 100 milliseconds
+     * @param milliseconds
+     * @param label
+     */
+    public void sleep(int milliseconds, String label){
+        for (int i=0; i < milliseconds; i+=100){
+            onLoop(100, label);
+        }
+    }
+
+    public void sleep(int milliseconds){
+        sleep(milliseconds, "default sleep");
     }
 
     public void driveByVector(double vectorX, double vectorY){
@@ -298,8 +330,7 @@ public class FourWheelDriveBot
         RobotLog.d(String.format("Set direction and power!"));
 
         while (this.opMode.opModeIsActive() && rightFront.isBusy()) {
-            opMode.sleep(10);
-            onLoop();
+            onLoop(100, "drive straight by distance");
         }
         RobotLog.d(String.format("Stopping all motion!"));
         // Stop all motion;

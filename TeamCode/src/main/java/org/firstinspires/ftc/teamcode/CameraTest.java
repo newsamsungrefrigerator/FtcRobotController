@@ -17,7 +17,8 @@ public class CameraTest extends LinearOpMode {
         int numberOfRings = robot.detectRings();
         telemetry.addData("Number of rings:", numberOfRings);
         telemetry.update();
-        sleep(10000);
+        robot.sleep(10000);
+        robot.close();
 
     }
 

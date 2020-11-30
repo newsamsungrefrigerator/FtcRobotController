@@ -79,7 +79,7 @@ public class GyroBot extends NewCameraBot {
         double delta = getDeltaAngle();
 
         while (Math.abs(delta) > 2) {
-            onLoop();
+            onLoop("goBacktoStartAngle");
             if (delta < 0) {
                 // turn clockwize
                 direction = -1;
@@ -114,7 +114,7 @@ public class GyroBot extends NewCameraBot {
         angle = getAngle();
         double power = pid.getOutput(angle, startAngle);
         while (Math.abs(power) > 0.06) {
-            onLoop();
+            onLoop("goBacktoStartAnglePID");
             RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, startAngle, power));
             leftFront.setPower(-power);
             rightFront.setPower(power);
@@ -157,7 +157,7 @@ public class GyroBot extends NewCameraBot {
         double adjustPower = pid.getOutput(angle, originalAngle);
         int currentPosition = leftFront.getCurrentPosition();
         while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
-            onLoop(100, "gyro");
+            onLoop(100, "gyro drive 1");
             RobotLog.d(String.format("driveStraightByGyro : Current: %d - Start:%d > 10 => power: %.3f  +/- PID(source: %.3f, target: %.3f) = adjustPower: %.3f", currentPosition, startingPosition, maxPower, angle, originalAngle, adjustPower));
             switch (direction){
                 case DIRECTION_FORWARD:
@@ -185,15 +185,15 @@ public class GyroBot extends NewCameraBot {
                     rightRear.setPower(+ maxPower + adjustPower);
                     break;
             }
-            opMode.sleep(50);
+            onLoop(50, "gyro drive 2");
             angle = getAngle();
             adjustPower = pid.getOutput(angle, originalAngle);
             currentPosition = leftFront.getCurrentPosition();
-        };
+        }
         leftFront.setPower(0);
         rightFront.setPower(0);
         leftRear.setPower(0);
         rightRear.setPower(0);
-        opMode.sleep(500);
+        sleep(500, "after gyro wait");
     }
 }

@@ -30,5 +30,6 @@ public class ManualDriveOpMode extends LinearOpMode {
             robot.toggleWobble(gamepad1.x);
             robot.onLoop(100, "manual drive");
         }
+        robot.close();
     }
 }

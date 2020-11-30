@@ -4,12 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.RobotLog;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Date;
-
-import android.content.Context;
 
 public class ShooterBot extends GyroBot {
     public DcMotor shooter = null;
@@ -39,15 +39,10 @@ public class ShooterBot extends GyroBot {
 
     boolean shooterIsOn = false;
 
-    OutputStreamWriter writer;
+    OutputStreamWriter shooterWriter;
 
     public ShooterBot(LinearOpMode opMode) {
         super(opMode);
-        try {
-            writer = new FileWriter("/sdcard/FIRST/shooterlog" + java.text.DateFormat.getDateTimeInstance().format(new Date()) + ".csv", true);
-        } catch (IOException e) {
-            opMode.telemetry.addData("Exception", "shooter file writer open failed: " + e.toString());
-        }
     }
 
     @Override
@@ -57,6 +52,11 @@ public class ShooterBot extends GyroBot {
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pusher = hwMap.get(Servo.class, "Pusher");
         pusher.setPosition(pusherPushing);
+        try {
+            shooterWriter = new FileWriter("/sdcard/FIRST/shooterlog_" + java.text.DateFormat.getDateTimeInstance().format(new Date()) + ".csv", true);
+        } catch (IOException e) {
+            throw new RuntimeException("shooter log file writer open failed: " + e.toString());
+        }
     }
 
     public void toggleShooter(boolean input) {
@@ -95,10 +95,11 @@ public class ShooterBot extends GyroBot {
             //opMode.telemetry.addData("Current Position", currentPosition);
             opMode.telemetry.update();
             try {
-                writer.write(String.format("%d, %f\n", currentTime, currentShooterSpeed));
+                RobotLog.d("shooterWriter.write");
+                shooterWriter.write(String.format("%d, %f\n", currentTime, currentShooterSpeed));
             } catch (IOException e) {
-                    opMode.telemetry.addData("Exception", "shooter speed file write failed: " + e.toString());
-                }
+                throw new RuntimeException("shooter log file writer write failed: " + e.toString());
+            }
         } else {
             shooter.setPower(0);
         }
@@ -107,19 +108,25 @@ public class ShooterBot extends GyroBot {
     public void launchRing(boolean rightBumper) {
         if (rightBumper) {
             pusher.setPosition(pusherRetracted);
-            for (int i = 0; i < 2; i++) {
-                onLoop(350, "launch ring 1");
-            }
+            sleep(700, "launch ring 1");
             pusher.setPosition(pusherPushing);
-            for (int i = 0; i < 10; i++) {
-                onLoop(200, "launch ring 2");
-            }
+            sleep(2000, "launch ring 2");
         }
     }
 
     protected void onTick(){
         spinShooter();
         super.onTick();
+    }
+
+    public void close(){
+        try {
+            RobotLog.d("shooter log Writer.close");
+            shooterWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException("shooter log file writer close failed: " + e.toString());
+        }
+        super.close();
     }
 
 }
