@@ -39,8 +39,10 @@ public class WobbleGoalBot extends ShooterBot {
         if (button) {
             if (isOpen) {
                 wobbleArm.setPosition(wobbleRetracted);
+
             } else if (isOpen = false) {
                 wobbleArm.setPosition(wobbleExtended);
+
             }
         }
     }

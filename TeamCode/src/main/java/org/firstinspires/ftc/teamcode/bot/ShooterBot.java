@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import android.content.Context;
@@ -88,7 +89,7 @@ public class ShooterBot extends GyroBot {
             //opMode.telemetry.addData("Current Position", currentPosition);
             opMode.telemetry.update();
             try {
-                OutputStreamWriter writer = new OutputStreamWriter(hwMap.appContext.openFileOutput("shooterspeed.txt", Context.MODE_PRIVATE));
+                OutputStreamWriter writer = new FileWriter("/sdcard/FIRST/shooterlog.txt", true);
                 writer.write(String.format("%d, %f\n", currentTime, currentShooterSpeed));
                 writer.close();
             } catch (IOException e) {
