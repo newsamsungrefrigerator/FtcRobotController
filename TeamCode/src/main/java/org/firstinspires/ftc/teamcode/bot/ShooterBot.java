@@ -4,6 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import android.content.Context;
 
 public class ShooterBot extends GyroBot {
     public DcMotor shooter = null;
@@ -32,6 +36,8 @@ public class ShooterBot extends GyroBot {
     final double pusherPushing = 0.53;
 
     boolean shooterIsOn = false;
+
+    File shooterFile = new File("/sdcard/FIRST", "shooterspeed.txt");
 
     public ShooterBot(LinearOpMode opMode) {
         super(opMode);
@@ -78,9 +84,16 @@ public class ShooterBot extends GyroBot {
             lastPosition = currentPosition;
             opMode.telemetry.addData("Shooter speed", currentShooterSpeed);
             // opMode.telemetry.addData("Position Difference", positionDifference);
-                 //opMode.telemetry.addData("Time Difference", (double)timeDifference);
+            // opMode.telemetry.addData("Time Difference", (double)timeDifference);
             //opMode.telemetry.addData("Current Position", currentPosition);
             opMode.telemetry.update();
+            try {
+                OutputStreamWriter writer = new OutputStreamWriter(hwMap.appContext.openFileOutput("shooterspeed.txt", Context.MODE_PRIVATE));
+                writer.write(String.format("%d, %f\n", currentTime, currentShooterSpeed));
+                writer.close();
+            } catch (IOException e) {
+                    opMode.telemetry.addData("Exception", "shooter speed file write failed: " + e.toString());
+                }
         } else {
             shooter.setPower(0);
         }
