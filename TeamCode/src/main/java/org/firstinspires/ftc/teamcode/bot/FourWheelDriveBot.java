@@ -172,7 +172,7 @@ public class FourWheelDriveBot
         try {
             writer.write(String.format("%d, %d, %f, %s\n", interval, timeElapsed, start - lastOnLoopFinished, label));
         } catch (IOException e) {
-            opMode.telemetry.addData("Exception", "shooter speed file write failed: " + e.toString());
+            opMode.telemetry.addData("Exception", "onloop file write failed: " + e.toString());
         }
         opMode.sleep(interval - (int)timeElapsed);
         lastOnLoopFinished = System.currentTimeMillis();
