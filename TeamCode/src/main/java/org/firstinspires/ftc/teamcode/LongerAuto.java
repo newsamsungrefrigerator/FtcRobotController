@@ -27,7 +27,7 @@ public class LongerAuto extends LinearOpMode {
             robot.driveStraightByDistance(robot.DIRECTION_LEFT, 850, 0.6);
             for (int i = 0; i < 3; i++) {
                 robot.launchRing(true);
-                robot.onLoop(1300);
+                robot.onLoop(1300, "wait between shots");
             }
             //align with target zone
             robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 850, 0.6);
@@ -44,7 +44,7 @@ public class LongerAuto extends LinearOpMode {
             robot.driveStraightByDistance(robot.DIRECTION_LEFT, 850, 0.6);
             for (int i = 0; i < 3; i++) {
                 robot.launchRing(true);
-                robot.onLoop(1300);
+                robot.onLoop(1300, "wait between shots");
             }
             //drop wobble goal
             robot.driveStraightByGyro(robot.DIRECTION_RIGHT, 100, 1, false);
@@ -58,7 +58,7 @@ public class LongerAuto extends LinearOpMode {
             robot.driveStraightByDistance(robot.DIRECTION_LEFT, 850, 0.6);
             for (int i = 0; i < 3; i++) {
                 robot.launchRing(true);
-                robot.onLoop(1300);
+                robot.onLoop(1300, "wait between shots");
             }
             //align with target zone
             robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 850, 0.6);

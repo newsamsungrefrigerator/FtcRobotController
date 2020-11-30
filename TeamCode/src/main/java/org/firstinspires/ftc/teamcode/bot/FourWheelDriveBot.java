@@ -13,6 +13,11 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.Date;
+
 public class FourWheelDriveBot
 {
 
@@ -30,10 +35,6 @@ public class FourWheelDriveBot
     public DcMotorEx leftRear = null;
     public DcMotorEx rightRear = null;
 
-
-
-
-
     HardwareMap hwMap = null;
     private ElapsedTime runtime = new ElapsedTime();
     private Orientation angles;
@@ -41,9 +42,15 @@ public class FourWheelDriveBot
     private double headingOffset = 0.0;
     protected LinearOpMode opMode;
 
+    OutputStreamWriter writer;
 
     public FourWheelDriveBot(LinearOpMode opMode) {
         this.opMode = opMode;
+        try {
+            writer = new FileWriter("/sdcard/FIRST/onlooplog" + java.text.DateFormat.getDateTimeInstance().format(new Date()) + ".csv", true);
+        } catch (IOException e) {
+            opMode.telemetry.addData("Exception", "onloop file writer open failed: " + e.toString());
+        }
     }
     // manual drive
     private double getRawHeading() {
@@ -147,17 +154,26 @@ public class FourWheelDriveBot
     }
 
     public void onLoop(){
-        onLoop(100);
+        onLoop(100, "default");
     }
     long lastOnLoopFinished = 0;
-    public void onLoop(int interval){
+    public void onLoop(int interval, String label){
         long start = System.currentTimeMillis();
-
+        if (lastOnLoopFinished > 0 && start - lastOnLoopFinished > interval){
+            throw new RuntimeException("onLoop() has been called too long (" + (start - lastOnLoopFinished) + ") ago");
+        }
         //RobotLog.d("FourWDBot OnLoop start ");
         this.onTick();
         long timeElapsed = System.currentTimeMillis() - start;
         RobotLog.d("FourWDBot OnLoop stop @ " + timeElapsed);
-
+        if (timeElapsed > interval){
+            throw new RuntimeException("onTick() took too long (" + timeElapsed + ") to finish");
+        }
+        try {
+            writer.write(String.format("%d, %d, %f, %s\n", interval, timeElapsed, start - lastOnLoopFinished, label));
+        } catch (IOException e) {
+            opMode.telemetry.addData("Exception", "shooter speed file write failed: " + e.toString());
+        }
         opMode.sleep(interval - (int)timeElapsed);
         lastOnLoopFinished = System.currentTimeMillis();
 

@@ -22,7 +22,7 @@ public class TempAuto extends LinearOpMode {
 //        robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 300, 0.3);
         robot.toggleShooter(true);
         for (int i = 0; i < 50; i++) {
-            robot.onLoop(200);
+            robot.onLoop(200, "wait before shooting");
         }
         //drive to shooting position
 //        robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 1200, 0.7, false);

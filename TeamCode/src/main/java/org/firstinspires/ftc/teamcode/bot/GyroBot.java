@@ -157,7 +157,7 @@ public class GyroBot extends NewCameraBot {
         double adjustPower = pid.getOutput(angle, originalAngle);
         int currentPosition = leftFront.getCurrentPosition();
         while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
-            onLoop();
+            onLoop(100, "gyro");
             RobotLog.d(String.format("driveStraightByGyro : Current: %d - Start:%d > 10 => power: %.3f  +/- PID(source: %.3f, target: %.3f) = adjustPower: %.3f", currentPosition, startingPosition, maxPower, angle, originalAngle, adjustPower));
             switch (direction){
                 case DIRECTION_FORWARD:

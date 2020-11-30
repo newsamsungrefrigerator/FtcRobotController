@@ -4,10 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Date;
+
 import android.content.Context;
 
 public class ShooterBot extends GyroBot {
@@ -38,10 +39,15 @@ public class ShooterBot extends GyroBot {
 
     boolean shooterIsOn = false;
 
-    File shooterFile = new File("/sdcard/FIRST", "shooterspeed.txt");
+    OutputStreamWriter writer;
 
     public ShooterBot(LinearOpMode opMode) {
         super(opMode);
+        try {
+            writer = new FileWriter("/sdcard/FIRST/shooterlog" + java.text.DateFormat.getDateTimeInstance().format(new Date()) + ".csv", true);
+        } catch (IOException e) {
+            opMode.telemetry.addData("Exception", "shooter file writer open failed: " + e.toString());
+        }
     }
 
     @Override
@@ -89,9 +95,7 @@ public class ShooterBot extends GyroBot {
             //opMode.telemetry.addData("Current Position", currentPosition);
             opMode.telemetry.update();
             try {
-                OutputStreamWriter writer = new FileWriter("/sdcard/FIRST/shooterlog.txt", true);
                 writer.write(String.format("%d, %f\n", currentTime, currentShooterSpeed));
-                writer.close();
             } catch (IOException e) {
                     opMode.telemetry.addData("Exception", "shooter speed file write failed: " + e.toString());
                 }
@@ -104,11 +108,11 @@ public class ShooterBot extends GyroBot {
         if (rightBumper) {
             pusher.setPosition(pusherRetracted);
             for (int i = 0; i < 2; i++) {
-                onLoop(350);
+                onLoop(350, "launch ring 1");
             }
             pusher.setPosition(pusherPushing);
             for (int i = 0; i < 10; i++) {
-                onLoop(200);
+                onLoop(200, "launch ring 2");
             }
         }
     }
