@@ -19,14 +19,14 @@ public class TempAuto extends LinearOpMode {
         int numberOfRings = robot.detectRings();
         telemetry.addData("Number of rings:", numberOfRings);
         telemetry.update();
-        robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 300, 0.3);
+//        robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 300, 0.3);
         robot.toggleShooter(true);
-//        for (int i = 0; i < 50; i++) {
-//            robot.onLoop(200, "wait before shooting");
-//        }
+        for (int i = 0; i < 100; i++) {
+            robot.onLoop(100, "wait before shooting");
+        }
         //drive to shooting position
-        robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 1200, 0.7, false);
-        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 850, 0.6);
+//        robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 1200, 0.7, false);
+//        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 850, 0.6);
         for (int i = 0; i < 3; i++) {
             robot.launchRing(true);
         }

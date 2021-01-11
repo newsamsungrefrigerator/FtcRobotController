@@ -26,11 +26,11 @@ public class ShooterBot extends GyroBot {
     double currentShooterSpeed = 1;
 
     //change these values to control what speed the shooter spins around
-    final double highShooterSpeedThreshold = 1.022;
-    final double lowShooterSpeedThreshold = 1.019;
+    final double highShooterSpeedThreshold = 1.022 * 1;
+    final double lowShooterSpeedThreshold = 1.019 * 1;
 
     //the two speeds the shooter switches between to control itself
-    final double highShooterSpeed = -0.5;
+    final double highShooterSpeed = -1;
     final double lowShooterSpeed = -0.285;
 
     //two positions of the pusher servo
