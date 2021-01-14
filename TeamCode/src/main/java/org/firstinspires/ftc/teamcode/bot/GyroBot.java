@@ -130,7 +130,7 @@ public class GyroBot extends NewCameraBot {
         rightRear.setPower(0);
     }
 
-    public void goToAngle(double targetAngle) {
+    public void goToAngle(double targetAngle, double power) {
         int direction;
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
