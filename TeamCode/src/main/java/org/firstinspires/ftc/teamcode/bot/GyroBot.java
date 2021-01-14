@@ -16,7 +16,7 @@ import com.stormbots.MiniPID;
 public class GyroBot extends NewCameraBot {
 
     BNO055IMU imu;
-    double startAngle, power = 0.15;
+    double startAngle, power = 0.14;
 
 
     public GyroBot(LinearOpMode opMode) {
@@ -130,6 +130,38 @@ public class GyroBot extends NewCameraBot {
         rightRear.setPower(0);
     }
 
+    public void goToAngle(double targetAngle) {
+        int direction;
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        double delta = getAngle() - targetAngle;
+
+        while (Math.abs(delta) > 1) {
+            onLoop(30, "goBacktoStartAngle");
+            if (delta < 0) {
+                // turn clockwize
+                direction = -1;
+            } else {
+                // turn CC wize
+                direction = 1;
+            }
+            leftFront.setPower(power * direction);
+            rightFront.setPower(-power * direction);
+            leftRear.setPower(power * direction);
+            rightRear.setPower(-power * direction);
+
+            delta = getAngle() - targetAngle;
+
+        }
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+        leftRear.setPower(0);
+        rightRear.setPower(0);
+
+    }
+
     public void driveStraightByGyro(int direction, double distance, double maxPower, boolean useCurrentAngle) {
         if (direction != DIRECTION_FORWARD && direction != DIRECTION_BACKWARD && direction != DIRECTION_LEFT && direction != DIRECTION_RIGHT){
             String msg = String.format("Unaccepted direction value (%d) for driveStraightByGyro()", direction);
@@ -157,7 +189,7 @@ public class GyroBot extends NewCameraBot {
         double adjustPower = pid.getOutput(angle, originalAngle);
         int currentPosition = leftFront.getCurrentPosition();
         while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
-            onLoop(100, "gyro drive 1");
+            onLoop(30, "gyro drive 1");
             RobotLog.d(String.format("driveStraightByGyro : Current: %d - Start:%d > 10 => power: %.3f  +/- PID(source: %.3f, target: %.3f) = adjustPower: %.3f", currentPosition, startingPosition, maxPower, angle, originalAngle, adjustPower));
             switch (direction){
                 case DIRECTION_FORWARD:
@@ -185,7 +217,7 @@ public class GyroBot extends NewCameraBot {
                     rightRear.setPower(+ maxPower + adjustPower);
                     break;
             }
-            onLoop(50, "gyro drive 2");
+            onLoop(30, "gyro drive 2");
             angle = getAngle();
             adjustPower = pid.getOutput(angle, originalAngle);
             currentPosition = leftFront.getCurrentPosition();
@@ -194,6 +226,6 @@ public class GyroBot extends NewCameraBot {
         rightFront.setPower(0);
         leftRear.setPower(0);
         rightRear.setPower(0);
-        sleep(500, "after gyro wait");
+        sleep(300, "after gyro wait");
     }
 }

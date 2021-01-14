@@ -28,6 +28,8 @@ public class ManualDriveOpMode extends LinearOpMode {
             robot.launchRing(gamepad1.right_bumper);
             robot.toggleShooter(gamepad1.left_bumper);
             robot.toggleWobble(gamepad1.x);
+            //robot.toggleWobbleArm(gamepad1.y, gamepad1.b);
+            robot.controlWobbleArm(gamepad1.y, gamepad1.b);
             robot.onLoop(100, "manual drive");
         }
         robot.close();

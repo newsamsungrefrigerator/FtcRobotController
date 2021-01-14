@@ -124,8 +124,8 @@ public class FourWheelDriveBot
         rightFront = (DcMotorEx) hwMap.get(DcMotor.class, "rightFront");
         leftRear = (DcMotorEx) hwMap.get(DcMotor.class, "leftRear");
         rightRear = (DcMotorEx) hwMap.get(DcMotor.class, "rightRear");
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftRear.setDirection(DcMotor.Direction.REVERSE);
 
         leftFront.setPower(0);
         rightFront.setPower(0);
@@ -158,7 +158,7 @@ public class FourWheelDriveBot
     }
     long lastOnLoopFinished = 0;
     String lastOnLoopLabel = "";
-    int onLoopTolerance = 100;
+    int onLoopTolerance = 400;
     public void onLoop(int interval, String label){
         long start = System.currentTimeMillis();
         // TRICKY : DEBUG feature, please comment following block out before competition
@@ -272,8 +272,8 @@ public class FourWheelDriveBot
     public void driveStraightByDistance(int direction, double distance, double maxPower){
         // distance (in mm) = revolution * pi * diameter (100 mm)
         int target = (int)(distance / 3.1415 / 100 * DRIVING_MOTOR_TICK_COUNT);
-        int startingPosition = leftFront.getCurrentPosition();
-        int realTarget;
+//        int startingPosition = leftFront.getCurrentPosition();
+//        int realTarget;
 
         switch (direction){
             case DIRECTION_FORWARD:

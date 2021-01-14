@@ -26,16 +26,16 @@ public class ShooterBot extends GyroBot {
     double currentShooterSpeed = 1;
 
     //change these values to control what speed the shooter spins around
-    final double highShooterSpeedThreshold = 1.022 * 1;
-    final double lowShooterSpeedThreshold = 1.019 * 1;
+    final double highShooterSpeedThreshold = 1.34;
+    final double lowShooterSpeedThreshold = 1.31;
 
     //the two speeds the shooter switches between to control itself
-    final double highShooterSpeed = -1;
+    final double highShooterSpeed = -0.7;
     final double lowShooterSpeed = -0.285;
 
     //two positions of the pusher servo
     final double pusherRetracted = 0.35;
-    final double pusherPushing = 0.53;
+    final double pusherPushing = 0.6;
 
     boolean shooterIsOn = false;
 
@@ -51,7 +51,7 @@ public class ShooterBot extends GyroBot {
         shooter = hwMap.get(DcMotor.class, "Shooter");
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pusher = hwMap.get(Servo.class, "Pusher");
-        pusher.setPosition(pusherPushing);
+        pusher.setPosition(pusherRetracted);
         try {
             shooterWriter = new FileWriter("/sdcard/FIRST/shooterlog_" + java.text.DateFormat.getDateTimeInstance().format(new Date()) + ".csv", true);
         } catch (IOException e) {
@@ -105,12 +105,18 @@ public class ShooterBot extends GyroBot {
         }
     }
 
+    public void waitForThreshold() {
+        while (currentShooterSpeed > lowShooterSpeedThreshold) {
+            onLoop(50, "wait between shots");
+        }
+    }
+
     public void launchRing(boolean rightBumper) {
         if (rightBumper) {
-            pusher.setPosition(pusherRetracted);
-            sleep(700, "launch ring 1");
             pusher.setPosition(pusherPushing);
-            sleep(2000, "launch ring 2");
+            sleep(700, "launch ring 1");
+            pusher.setPosition(pusherRetracted);
+            //sleep(1000, "launch ring 2");
         }
     }
 

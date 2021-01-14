@@ -32,8 +32,9 @@ public class LongerAuto extends LinearOpMode {
             //align with target zone
             robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 850, 0.6);
             //drop wobble goal
+            robot.openPinch();
             robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 30, 1, false);
-            robot.openArm();
+            robot.openPinch();
             robot.driveStraightByGyro(robot.DIRECTION_BACKWARD, 50, 0.6, false);
             //park
             robot.driveStraightByDistance(robot.DIRECTION_LEFT, 500, 0.6);
@@ -49,7 +50,7 @@ public class LongerAuto extends LinearOpMode {
             //drop wobble goal
             robot.driveStraightByGyro(robot.DIRECTION_RIGHT, 100, 1, false);
             robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 400, 1, false);
-            robot.openArm();
+            robot.openPinch();
             robot.driveStraightByDistance(robot.DIRECTION_BACKWARD, 400, .8);
 
         } else if (numberOfRings == 4) {
@@ -64,7 +65,7 @@ public class LongerAuto extends LinearOpMode {
             robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 850, 0.6);
             //drop wobble goal
             robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 800, 1, false);
-            robot.openArm();
+            robot.openPinch();
             robot.driveStraightByDistance(robot.DIRECTION_BACKWARD, 900, 1);
         }
         robot.close();

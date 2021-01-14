@@ -5,15 +5,21 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+
 public class WobbleGoalBot extends ShooterBot {
     public Servo wobblePinch = null;
     public DcMotor wobbleArm = null;
 
     //two positions of the wobble servo
-    final double wobbleRetracted = 0.25;
-    final double wobbleExtended = 0.53;
+    final double wobblePinched = 0.9;
+    final double wobbleOpened = 0.5;
 
-    boolean isOpen = false;
+    final int[] armPositions = new int[]{0, 300, 600};
+    int armPosIndex = 0;
+
+    public boolean isOpen = true;
+    long lastToggleDone = 0;
+    long timeSinceToggle = 0;
 
     public WobbleGoalBot(LinearOpMode opMode) {
         super(opMode);
@@ -22,29 +28,76 @@ public class WobbleGoalBot extends ShooterBot {
     @Override
     public void init(HardwareMap ahwMap) {
         super.init(ahwMap);
-        wobblePinch = hwMap.get(Servo.class, "WobbleGoal");
-        wobblePinch.setPosition(wobbleRetracted);
+        wobblePinch = hwMap.get(Servo.class, "wobblePinch");
+        wobblePinch.setPosition(wobbleOpened);
+        wobbleArm = hwMap.get(DcMotor.class, "wobbleArm");
+        wobbleArm.setPower(0);
+        wobbleArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        wobbleArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    //call openArm() to open the arm
-    public void openArm() {
-        wobblePinch.setPosition(wobbleExtended);
+    //call openPinch() to open the arm
+    public void openPinch() {
+        wobblePinch.setPosition(wobbleOpened);
     }
 
     //call closeArm() to close the arm
-    public void closeArm() {
-        wobblePinch.setPosition(wobbleRetracted);
+    public void closePinch() {
+        wobblePinch.setPosition(wobblePinched);
     }
 
     public void toggleWobble(boolean button) {
-        if (button) {
+        timeSinceToggle = System.currentTimeMillis() - lastToggleDone;
+        if (button && timeSinceToggle > 200) {
             if (isOpen) {
-                wobblePinch.setPosition(wobbleRetracted);
+                wobblePinch.setPosition(wobblePinched);
+                isOpen = false;
+            } else {
+                wobblePinch.setPosition(wobbleOpened);
+                isOpen = true;
+            }
+            lastToggleDone = System.currentTimeMillis();
+        }
+    }
 
-            } else if (isOpen = false) {
-                wobblePinch.setPosition(wobbleExtended);
+    public void raiseArm() {
+        wobbleArm.setPower(0.3);
+        wobbleArm.setTargetPosition(500);
+        sleep(1000, "wobble raise");
+        wobbleArm.setPower(0);
+    }
+    public void lowerArm() {
+        wobbleArm.setPower(0.1);
+        wobbleArm.setTargetPosition(200);
+        sleep(500, "wobble lower");
+        wobbleArm.setPower(0);
+    }
 
+    public void controlWobbleArm(boolean buttonY, boolean buttonB) {
+        wobbleArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if (buttonY) {
+            if (armPosIndex < 2) {
+                wobbleArm.setPower(0.5);
+                wobbleArm.setTargetPosition(armPositions[armPosIndex]);
+                armPosIndex ++;
             }
         }
+        if (buttonB) {
+            if (armPosIndex > 0) {
+                wobbleArm.setPower(0.5);
+                wobbleArm.setTargetPosition(armPositions[armPosIndex]);
+                armPosIndex --;
+            }
+        }
+    }
+
+    public void setArmPosition(int position) {
+        wobbleArm.setPower(0.2);
+        wobbleArm.setTargetPosition(position);
+        wobbleArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (this.opMode.opModeIsActive() && wobbleArm.isBusy()) {
+            sleep(50, "set wobble arm position");
+        }
+        wobbleArm.setPower(0.5);
     }
 }
