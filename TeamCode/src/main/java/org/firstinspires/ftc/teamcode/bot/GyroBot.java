@@ -162,6 +162,34 @@ public class GyroBot extends NewCameraBot {
 
     }
 
+    public void goToAnglePID(double targetAngle) {
+
+        MiniPID pid = new MiniPID(0.007, 0.014, 0.04);
+        pid.setOutputLimits(0.5);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        double angle;
+        angle = getAngle();
+        double power = pid.getOutput(angle, targetAngle);
+        while (Math.abs(power) > 0.06) {
+            onLoop("goBacktoStartAnglePID");
+            RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, startAngle, power));
+            leftFront.setPower(-power);
+            rightFront.setPower(power);
+            leftRear.setPower(-power);
+            rightRear.setPower(power);
+            opMode.sleep(10);
+            angle = getAngle();
+            power = pid.getOutput(angle, targetAngle);
+        };
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+        leftRear.setPower(0);
+        rightRear.setPower(0);
+    }
+
     public void driveStraightByGyro(int direction, double distance, double maxPower, boolean useCurrentAngle) {
         if (direction != DIRECTION_FORWARD && direction != DIRECTION_BACKWARD && direction != DIRECTION_LEFT && direction != DIRECTION_RIGHT){
             String msg = String.format("Unaccepted direction value (%d) for driveStraightByGyro()", direction);
