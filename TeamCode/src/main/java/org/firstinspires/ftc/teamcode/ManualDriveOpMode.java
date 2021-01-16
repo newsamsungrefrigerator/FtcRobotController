@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.teamcode.bot.OdometryBot;
 import org.firstinspires.ftc.teamcode.bot.ShooterBot;
 import org.firstinspires.ftc.teamcode.bot.WobbleGoalBot;
@@ -22,6 +24,7 @@ public class ManualDriveOpMode extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        robot.wobbleArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         waitForStart();
         while (opModeIsActive()) {
             robot.driveByHand(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);

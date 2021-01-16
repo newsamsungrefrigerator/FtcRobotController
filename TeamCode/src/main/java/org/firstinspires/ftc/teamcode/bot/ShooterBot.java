@@ -34,7 +34,7 @@ public class ShooterBot extends GyroBot {
     final double lowShooterSpeed = -0.285;
 
     //two positions of the pusher servo
-    final double pusherRetracted = 0.35;
+    final double pusherRetracted = 0.52;
     final double pusherPushing = 0.6;
 
     boolean shooterIsOn = false;

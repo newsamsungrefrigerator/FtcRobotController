@@ -14,12 +14,14 @@ public class WobbleGoalBot extends ShooterBot {
     final double wobblePinched = 0.9;
     final double wobbleOpened = 0.5;
 
-    final int[] armPositions = new int[]{0, 300, 600};
+    final int[] armPositions = new int[]{100, 300, 600};
     int armPosIndex = 0;
 
     public boolean isOpen = true;
     long lastToggleDone = 0;
     long timeSinceToggle = 0;
+    long lastPosSwitch = 0;
+    long timeSincePosSwitch = 0;
 
     public WobbleGoalBot(LinearOpMode opMode) {
         super(opMode);
@@ -52,12 +54,15 @@ public class WobbleGoalBot extends ShooterBot {
             if (isOpen) {
                 wobblePinch.setPosition(wobblePinched);
                 isOpen = false;
-            } else {
+                lastToggleDone = System.currentTimeMillis();
+            } else if (!isOpen) {
                 wobblePinch.setPosition(wobbleOpened);
                 isOpen = true;
+                lastToggleDone = System.currentTimeMillis();
             }
-            lastToggleDone = System.currentTimeMillis();
         }
+//        opMode.telemetry.addData("lastToggle", timeSinceToggle);
+//        opMode.telemetry.update();
     }
 
     public void raiseArm() {
@@ -74,21 +79,27 @@ public class WobbleGoalBot extends ShooterBot {
     }
 
     public void controlWobbleArm(boolean buttonY, boolean buttonB) {
-        wobbleArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (buttonY) {
+        timeSincePosSwitch = System.currentTimeMillis() - lastPosSwitch;
+        if (buttonY && timeSincePosSwitch > 200) {
             if (armPosIndex < 2) {
-                wobbleArm.setPower(0.5);
-                wobbleArm.setTargetPosition(armPositions[armPosIndex]);
+                wobbleArm.setPower(0.2);
+
                 armPosIndex ++;
-            }
-        }
-        if (buttonB) {
-            if (armPosIndex > 0) {
-                wobbleArm.setPower(0.5);
                 wobbleArm.setTargetPosition(armPositions[armPosIndex]);
-                armPosIndex --;
+                lastPosSwitch = System.currentTimeMillis();
             }
         }
+        if (buttonB && timeSincePosSwitch > 200) {
+            if (armPosIndex > 0) {
+                wobbleArm.setPower(0.2);
+
+                armPosIndex --;
+                wobbleArm.setTargetPosition(armPositions[armPosIndex]);
+                lastPosSwitch = System.currentTimeMillis();
+            }
+        }
+        opMode.telemetry.addData("armPosIndex", armPosIndex);
+        opMode.telemetry.update();
     }
 
     public void setArmPosition(int position) {

@@ -22,15 +22,15 @@ public class AutoTest extends LinearOpMode {
         int numberOfRings = robot.detectRings();
         telemetry.addData("Number of rings:", numberOfRings);
         telemetry.update();
-        robot.setArmPosition(-979);
+        robot.setArmPosition(-982);
         robot.driveStraightByDistance(robot.DIRECTION_LEFT, 230, 0.5);
         robot.closePinch();
         robot.sleep(300, "close pinch");
         robot.setArmPosition(-390);
         robot.driveStraightByDistance(robot.DIRECTION_LEFT, 110, 0.5);
         robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 900, 0.7, false);
+        robot.sleep(1000, "before shooting");
         robot.goToAngle(-1.8 , 0.14);
-        //robot.sleep(1000, "before shooting");
         robot.waitForThreshold();
 //        for (int i = 0; i < 3; i++) {
 //            robot.launchRing(true);
@@ -61,24 +61,25 @@ public class AutoTest extends LinearOpMode {
 //            robot.driveStraightByDistance(robot.DIRECTION_FORWARD, 400, 1);
         } else if (numberOfRings == 1) {
             //align with target zone
-            robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 300, 0.5, false);
+            robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 200, 0.5, false);
             robot.driveStraightByGyro(robot.DIRECTION_RIGHT, 200, 0.5, false);
             //drop wobble goal
             robot.setArmPosition(-750);
             robot.openPinch();
             robot.sleep(150, "after drop");
             //park on line
-            robot.driveStraightByDistance(robot.DIRECTION_BACKWARD, 230, 0.7);
+            robot.driveStraightByDistance(robot.DIRECTION_BACKWARD, 130, 0.7);
+            robot.goToAngle(-50, 0.3);
         } else if (numberOfRings == 4) {
             //align with target zone
             robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 800, 0.6);
-            robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 450, 0.9, false);
+            robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 520, 0.8, false);
             //drop wobble goal
             robot.setArmPosition(-750);
             robot.openPinch();
             robot.sleep(150, "after drop");
             //park on line
-            robot.driveStraightByGyro(robot.DIRECTION_BACKWARD, 350, 1, false);
+            robot.driveStraightByGyro(robot.DIRECTION_BACKWARD, 350, 0.7, false);
         }
         robot.close();
 
