@@ -65,6 +65,13 @@ public class OdometryBot extends GyroBot {
         calculateCaseThree(verticalLeft.getCurrentPosition(), verticalRight.getCurrentPosition(), horizontal.getCurrentPosition(), thetaDEG);
     }
 
+    public void outputEncoders() {
+        opMode.telemetry.addData("v1", verticalLeft.getCurrentPosition());
+        opMode.telemetry.addData("v2", verticalRight.getCurrentPosition());
+        opMode.telemetry.addData("h", horizontal.getCurrentPosition());
+        opMode.telemetry.update();
+    }
+
     public double[] calculateCaseThree(double vL, double vR, double h, double angleDEG) {
         vL = vL * vLDirection;
         vR = vR * vRDirection;
