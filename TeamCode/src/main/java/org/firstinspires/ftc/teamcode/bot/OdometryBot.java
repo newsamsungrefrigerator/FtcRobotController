@@ -56,10 +56,15 @@ public class OdometryBot extends GyroBot {
     }
 
     protected void onTick(){
-        RobotLog.d(String.format("Position, heading: %2d, %2d, %2d", xBlue, yBlue, thetaDEG));
+        RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
+        RobotLog.d(String.format("v1: %d v2: %2 h: %d", verticalLeft.getCurrentPosition(), verticalRight.getCurrentPosition(), horizontal.getCurrentPosition()));
+        RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
         opMode.telemetry.addData("X:", xBlue);
         opMode.telemetry.addData("Y:", yBlue);
         opMode.telemetry.addData("Theta:", thetaDEG);
+        opMode.telemetry.addData("v1", verticalLeft.getCurrentPosition());
+        opMode.telemetry.addData("v2", verticalRight.getCurrentPosition());
+        opMode.telemetry.addData("h", horizontal.getCurrentPosition());
         opMode.telemetry.update();
         super.onTick();
         calculateCaseThree(verticalLeft.getCurrentPosition(), verticalRight.getCurrentPosition(), horizontal.getCurrentPosition(), thetaDEG);
@@ -69,6 +74,7 @@ public class OdometryBot extends GyroBot {
         opMode.telemetry.addData("v1", verticalLeft.getCurrentPosition());
         opMode.telemetry.addData("v2", verticalRight.getCurrentPosition());
         opMode.telemetry.addData("h", horizontal.getCurrentPosition());
+        opMode.telemetry.addData("percent: ", ((double)verticalLeft.getCurrentPosition() / verticalRight.getCurrentPosition() - 1) * 100);
         opMode.telemetry.update();
     }
 

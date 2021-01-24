@@ -46,11 +46,11 @@ public class FourWheelDriveBot
 
     public FourWheelDriveBot(LinearOpMode opMode) {
         this.opMode = opMode;
-        try {
-            onLoopWriter = new FileWriter("/sdcard/FIRST/onlooplog_" + java.text.DateFormat.getDateTimeInstance().format(new Date()) + ".csv", true);
-        } catch (IOException e) {
-            throw new RuntimeException("onloop file writer open failed: " + e.toString());
-        }
+//        try {
+//            onLoopWriter = new FileWriter("/sdcard/FIRST/onlooplog_" + java.text.DateFormat.getDateTimeInstance().format(new Date()) + ".csv", true);
+//        } catch (IOException e) {
+//            throw new RuntimeException("onloop file writer open failed: " + e.toString());
+//        }
     }
     // manual drive
     private double getRawHeading() {
@@ -171,17 +171,19 @@ public class FourWheelDriveBot
         long timeElapsed = System.currentTimeMillis() - start;
         RobotLog.d("FourWDBot OnLoop stop @ " + timeElapsed);
         // TRICKY : DEBUG feature, please comment following block out before competition
-//        if (timeElapsed > interval){
-//            close();
-//            throw new RuntimeException("onTick(" + label + ") took too long (" + timeElapsed + ") to finish, last onLoop label is " + lastOnLoopLabel);
-//        }
-//        try {
-//            RobotLog.d("onLoopWriter.write");
-//            onLoopWriter.write(String.format("%d, %d, %d, %s\n", interval, timeElapsed, start - lastOnLoopFinished, label));
-//        } catch (IOException e) {
-//            throw new RuntimeException("onloop file writer write failed: " + e.toString());
-//        }
-        opMode.sleep(interval - (int)timeElapsed);
+        if (timeElapsed > interval){
+            close();
+            throw new RuntimeException("onTick(" + label + ") took too long (" + timeElapsed + ") to finish, last onLoop label is " + lastOnLoopLabel);
+        }
+        try {
+            RobotLog.d("onLoopWriter.write");
+            onLoopWriter.write(String.format("%d, %d, %d, %s\n", interval, timeElapsed, start - lastOnLoopFinished, label));
+        } catch (IOException e) {
+            throw new RuntimeException("onloop file writer write failed: " + e.toString());
+        }
+        if (interval > timeElapsed) {
+            opMode.sleep(interval - (int) timeElapsed);
+        }
         lastOnLoopFinished = System.currentTimeMillis();
         lastOnLoopLabel = label;
     }

@@ -18,7 +18,7 @@ public class OdometryTest extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
         while (opModeIsActive()) {
-            robot.outputEncoders();
+            robot.onLoop(50, "calculate");
         }
 
     }
