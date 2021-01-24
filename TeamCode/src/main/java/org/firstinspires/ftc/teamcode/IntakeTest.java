@@ -18,7 +18,7 @@ public class IntakeTest extends LinearOpMode {
         waitForStart();
         robot.startIntake();
         while (opModeIsActive()) {
-            robot.onLoop(50, "intake running");
+            sleep(50);
         }
         robot.stopIntake();
     }
