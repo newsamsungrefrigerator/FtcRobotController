@@ -2,15 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.bot.GyroBot;
-import org.firstinspires.ftc.teamcode.bot.WobbleGoalBot;
+import org.firstinspires.ftc.teamcode.bot.NewCameraBot;
 
 
 @Autonomous(name="Auto Test", group="Auto")
 
 public class AutoTest extends LinearOpMode {
 
-    protected WobbleGoalBot robot = new WobbleGoalBot(this);
+    protected NewCameraBot robot = new NewCameraBot(this);
 
     double[] angles = new double[]{7, 12, -6};
 

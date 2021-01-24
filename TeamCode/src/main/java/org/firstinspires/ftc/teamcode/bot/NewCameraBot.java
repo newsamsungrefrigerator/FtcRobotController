@@ -19,7 +19,7 @@ import java.io.StringReader;
 import java.nio.ByteBuffer;
 import java.util.concurrent.BlockingQueue;
 
-public class NewCameraBot extends FourWheelDriveBot {
+public class NewCameraBot extends WobbleGoalBot {
 
     class Area extends Object{
         public int x;

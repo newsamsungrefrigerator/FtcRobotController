@@ -19,9 +19,9 @@ public class OdometryBot extends GyroBot {
     double xRed = 0, yRed = 0;
 
     final int vLDirection = 1;
-    final int vRDirection = -1;
+    final int vRDirection = 1;
     final int hDirection = 1;
-    final double radius = 10;
+    final double radius = 18971; // actually diameter
 
     public double previousVL = 0, previousVR = 0;
     double angleChange = 0;
@@ -57,7 +57,7 @@ public class OdometryBot extends GyroBot {
 
     protected void onTick(){
         RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
-        RobotLog.d(String.format("v1: %d v2: %2 h: %d", verticalLeft.getCurrentPosition(), verticalRight.getCurrentPosition(), horizontal.getCurrentPosition()));
+        RobotLog.d(String.format("v1: %d v2: %d h: %d", verticalLeft.getCurrentPosition(), verticalRight.getCurrentPosition(), horizontal.getCurrentPosition()));
         RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
         opMode.telemetry.addData("X:", xBlue);
         opMode.telemetry.addData("Y:", yBlue);

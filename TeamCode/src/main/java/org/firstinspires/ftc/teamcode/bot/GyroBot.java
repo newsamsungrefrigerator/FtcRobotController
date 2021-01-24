@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import com.stormbots.MiniPID;
 
-public class GyroBot extends NewCameraBot {
+public class GyroBot extends FourWheelDriveBot {
 
     BNO055IMU imu;
     double startAngle, power = 0.14;
@@ -131,6 +131,38 @@ public class GyroBot extends NewCameraBot {
     }
 
     public void goToAngle(double targetAngle, double power) {
+        int direction;
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        double delta = getAngle() - targetAngle;
+
+        while (Math.abs(delta) > 1) {
+            onLoop(50, "goBacktoStartAngle");
+            if (delta < 0) {
+                // turn clockwize
+                direction = -1;
+            } else {
+                // turn CC wize
+                direction = 1;
+            }
+            leftFront.setPower(power * direction);
+            rightFront.setPower(-power * direction);
+            leftRear.setPower(power * direction);
+            rightRear.setPower(-power * direction);
+
+            delta = getAngle() - targetAngle;
+
+        }
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+        leftRear.setPower(0);
+        rightRear.setPower(0);
+
+    }
+
+    public void fullRotate(double targetAngle, double power) {
         int direction;
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

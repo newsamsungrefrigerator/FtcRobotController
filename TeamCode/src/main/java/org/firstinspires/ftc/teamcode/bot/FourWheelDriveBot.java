@@ -175,12 +175,12 @@ public class FourWheelDriveBot
             close();
             throw new RuntimeException("onTick(" + label + ") took too long (" + timeElapsed + ") to finish, last onLoop label is " + lastOnLoopLabel);
         }
-        try {
-            RobotLog.d("onLoopWriter.write");
-            onLoopWriter.write(String.format("%d, %d, %d, %s\n", interval, timeElapsed, start - lastOnLoopFinished, label));
-        } catch (IOException e) {
-            throw new RuntimeException("onloop file writer write failed: " + e.toString());
-        }
+//        try {
+//            RobotLog.d("onLoopWriter.write");
+//            onLoopWriter.write(String.format("%d, %d, %d, %s\n", interval, timeElapsed, start - lastOnLoopFinished, label));
+//        } catch (IOException e) {
+//            throw new RuntimeException("onloop file writer write failed: " + e.toString());
+//        }
         if (interval > timeElapsed) {
             opMode.sleep(interval - (int) timeElapsed);
         }
@@ -193,12 +193,12 @@ public class FourWheelDriveBot
     }
 
     public void close(){
-        try {
-            RobotLog.d("onLoopWriter.close");
-            onLoopWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException("onloop file writer close failed: " + e.toString());
-        }
+//        try {
+//            RobotLog.d("onLoopWriter.close");
+//            onLoopWriter.close();
+//        } catch (IOException e) {
+//            throw new RuntimeException("onloop file writer close failed: " + e.toString());
+//        }
     }
 
     /**
