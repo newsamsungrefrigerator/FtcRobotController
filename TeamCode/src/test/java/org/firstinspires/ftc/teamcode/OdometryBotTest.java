@@ -42,4 +42,16 @@ public class OdometryBotTest {
         test.previousVR = 0;
         assertArrayEquals(expected6, test.calculateCaseThree(5, -5, 5, 90), 0.01);
     }
+
+    @Test
+    public void complicatedTest() {
+        LinearOpMode opmode = new TestOpMode();
+        OdometryBot test = new OdometryBot(opmode);
+
+        double[] expected1 = {10, 0};
+        double[] expected2 = {10, 10};
+
+        assertArrayEquals(expected1, test.calculateCaseThree(10, 10, 0, 0), 0.01);
+        assertArrayEquals(expected2, test.calculateCaseThree(10, 10, 0, 90), 0.01);
+    }
 }

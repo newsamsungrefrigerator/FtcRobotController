@@ -91,8 +91,6 @@ public class OdometryBot extends GyroBot {
         angleDEG = angleDEG + angleChange;
         thetaDEG = angleDEG;
 
-//        System.out.println(String.format("%f, %f",angleChange, angleDEG));
-
         xRed = h;
         yRed = (vL + vR)/2;
 
@@ -101,8 +99,6 @@ public class OdometryBot extends GyroBot {
 
         previousVL = vL;
         previousVR = vR;
-
-//        System.out.println(String.format("%f, %f", xBlue, yBlue));
 
         double[] position = {xBlue, yBlue};
 
