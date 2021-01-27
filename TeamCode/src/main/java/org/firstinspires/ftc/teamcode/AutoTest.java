@@ -22,9 +22,9 @@ public class AutoTest extends LinearOpMode {
         telemetry.addData("Number of rings:", numberOfRings);
         telemetry.update();
         robot.setArmPosition(-982);
+        robot.sleep(10000, "close pinch");
         robot.driveStraightByDistance(robot.DIRECTION_LEFT, 230, 0.5);
-        robot.closePinch();
-        robot.sleep(300, "close pinch");
+
         robot.setArmPosition(-390);
         robot.driveStraightByDistance(robot.DIRECTION_LEFT, 110, 0.5);
         robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 900, 0.7, false);

@@ -6,24 +6,26 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-public class IntakeBot {
+public class IntakeBot extends WobbleGoalBot{
     public DcMotor intake = null;
 
-    HardwareMap hwMap = null;
+    //HardwareMap hwMap = null;
     protected LinearOpMode opMode;
 
     public IntakeBot(LinearOpMode opMode) {
-        this.opMode = opMode;
+        super(opMode);
     }
 
     public void init(HardwareMap ahwMap) {
-        hwMap = ahwMap;
+        //hwMap = ahwMap;
+        super.init(ahwMap);
         intake = hwMap.get(DcMotor.class, "intake");
+        intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void startIntake() {
-        intake.setPower(0.3);
+        intake.setPower(0.8);
     }
 
     public void stopIntake() {

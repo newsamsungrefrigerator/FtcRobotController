@@ -287,7 +287,6 @@ public class GyroBot extends FourWheelDriveBot {
 
         double powerMultiplier = 1;
         double increment = 0.8;
-        int counter = 1;
 
         MiniPID pid = new MiniPID(0.03, 0, 0);
         pid.setOutputLimits(maxPower);
