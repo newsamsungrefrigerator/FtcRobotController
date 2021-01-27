@@ -82,19 +82,22 @@ public class WobbleGoalBot extends ShooterBot {
         timeSincePosSwitch = System.currentTimeMillis() - lastPosSwitch;
         if (buttonY && timeSincePosSwitch > 200) {
             if (armPosIndex < 2) {
-                wobbleArm.setPower(0.2);
 
                 armPosIndex ++;
                 wobbleArm.setTargetPosition(armPositions[armPosIndex]);
+                wobbleArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                wobbleArm.setPower(0.2);
                 lastPosSwitch = System.currentTimeMillis();
             }
         }
         if (buttonB && timeSincePosSwitch > 200) {
             if (armPosIndex > 0) {
-                wobbleArm.setPower(0.2);
+
 
                 armPosIndex --;
                 wobbleArm.setTargetPosition(armPositions[armPosIndex]);
+                wobbleArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                wobbleArm.setPower(0.2);
                 lastPosSwitch = System.currentTimeMillis();
             }
         }

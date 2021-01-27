@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Date;
 
-public class ShooterBot extends OdometryBot {
+public class ShooterBot extends GyroBot {
     public DcMotor shooter = null;
     public Servo pusher = null;
 

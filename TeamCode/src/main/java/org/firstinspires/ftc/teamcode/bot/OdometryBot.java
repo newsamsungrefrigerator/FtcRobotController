@@ -19,7 +19,7 @@ public class OdometryBot extends GyroBot {
     double xRed = 0, yRed = 0;
 
     final int vLDirection = 1;
-    final int vRDirection = 1;
+    final int vRDirection = -1;
     final int hDirection = 1;
     final double radius = 18971; // actually diameter
 
@@ -44,12 +44,12 @@ public class OdometryBot extends GyroBot {
         horizontal = ahwMap.dcMotor.get(horizontalEncoderName);
         horizontal.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         horizontal.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        verticalLeft = ahwMap.dcMotor.get(verticalLeftEncoderName);
-        verticalLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        verticalLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        verticalRight = ahwMap.dcMotor.get(verticalRightEncoderName);
-        verticalRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        verticalRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        verticalLeft = ahwMap.dcMotor.get(verticalLeftEncoderName);
+//        verticalLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        verticalLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        verticalRight = ahwMap.dcMotor.get(verticalRightEncoderName);
+//        verticalRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        verticalRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         opMode.telemetry.addData("Status", "Hardware Map Init Complete");
         opMode.telemetry.update();
@@ -57,24 +57,24 @@ public class OdometryBot extends GyroBot {
 
     protected void onTick(){
         RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
-        RobotLog.d(String.format("v1: %d v2: %d h: %d", verticalLeft.getCurrentPosition(), verticalRight.getCurrentPosition(), horizontal.getCurrentPosition()));
+        RobotLog.d(String.format("v1: %d v2: %d h: %d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition()));
         RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
         opMode.telemetry.addData("X:", xBlue);
         opMode.telemetry.addData("Y:", yBlue);
         opMode.telemetry.addData("Theta:", thetaDEG);
-        opMode.telemetry.addData("v1", verticalLeft.getCurrentPosition());
-        opMode.telemetry.addData("v2", verticalRight.getCurrentPosition());
+        opMode.telemetry.addData("v1", leftFront.getCurrentPosition());
+        opMode.telemetry.addData("v2", rightFront.getCurrentPosition());
         opMode.telemetry.addData("h", horizontal.getCurrentPosition());
         opMode.telemetry.update();
         super.onTick();
-        calculateCaseThree(verticalLeft.getCurrentPosition(), verticalRight.getCurrentPosition(), horizontal.getCurrentPosition(), thetaDEG);
+        calculateCaseThree(leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition(), thetaDEG);
     }
 
     public void outputEncoders() {
-        opMode.telemetry.addData("v1", verticalLeft.getCurrentPosition());
-        opMode.telemetry.addData("v2", verticalRight.getCurrentPosition());
+        opMode.telemetry.addData("v1",  leftFront.getCurrentPosition());
+        opMode.telemetry.addData("v2", rightFront.getCurrentPosition());
         opMode.telemetry.addData("h", horizontal.getCurrentPosition());
-        opMode.telemetry.addData("percent: ", ((double)verticalLeft.getCurrentPosition() / verticalRight.getCurrentPosition() - 1) * 100);
+        opMode.telemetry.addData("percent: ", ((double)leftFront.getCurrentPosition() / rightFront.getCurrentPosition() - 1) * 100);
         opMode.telemetry.update();
     }
 
