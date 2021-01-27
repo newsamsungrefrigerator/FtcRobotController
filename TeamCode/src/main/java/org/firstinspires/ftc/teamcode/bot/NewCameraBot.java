@@ -129,26 +129,18 @@ public class NewCameraBot extends WobbleGoalBot {
             RobotLog.d("Saved camera BMP");
             frame.close();
             RobotLog.d("Closed frame");
-            Bitmap[][] b = new Bitmap[numberOfColumns][numberOfRows];
-            int[][] c = new int[numberOfColumns][numberOfRows];
-            for (int i = 0; i < numberOfColumns; i++) {
-                for (int j = 0; j < numberOfRows; j++) {
-                    //b[i][j] = Bitmap.createBitmap(bmp, boxes[i][j].x, boxes[i][j].y, boxes[i][j].width, boxes[i][j].height);
-                    c[i][j] = getAverageRGB(bmp, boxes[i][j].x, boxes[i][j].y);
-
-                    RobotLog.d(String.format("Box %d,%d has coordinates: %d, %d", i, j, boxes[i][j].x, boxes[i][j].y));
-                    //printAndSave(bmp, "camera");
-                    //printAndSave(b[i][j], c[i][j], String.format("box_%d_%d", i, j));
-                }
-            }
-//            Bitmap smallBmp = Bitmap.createBitmap(bmp, 0, 0, 10, 10);
-//            RobotLog.d(String.format("small BMP: %s", smallBmp.getConfig().toString()));
-//            int test = getAverageRGB(bmp, 0, 0);
-            RobotLog.d("Created 9 sub-bitmaps");
-            RobotLog.d("Calculate AVG for 9 sub-bitmaps");
-            RobotLog.d("Saved 9 sub-bitmaps");
-            int numberOfRings = chooseRings(c);
-            RobotLog.d("Determine # of rings through 9 sub-bitmaps");
+//            Bitmap[][] b = new Bitmap[numberOfColumns][numberOfRows];
+//            int[][] c = new int[numberOfColumns][numberOfRows];
+//            for (int i = 0; i < numberOfColumns; i++) {
+//                for (int j = 0; j < numberOfRows; j++) {
+//                    c[i][j] = getAverageRGB(bmp, boxes[i][j].x, boxes[i][j].y);
+//                    RobotLog.d(String.format("Box %d,%d has coordinates: %d, %d", i, j, boxes[i][j].x, boxes[i][j].y));
+//                }
+//            }
+            int viablePixels = getNumberOfViablePixels(bmp, 20, 140);
+            RobotLog.d("Counted pixels");
+            int numberOfRings = chooseRings(viablePixels);
+            RobotLog.d("Determine # of rings through number of viable pixels");
             return numberOfRings;
         } catch (InterruptedException e) {
             print("Photo taken has been interrupted !");
@@ -157,19 +149,11 @@ public class NewCameraBot extends WobbleGoalBot {
 
     }
 
-    public int chooseRings (int[][] c){
+    public int chooseRings (int pixels){
 
-        int correctBoxes = 0;
-        for (int i = 0; i < numberOfColumns; i++) {
-            for (int j = 0; j < numberOfRows; j++) {
-                if (colourIsCorrect(c[i][j], i, j)) {
-                    correctBoxes++;
-                }
-            }
-        }
-        if (correctBoxes <= 1) {
+        if (pixels <= 1) {
             return NORINGS;
-        } else if (correctBoxes <= 5) {
+        } else if (pixels <= 5) {
             return ONERING;
         } else {
             return FOURRINGS;
@@ -240,6 +224,35 @@ public class NewCameraBot extends WobbleGoalBot {
         RobotLog.d(String.format("Average RGB: %d %d %d", averageRed, averageGreen, averageBlue));
 
         return Color.rgb(averageRed, averageGreen, averageBlue);
+    }
+
+    protected int getNumberOfViablePixels (Bitmap bmp, int offsetX, int offsetY){
+
+        int viablePixelsCount = 0;
+
+        for (int x = offsetX; x < bmp.getWidth() - offsetX; x += 4) {
+            for (int y = offsetY; y < bmp.getHeight() - offsetY; y += 4) {
+                int pixel = bmp.getPixel(x, y);
+
+                int red = Color.red(pixel);
+                int green = Color.green(pixel);
+                int blue = Color.blue(pixel);
+                int average = (red + green + blue) / 3;
+                int redGreenDifference = Math.abs(red - green);
+                int greenBlueDifference = Math.abs(green - blue);
+
+                if (red >= average && green > blue && red > green && green > red/2 && greenBlueDifference > 20 && redGreenDifference > 10
+                        && ((70 < red && 220 > red && 50 < green && 150 > green) || (70 < red && 220 > red && 100 > blue))) {
+                    viablePixelsCount++;
+                }
+            }
+        }
+
+        RobotLog.d(String.format("%d pixels meet criteria", viablePixelsCount));
+        opMode.telemetry.addData("Viable Pixels: ", viablePixelsCount);
+        opMode.telemetry.update();
+
+        return viablePixelsCount;
     }
 
 }
