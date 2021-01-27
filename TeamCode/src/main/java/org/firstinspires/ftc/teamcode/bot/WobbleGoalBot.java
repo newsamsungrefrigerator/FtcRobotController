@@ -40,17 +40,17 @@ public class WobbleGoalBot extends ShooterBot {
 
     //call openPinch() to open the arm
     public void openPinch() {
-        wobblePinch.setPosition(wobbleOpened);
+        wobblePinch.setPosition(wobblePinched);
     }
 
     //call closeArm() to close the arm
     public void closePinch() {
-        wobblePinch.setPosition(wobblePinched);
+        wobblePinch.setPosition(wobbleOpened);
     }
 
     public void toggleWobble(boolean button) {
         timeSinceToggle = System.currentTimeMillis() - lastToggleDone;
-        if (button && timeSinceToggle > 200) {
+        if (button && timeSinceToggle > 300) {
             if (isOpen) {
                 wobblePinch.setPosition(wobblePinched);
                 isOpen = false;
@@ -113,5 +113,11 @@ public class WobbleGoalBot extends ShooterBot {
             sleep(50, "set wobble arm position");
         }
         wobbleArm.setPower(0.5);
+    }
+
+    public void setArmPositionNoWait(int position) {
+        wobbleArm.setPower(0.4);
+        wobbleArm.setTargetPosition(position);
+        wobbleArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 }

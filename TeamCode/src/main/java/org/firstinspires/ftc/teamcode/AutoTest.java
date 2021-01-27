@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.bot.IntakeBot;
 import org.firstinspires.ftc.teamcode.bot.NewCameraBot;
 
 
@@ -21,64 +23,68 @@ public class AutoTest extends LinearOpMode {
         int numberOfRings = robot.detectRings();
         telemetry.addData("Number of rings:", numberOfRings);
         telemetry.update();
-        robot.setArmPosition(-982);
-        robot.sleep(10000, "close pinch");
-        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 230, 0.5);
+        robot.setArmPositionNoWait(-390);
+        robot.toggleFeeder(true);
+        robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 95000, 1, false, true);
 
-        robot.setArmPosition(-390);
-        robot.driveStraightByDistance(robot.DIRECTION_LEFT, 110, 0.5);
-        robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 900, 0.7, false);
-        robot.sleep(1000, "before shooting");
         robot.goToAngle(-1.8 , 0.14);
         robot.waitForThreshold();
-//        for (int i = 0; i < 3; i++) {
-//            robot.launchRing(true);
-//            robot.goToAngle(angles[i]);
-//            robot.sleep(600, "wait between shots");
-//        }
+        robot.sleep(300, "before shooting");
         robot.launchRing(true);
+
         robot.goToAngle(5.5, 0.14);
-//        robot.sleep(1500, "wait between shots");
         robot.waitForThreshold();
+        robot.sleep(300, "before shooting");
         robot.launchRing(true);
+
         robot.goToAngle(10.7, 0.14);
-//        robot.sleep(1500, "wait between shots");
         robot.waitForThreshold();
+        robot.sleep(300, "before shooting");
         robot.launchRing(true);
+
         robot.goBacktoStartAngle();
         robot.toggleShooter(false);
         if (numberOfRings == 0) {
-            robot.goToAngle(-65, 0.4);
             //align with target zone
-            robot.driveStraightByDistance(robot.DIRECTION_FORWARD, 450, 0.6);
+            robot.setArmPositionNoWait(-750);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 69000, 0.8, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 5000, 0.8, false, true);
             //drop wobble goal
-            robot.setArmPosition(-750);
             robot.openPinch();
             robot.sleep(150, "after drop");
-            robot.driveStraightByDistance(robot.DIRECTION_BACKWARD, 100, 0.8);
-//            robot.driveStraightByDistance(robot.DIRECTION_LEFT, 400, 1);
-//            robot.driveStraightByDistance(robot.DIRECTION_FORWARD, 400, 1);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 50000, 0.8, false, true);
+            robot.setArmPositionNoWait(-1000);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 90000, 0.8, false, true);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 21000, 0.6, false, false);
+            robot.closePinch();
+            robot.sleep(500, "after drop");
+            robot.setArmPositionNoWait(-750);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 90000, 0.8, false, true);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 5000, 0.4, false, false);
+            robot.openPinch();
+            robot.sleep(150, "after drop");
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 10000, 0.5, false, false);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 10000, 0.5, false, false);
         } else if (numberOfRings == 1) {
             //align with target zone
-            robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 200, 0.5, false);
-            robot.driveStraightByGyro(robot.DIRECTION_RIGHT, 200, 0.5, false);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 20000, 1, false, true);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 20000, 0.8, false, true);
             //drop wobble goal
             robot.setArmPosition(-750);
             robot.openPinch();
             robot.sleep(150, "after drop");
             //park on line
-            robot.driveStraightByDistance(robot.DIRECTION_BACKWARD, 130, 0.7);
-            robot.goToAngle(-50, 0.3);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 15000, 0.7, false, true);
         } else if (numberOfRings == 4) {
             //align with target zone
-            robot.driveStraightByDistance(robot.DIRECTION_RIGHT, 800, 0.6);
-            robot.driveStraightByGyro(robot.DIRECTION_FORWARD, 520, 0.8, false);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 80000, 0.8, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 52000, 1, false, true);
             //drop wobble goal
             robot.setArmPosition(-750);
             robot.openPinch();
             robot.sleep(150, "after drop");
             //park on line
-            robot.driveStraightByGyro(robot.DIRECTION_BACKWARD, 350, 0.7, false);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 35000, 1, false, true);
         }
         robot.close();
 

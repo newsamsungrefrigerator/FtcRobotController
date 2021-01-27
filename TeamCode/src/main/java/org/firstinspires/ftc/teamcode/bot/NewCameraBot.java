@@ -19,7 +19,7 @@ import java.io.StringReader;
 import java.nio.ByteBuffer;
 import java.util.concurrent.BlockingQueue;
 
-public class NewCameraBot extends WobbleGoalBot {
+public class NewCameraBot extends IntakeBot {
 
     class Area extends Object{
         public int x;
@@ -151,9 +151,9 @@ public class NewCameraBot extends WobbleGoalBot {
 
     public int chooseRings (int pixels){
 
-        if (pixels <= 1) {
+        if (pixels <= 300) {
             return NORINGS;
-        } else if (pixels <= 5) {
+        } else if (pixels <= 700) {
             return ONERING;
         } else {
             return FOURRINGS;
@@ -229,6 +229,7 @@ public class NewCameraBot extends WobbleGoalBot {
     protected int getNumberOfViablePixels (Bitmap bmp, int offsetX, int offsetY){
 
         int viablePixelsCount = 0;
+        int count = 0;
 
         for (int x = offsetX; x < bmp.getWidth() - offsetX; x += 4) {
             for (int y = offsetY; y < bmp.getHeight() - offsetY; y += 4) {
@@ -245,12 +246,14 @@ public class NewCameraBot extends WobbleGoalBot {
                         && ((70 < red && 220 > red && 50 < green && 150 > green) || (70 < red && 220 > red && 100 > blue))) {
                     viablePixelsCount++;
                 }
+                count++;
             }
         }
 
         RobotLog.d(String.format("%d pixels meet criteria", viablePixelsCount));
-        opMode.telemetry.addData("Viable Pixels: ", viablePixelsCount);
-        opMode.telemetry.update();
+//        opMode.telemetry.addData("Viable Pixels: ", viablePixelsCount);
+//        opMode.telemetry.addData("Total Pixels: ", count);
+//        opMode.telemetry.update();
 
         return viablePixelsCount;
     }

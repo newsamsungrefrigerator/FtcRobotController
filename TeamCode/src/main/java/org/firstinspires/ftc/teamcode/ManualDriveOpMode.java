@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.bot.IntakeBot;
 import org.firstinspires.ftc.teamcode.bot.OdometryBot;
 import org.firstinspires.ftc.teamcode.bot.ShooterBot;
 import org.firstinspires.ftc.teamcode.bot.WobbleGoalBot;
@@ -19,7 +20,7 @@ import org.firstinspires.ftc.teamcode.bot.WobbleGoalBot;
  */
 @TeleOp(name = "Manual Drive")
 public class ManualDriveOpMode extends LinearOpMode {
-    private WobbleGoalBot robot = new WobbleGoalBot(this);
+    private IntakeBot robot = new IntakeBot(this);
 
     @Override
     public void runOpMode() {
@@ -28,10 +29,12 @@ public class ManualDriveOpMode extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             robot.driveByHand(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
-            robot.launchRing(gamepad1.right_bumper);
+            if (!robot.isDown) {
+                robot.launchRing(gamepad1.right_bumper);
+            }
             robot.toggleShooter(gamepad1.left_bumper);
             robot.toggleWobble(gamepad1.x);
-            //robot.toggleWobbleArm(gamepad1.y, gamepad1.b);
+            robot.toggleFeeder(gamepad1.a);
             robot.controlWobbleArm(gamepad1.y, gamepad1.b);
             robot.onLoop(100, "manual drive");
         }

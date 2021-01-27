@@ -34,8 +34,8 @@ public class ShooterBot extends GyroBot {
     final double lowShooterSpeed = -0.285;
 
     //two positions of the pusher servo
-    final double pusherRetracted = 0.52;
-    final double pusherPushing = 0.6;
+    final double pusherRetracted = 0.51;
+    final double pusherPushing = 0.605;
 
     boolean shooterIsOn = false;
 
@@ -116,7 +116,7 @@ public class ShooterBot extends GyroBot {
             pusher.setPosition(pusherPushing);
             sleep(700, "launch ring 1");
             pusher.setPosition(pusherRetracted);
-            //sleep(1000, "launch ring 2");
+            sleep(700, "launch ring 2");
         }
     }
 

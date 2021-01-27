@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-public class OdometryBot extends GyroBot {
+public class OdometryBot extends FourWheelDriveBot {
 
     public DcMotor horizontal = null;
     public DcMotor verticalLeft = null;
