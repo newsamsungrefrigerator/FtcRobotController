@@ -10,15 +10,16 @@ public class IntakeBot extends WobbleGoalBot{
     public DcMotor intakeMotor = null;
     public Servo intakeArm = null;
 
-    protected LinearOpMode opMode;
-
     final double feederDown = 0.16;
     final double feederUp = 0.41;
 
     public boolean isDown = true;
+    public boolean intakeOn = false;
 
     long lastToggleDone2 = 0;
     long timeSinceToggle2 = 0;
+    long lastToggleDone3 = 0;
+    long timeSinceToggle3 = 0;
 
     public IntakeBot(LinearOpMode opMode) {
         super(opMode);
@@ -34,7 +35,7 @@ public class IntakeBot extends WobbleGoalBot{
     }
 
     public void startIntake() {
-        intakeMotor.setPower(0.8);
+        intakeMotor.setPower(1);
     }
 
     public void stopIntake() {
@@ -56,6 +57,21 @@ public class IntakeBot extends WobbleGoalBot{
         }
 //        opMode.telemetry.addData("lastToggle", timeSinceToggle);
 //        opMode.telemetry.update();
+    }
+
+    public void intakeControl(boolean button) {
+        timeSinceToggle3 = System.currentTimeMillis() - lastToggleDone3;
+        if (button && timeSinceToggle3 > 400) {
+            if (intakeOn) {
+                stopIntake();
+                intakeOn = false;
+                lastToggleDone3 = System.currentTimeMillis();
+            } else if (!intakeOn && isDown) {
+                startIntake();
+                intakeOn = true;
+                lastToggleDone3 = System.currentTimeMillis();
+            }
+        }
     }
 
 }

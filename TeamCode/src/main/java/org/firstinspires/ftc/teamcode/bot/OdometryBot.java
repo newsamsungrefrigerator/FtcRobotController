@@ -59,15 +59,15 @@ public class OdometryBot extends FourWheelDriveBot {
         RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
         RobotLog.d(String.format("v1: %d v2: %d h: %d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition()));
         RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
-        opMode.telemetry.addData("X:", xBlue);
-        opMode.telemetry.addData("Y:", yBlue);
-        opMode.telemetry.addData("Theta:", thetaDEG);
-        opMode.telemetry.addData("v1", leftFront.getCurrentPosition());
-        opMode.telemetry.addData("v2", rightFront.getCurrentPosition());
-        opMode.telemetry.addData("h", horizontal.getCurrentPosition());
-        opMode.telemetry.update();
+//        opMode.telemetry.addData("X:", xBlue);
+//        opMode.telemetry.addData("Y:", yBlue);
+//        opMode.telemetry.addData("Theta:", thetaDEG);
+//        opMode.telemetry.addData("v1", leftFront.getCurrentPosition());
+//        opMode.telemetry.addData("v2", rightFront.getCurrentPosition());
+//        opMode.telemetry.addData("h", horizontal.getCurrentPosition());
+//        opMode.telemetry.update();
         super.onTick();
-        calculateCaseThree(leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition(), thetaDEG);
+        //calculateCaseThree(leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition(), thetaDEG);
     }
 
     public void outputEncoders() {

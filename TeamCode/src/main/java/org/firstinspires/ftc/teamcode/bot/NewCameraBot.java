@@ -15,8 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.StringReader;
-import java.nio.ByteBuffer;
+
 import java.util.concurrent.BlockingQueue;
 
 public class NewCameraBot extends IntakeBot {
@@ -151,7 +150,7 @@ public class NewCameraBot extends IntakeBot {
 
     public int chooseRings (int pixels){
 
-        if (pixels <= 300) {
+        if (pixels <= 270) {
             return NORINGS;
         } else if (pixels <= 700) {
             return ONERING;
@@ -251,9 +250,9 @@ public class NewCameraBot extends IntakeBot {
         }
 
         RobotLog.d(String.format("%d pixels meet criteria", viablePixelsCount));
-//        opMode.telemetry.addData("Viable Pixels: ", viablePixelsCount);
-//        opMode.telemetry.addData("Total Pixels: ", count);
-//        opMode.telemetry.update();
+        opMode.telemetry.addData("Viable Pixels: ", viablePixelsCount);
+        opMode.telemetry.addData("Total Pixels: ", count);
+        opMode.telemetry.update();
 
         return viablePixelsCount;
     }
