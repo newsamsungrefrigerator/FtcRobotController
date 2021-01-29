@@ -14,7 +14,7 @@ public class WobbleGoalBot extends ShooterBot {
     final double wobblePinched = 0.9;
     final double wobbleOpened = 0.5;
 
-    final int[] armPositions = new int[]{100, 300, 600};
+    final int[] armPositions = new int[]{50, 300, 700};
     int armPosIndex = 0;
 
     public boolean isOpen = true;
@@ -86,7 +86,7 @@ public class WobbleGoalBot extends ShooterBot {
                 armPosIndex ++;
                 wobbleArm.setTargetPosition(armPositions[armPosIndex]);
                 wobbleArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                wobbleArm.setPower(0.2);
+                wobbleArm.setPower(0.4);
                 lastPosSwitch = System.currentTimeMillis();
             }
         }
@@ -97,12 +97,15 @@ public class WobbleGoalBot extends ShooterBot {
                 armPosIndex --;
                 wobbleArm.setTargetPosition(armPositions[armPosIndex]);
                 wobbleArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                wobbleArm.setPower(0.2);
+                wobbleArm.setPower(0.4);
                 lastPosSwitch = System.currentTimeMillis();
             }
         }
-        opMode.telemetry.addData("armPosIndex", armPosIndex);
-        opMode.telemetry.update();
+//        if (timeSincePosSwitch > 100 && lastPosSwitch != 0) {
+//            wobbleArm.setPower(0.4);
+//        }
+        //opMode.telemetry.addData("armPosIndex", armPosIndex);
+        //opMode.telemetry.update();
     }
 
     public void setArmPosition(int position) {

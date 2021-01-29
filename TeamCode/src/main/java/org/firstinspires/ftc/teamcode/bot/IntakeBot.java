@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.bot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -11,10 +12,12 @@ public class IntakeBot extends WobbleGoalBot{
     public Servo intakeArm = null;
 
     final double feederDown = 0.16;
-    final double feederUp = 0.41;
+    final double feederShake = 0.29;
+    final double feederUp = 0.50;
 
     public boolean isDown = true;
     public boolean intakeOn = false;
+    public boolean isForward = true;
 
     long lastToggleDone2 = 0;
     long timeSinceToggle2 = 0;
@@ -30,12 +33,13 @@ public class IntakeBot extends WobbleGoalBot{
         intakeMotor = hwMap.get(DcMotor.class, "intake");
         intakeMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeArm = hwMap.get(Servo.class, "intakeArm");
         intakeArm.setPosition(feederDown);
     }
 
     public void startIntake() {
-        intakeMotor.setPower(1);
+        intakeMotor.setPower(0.85);
     }
 
     public void stopIntake() {
@@ -70,6 +74,31 @@ public class IntakeBot extends WobbleGoalBot{
                 startIntake();
                 intakeOn = true;
                 lastToggleDone3 = System.currentTimeMillis();
+            }
+        }
+    }
+
+    public void directionToForward(boolean button) {
+        if (button) {
+            intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            isForward = true;
+        }
+    }
+    public void directionToReverse(boolean button) {
+        if (button) {
+            intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            isForward = false;
+        }
+    }
+
+    public void shakeFeeder(boolean button) {
+        intakeArm.setPosition(feederDown);
+        if (button) {
+            for (int i = 0; i < 10; i++) {
+                intakeArm.setPosition(feederShake);
+                sleep(200, "feeder shake");
+                intakeArm.setPosition(feederDown);
+                sleep(200, "feeder down");
             }
         }
     }

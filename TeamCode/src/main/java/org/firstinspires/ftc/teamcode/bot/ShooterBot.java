@@ -26,8 +26,8 @@ public class ShooterBot extends GyroBot {
     double currentShooterSpeed = 1;
 
     //change these values to control what speed the shooter spins around
-    final double highShooterSpeedThreshold = 1.21;
-    final double lowShooterSpeedThreshold = 1.205;
+    double highShooterSpeedThreshold = 1.4;
+    double lowShooterSpeedThreshold = 1.395;
 
     //the two speeds the shooter switches between to control itself
     final double highShooterSpeed = -0.7;
@@ -38,6 +38,7 @@ public class ShooterBot extends GyroBot {
     final double pusherPushing = 0.605;
 
     boolean shooterIsOn = false;
+    public boolean isAuto = true;
 
     OutputStreamWriter shooterWriter;
 
@@ -68,6 +69,10 @@ public class ShooterBot extends GyroBot {
     }
 
     public void spinShooter() {
+        if (!isAuto) {
+            highShooterSpeedThreshold = 1.6;
+            lowShooterSpeedThreshold = 1.595;
+        }
         if (shooterIsOn) {
             //calculate difference in time between last and current cycle
             currentTime = System.currentTimeMillis();

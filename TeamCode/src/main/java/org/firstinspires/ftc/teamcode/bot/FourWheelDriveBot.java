@@ -171,10 +171,10 @@ public class FourWheelDriveBot
         long timeElapsed = System.currentTimeMillis() - start;
         RobotLog.d("FourWDBot OnLoop stop @ " + timeElapsed);
         // TRICKY : DEBUG feature, please comment following block out before competition
-        if (timeElapsed > interval){
-            close();
-            throw new RuntimeException("onTick(" + label + ") took too long (" + timeElapsed + ") to finish, last onLoop label is " + lastOnLoopLabel);
-        }
+//        if (timeElapsed > interval){
+//            close();
+//            throw new RuntimeException("onTick(" + label + ") took too long (" + timeElapsed + ") to finish, last onLoop label is " + lastOnLoopLabel);
+//        }
         try {
             RobotLog.d("onLoopWriter.write");
             onLoopWriter.write(String.format("%d, %d, %d, %s\n", interval, timeElapsed, start - lastOnLoopFinished, label));

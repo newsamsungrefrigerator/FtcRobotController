@@ -34,12 +34,12 @@ public class AutoTest extends LinearOpMode {
         robot.sleep(300, "before shooting");
         robot.launchRing(true);
 
-        robot.goToAngle(5.5, 0.14);
+        robot.goToAngle(5.8, 0.14);
         robot.waitForThreshold();
         robot.sleep(300, "before shooting");
         robot.launchRing(true);
 
-        robot.goToAngle(10.7, 0.14);
+        robot.goToAngle(11.8, 0.14);
         robot.waitForThreshold();
         robot.sleep(300, "before shooting");
         robot.launchRing(true);
@@ -58,7 +58,7 @@ public class AutoTest extends LinearOpMode {
             //drive to pickup wobble goal
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 50000, 0.8, false, true);
             robot.setArmPositionNoWait(-1000);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 90000, 0.8, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 94000, 0.8, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 21000, 0.6, false, false);
             //pickup wobble goal
             robot.closePinch();
@@ -66,7 +66,7 @@ public class AutoTest extends LinearOpMode {
             robot.setArmPositionNoWait(-750);
             //drive back to drop zone
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 90000, 0.8, false, true);
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 5000, 0.4, false, false);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 7000, 0.7, false, false);
             //drop wobble goal
             robot.openPinch();
             robot.sleep(150, "after drop");
@@ -77,15 +77,16 @@ public class AutoTest extends LinearOpMode {
             //arm to drop position
             robot.setArmPositionNoWait(-750);
             //drive to drop zone
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 31000, 1, false, true);
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 21000, 0.8, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 25000, 0.7, false, false);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 21000, 0.6, false, false);
             //drop wobble goal
+            robot.sleep(500, "before drop");
             robot.openPinch();
             robot.sleep(500, "after drop");
             //drive to pickup wobble goal
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 10000, 0.6, false, false);
-            robot.setArmPositionNoWait(-1000);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 115000, 1, false, true);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 11000, 0.6, false, false);
+            robot.setArmPositionNoWait(-950);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 125000, 1, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 30000, 0.8, false, true);
             //pickup wobble goal
             robot.closePinch();
@@ -93,8 +94,8 @@ public class AutoTest extends LinearOpMode {
             robot.setArmPositionNoWait(-750);
             //drive back to drop zone
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 30000, 0.8, false, true);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 110000, 1, false, true);
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 5000, 0.6, false, false);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 117000, 1, false, true);
+            //robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 5000, 0.6, false, false);
             //drop wobble goal
             robot.openPinch();
             robot.sleep(150, "after drop");
@@ -104,29 +105,28 @@ public class AutoTest extends LinearOpMode {
             //arm to drop position
             robot.setArmPositionNoWait(-750);
             //drive to drop zone
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 50000, 1, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 55000, 1, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 60000, 0.8, false, true);
             //drop wobble goal
             robot.openPinch();
             robot.sleep(500, "after drop");
             //drive to pickup wobble goal
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 55000, 0.8, false, true);
             robot.setArmPositionNoWait(-1000);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 145000, 1, false, true);
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 40000, 0.8, false, true);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 5000, 0.6, false, false);
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 5000, 0.6, false, false);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 157000, 1, false, true);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 30000, 0.8, false, true);
             //pickup wobble goal
             robot.closePinch();
             robot.sleep(500, "after pickup");
             robot.setArmPositionNoWait(-750);
             //drive back to drop zone
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 140000, 1, false, true);
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 5000, 0.8, false, false);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 4000, 0.7, false, false);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 155000, 1, false, true);
             //drop wobble goal
             robot.openPinch();
             robot.sleep(150, "after drop");
             //park on line
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 50000, 1, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 45000, 1, false, true);
         }
         robot.close();
 

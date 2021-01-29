@@ -25,7 +25,7 @@ public class ManualDriveOpMode extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        robot.wobbleArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.isAuto = false;
         waitForStart();
         while (opModeIsActive()) {
             robot.driveByHand(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
@@ -36,8 +36,17 @@ public class ManualDriveOpMode extends LinearOpMode {
             robot.toggleWobble(gamepad1.x);
             robot.toggleFeeder(gamepad1.a);
             robot.controlWobbleArm(gamepad1.y, gamepad1.b);
-            robot.onLoop(100, "manual drive");
             robot.intakeControl(gamepad1.dpad_down);
+            robot.directionToForward(gamepad1.dpad_left);
+            robot.directionToReverse(gamepad1.dpad_right);
+            if (robot.isForward) {
+                telemetry.addData("Intake Direction: Forward", true);
+                telemetry.update();
+            } else {
+                telemetry.addData("Intake Direction: Backward", true);
+                telemetry.update();
+            }
+            robot.onLoop(100, "manual drive");
         }
         robot.close();
     }
