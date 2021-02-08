@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.bot.GyroBot;
 import org.firstinspires.ftc.teamcode.bot.OdometryBot;
 
-@Autonomous(name="Odometry Test", group="Tests")
+@Autonomous(name="Radius Calculate", group="Tests")
 
 public class RadiusCalculator extends LinearOpMode {
 

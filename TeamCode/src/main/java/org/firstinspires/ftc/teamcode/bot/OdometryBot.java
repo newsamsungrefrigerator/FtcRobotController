@@ -4,8 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class OdometryBot extends FourWheelDriveBot {
 
@@ -17,11 +15,13 @@ public class OdometryBot extends FourWheelDriveBot {
 
     double xBlue = 0, yBlue = 0, xBlueChange = 0, yBlueChange = 0, thetaDEG = 0;
     double xRed = 0, yRed = 0, xRedChange = 0, yRedChange = 0;
+    double hError = 0;
 
     final int vLDirection = 1;
     final int vRDirection = -1;
     final int hDirection = 1;
-    final double radius = 18971; // actually diameter
+    final double diameter = 18971; // actually diameter
+    final double hDiameter = 11936; //radius of horizontal encoder
 
     public double previousVL = 0, previousVR = 0, previousH = 0;
     double angleChange = 0;
@@ -67,7 +67,7 @@ public class OdometryBot extends FourWheelDriveBot {
         opMode.telemetry.addData("h", horizontal.getCurrentPosition());
         opMode.telemetry.update();
         super.onTick();
-        //calculateCaseThree(leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition(), thetaDEG);
+        calculateCaseThree(leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition(), thetaDEG);
     }
 
     public void outputEncoders() {
@@ -86,14 +86,16 @@ public class OdometryBot extends FourWheelDriveBot {
         double lC = vL - previousVL;
         double rC = vR - previousVR;
 
-        angleChange = ((lC - rC) / (Math.PI * radius * 2) * 360);
+        angleChange = ((lC - rC) / (Math.PI * diameter * 2) * 360);
 
         angleDEG = angleDEG + angleChange;
         thetaDEG = angleDEG;
 
+        hError = (angleChange / 360) * (Math.PI * hDiameter);
+
         double hC = h - previousH;
 
-        xRedChange = hC;
+        xRedChange = hC + hError;
         yRedChange = (lC + rC)/2;
 
         xBlueChange = Math.cos(Math.toRadians(angleDEG - 90)) * xRedChange + Math.cos(Math.toRadians(angleDEG)) * yRedChange;
