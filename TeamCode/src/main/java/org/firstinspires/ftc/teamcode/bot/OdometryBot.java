@@ -15,15 +15,15 @@ public class OdometryBot extends FourWheelDriveBot {
 
     String verticalLeftEncoderName = "v1", verticalRightEncoderName = "v2", horizontalEncoderName = "h";
 
-    double xBlue = 0, yBlue = 0, thetaDEG = 0;
-    double xRed = 0, yRed = 0;
+    double xBlue = 0, yBlue = 0, xBlueChange = 0, yBlueChange = 0, thetaDEG = 0;
+    double xRed = 0, yRed = 0, xRedChange = 0, yRedChange = 0;
 
     final int vLDirection = 1;
     final int vRDirection = -1;
     final int hDirection = 1;
     final double radius = 18971; // actually diameter
 
-    public double previousVL = 0, previousVR = 0;
+    public double previousVL = 0, previousVR = 0, previousH = 0;
     double angleChange = 0;
 
 
@@ -59,13 +59,13 @@ public class OdometryBot extends FourWheelDriveBot {
         RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
         RobotLog.d(String.format("v1: %d v2: %d h: %d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition()));
         RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
-//        opMode.telemetry.addData("X:", xBlue);
-//        opMode.telemetry.addData("Y:", yBlue);
-//        opMode.telemetry.addData("Theta:", thetaDEG);
-//        opMode.telemetry.addData("v1", leftFront.getCurrentPosition());
-//        opMode.telemetry.addData("v2", rightFront.getCurrentPosition());
-//        opMode.telemetry.addData("h", horizontal.getCurrentPosition());
-//        opMode.telemetry.update();
+        opMode.telemetry.addData("X:", xBlue);
+        opMode.telemetry.addData("Y:", yBlue);
+        opMode.telemetry.addData("Theta:", thetaDEG);
+        opMode.telemetry.addData("v1", leftFront.getCurrentPosition());
+        opMode.telemetry.addData("v2", rightFront.getCurrentPosition());
+        opMode.telemetry.addData("h", horizontal.getCurrentPosition());
+        opMode.telemetry.update();
         super.onTick();
         //calculateCaseThree(leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition(), thetaDEG);
     }
@@ -91,14 +91,20 @@ public class OdometryBot extends FourWheelDriveBot {
         angleDEG = angleDEG + angleChange;
         thetaDEG = angleDEG;
 
-        xRed = h;
-        yRed = (vL + vR)/2;
+        double hC = h - previousH;
 
-        xBlue = Math.cos(Math.toRadians(angleDEG - 90))*xRed + Math.cos(Math.toRadians(angleDEG))*yRed;
-        yBlue = Math.sin(Math.toRadians(angleDEG))*yRed + Math.sin(Math.toRadians(angleDEG - 90))*xRed;
+        xRedChange = hC;
+        yRedChange = (lC + rC)/2;
+
+        xBlueChange = Math.cos(Math.toRadians(angleDEG - 90)) * xRedChange + Math.cos(Math.toRadians(angleDEG)) * yRedChange;
+        yBlueChange = Math.sin(Math.toRadians(angleDEG)) * yRedChange + Math.sin(Math.toRadians(angleDEG - 90)) * xRedChange;
+
+        xBlue = xBlue + xBlueChange;
+        yBlue = yBlue + yBlueChange;
 
         previousVL = vL;
         previousVR = vR;
+        previousH = h;
 
         double[] position = {xBlue, yBlue};
 

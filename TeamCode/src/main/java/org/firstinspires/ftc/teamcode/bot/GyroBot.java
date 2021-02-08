@@ -162,13 +162,19 @@ public class GyroBot extends OdometryBot {
 
     }
 
-    public void fullRotate(double targetAngle, double power) {
+    public void fullRotate(double power) {
         int direction;
+        int targetAngle = 0;
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         double delta = getAngle() - targetAngle;
+        leftFront.setPower(power);
+        rightFront.setPower(-power);
+        leftRear.setPower(power);
+        rightRear.setPower(-power);
+        onLoop(6000, "180 degrees");
 
         while (Math.abs(delta) > 1) {
             onLoop(30, "goBacktoStartAngle");
