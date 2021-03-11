@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import java.util.concurrent.BlockingQueue;
 
-public class NewCameraBot extends IntakeBot {
+public class NewCameraBot extends LEDBot {
 
     class Area extends Object{
         public int x;

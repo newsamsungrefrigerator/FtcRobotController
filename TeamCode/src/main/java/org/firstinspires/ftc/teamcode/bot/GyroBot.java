@@ -162,6 +162,17 @@ public class GyroBot extends OdometryBot {
 
     }
 
+    public void lineUpShot(boolean button, int towerGoalY, double currentY, double hypotenuse) {
+        if (button) {
+            double adjacent = Math.abs(towerGoalY - currentY);
+
+            double targetAngle = Math.acos(adjacent/hypotenuse);
+
+            goToAngle(targetAngle, 0.3);
+
+        }
+    }
+
     public void fullRotate(double power) {
         int direction;
         int targetAngle = 5;

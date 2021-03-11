@@ -13,7 +13,7 @@ public class OdometryBot extends FourWheelDriveBot {
 
     String verticalLeftEncoderName = "v1", verticalRightEncoderName = "v2", horizontalEncoderName = "h";
 
-    double xBlue = 0, yBlue = 0, xBlueChange = 0, yBlueChange = 0, thetaDEG = 0;
+    public double xBlue = 0, yBlue = 0, xBlueChange = 0, yBlueChange = 0, thetaDEG = 0;
     double xRed = 0, yRed = 0, xRedChange = 0, yRedChange = 0;
     double hError = 0;
 
@@ -58,14 +58,13 @@ public class OdometryBot extends FourWheelDriveBot {
     protected void onTick(){
         RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
         RobotLog.d(String.format("v1: %d v2: %d h: %d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition()));
-        RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
         opMode.telemetry.addData("X:", xBlue);
         opMode.telemetry.addData("Y:", yBlue);
         opMode.telemetry.addData("Theta:", thetaDEG);
         opMode.telemetry.addData("v1", leftFront.getCurrentPosition());
         opMode.telemetry.addData("v2", rightFront.getCurrentPosition());
         opMode.telemetry.addData("h", horizontal.getCurrentPosition());
-        opMode.telemetry.update();
+        //opMode.telemetry.update();
         super.onTick();
         calculateCaseThree(leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition(), thetaDEG);
     }
@@ -101,8 +100,8 @@ public class OdometryBot extends FourWheelDriveBot {
         xBlueChange = Math.cos(Math.toRadians(angleDEG - 90)) * xRedChange + Math.cos(Math.toRadians(angleDEG)) * yRedChange;
         yBlueChange = Math.sin(Math.toRadians(angleDEG)) * yRedChange + Math.sin(Math.toRadians(angleDEG - 90)) * xRedChange;
 
-        xBlue = xBlue + xBlueChange;
-        yBlue = yBlue + yBlueChange;
+        xBlue = xBlue + yBlueChange;
+        yBlue = yBlue + xBlueChange;
 
         previousVL = vL;
         previousVR = vR;
