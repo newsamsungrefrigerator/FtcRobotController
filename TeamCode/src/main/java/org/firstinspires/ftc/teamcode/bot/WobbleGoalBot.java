@@ -82,7 +82,6 @@ public class WobbleGoalBot extends ShooterBot {
         timeSincePosSwitch = System.currentTimeMillis() - lastPosSwitch;
         if (buttonY && timeSincePosSwitch > 200) {
             if (armPosIndex < 2) {
-
                 armPosIndex ++;
                 wobbleArm.setTargetPosition(armPositions[armPosIndex]);
                 wobbleArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -92,8 +91,6 @@ public class WobbleGoalBot extends ShooterBot {
         }
         if (buttonB && timeSincePosSwitch > 200) {
             if (armPosIndex > 0) {
-
-
                 armPosIndex --;
                 wobbleArm.setTargetPosition(armPositions[armPosIndex]);
                 wobbleArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);

@@ -162,13 +162,41 @@ public class GyroBot extends OdometryBot {
 
     }
 
+    public void goToAnglePID(double targetAngle) {
+
+        MiniPID pid = new MiniPID(0.03, 0, 0);
+        pid.setOutputLimits(0.5);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        double angle;
+        angle = getAngle();
+        double power = pid.getOutput(angle, targetAngle);
+        while (Math.abs(power) > 0.06) {
+            onLoop("goBacktoStartAnglePID");
+            RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, targetAngle, power));
+            leftFront.setPower(-power);
+            rightFront.setPower(power);
+            leftRear.setPower(-power);
+            rightRear.setPower(power);
+            opMode.sleep(50);
+            angle = getAngle();
+            power = pid.getOutput(angle, targetAngle);
+        };
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+        leftRear.setPower(0);
+        rightRear.setPower(0);
+    }
+
     public void lineUpShot(boolean button, int towerGoalY, double currentY, double hypotenuse) {
         if (button) {
             double adjacent = Math.abs(towerGoalY - currentY);
 
             double targetAngle = Math.acos(adjacent/hypotenuse);
 
-            goToAngle(targetAngle, 0.3);
+            goToAnglePID(targetAngle);
 
         }
     }

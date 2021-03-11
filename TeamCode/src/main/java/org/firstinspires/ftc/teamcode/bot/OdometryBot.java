@@ -23,6 +23,8 @@ public class OdometryBot extends FourWheelDriveBot {
     final double diameter = 18971; // actually diameter
     final double hDiameter = 11936; //radius of horizontal encoder
 
+    double vLOffset, vROffset, hOffset = 0;
+
     public double previousVL = 0, previousVR = 0, previousH = 0;
     double angleChange = 0;
 
@@ -66,7 +68,7 @@ public class OdometryBot extends FourWheelDriveBot {
         opMode.telemetry.addData("h", horizontal.getCurrentPosition());
         //opMode.telemetry.update();
         super.onTick();
-        calculateCaseThree(leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition(), thetaDEG);
+        calculateCaseThree(leftFront.getCurrentPosition() - vLOffset, rightFront.getCurrentPosition() - vROffset, horizontal.getCurrentPosition() - hOffset, thetaDEG);
     }
 
     public void outputEncoders() {
@@ -110,5 +112,18 @@ public class OdometryBot extends FourWheelDriveBot {
         double[] position = {xBlue, yBlue};
 
         return position;
+    }
+
+    public void resetOdometry(boolean button) {
+        vLOffset = leftFront.getCurrentPosition();
+        vROffset = rightFront.getCurrentPosition();
+        hOffset = horizontal.getCurrentPosition();
+
+        previousVL = 0;
+        previousVR = 0;
+        previousH = 0;
+
+        thetaDEG = 0;
+
     }
 }

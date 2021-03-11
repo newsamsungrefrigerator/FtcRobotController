@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.bot.EndgameBot;
 import org.firstinspires.ftc.teamcode.bot.IntakeBot;
 import org.firstinspires.ftc.teamcode.bot.LEDBot;
 import org.firstinspires.ftc.teamcode.bot.OdometryBot;
@@ -21,7 +22,7 @@ import org.firstinspires.ftc.teamcode.bot.WobbleGoalBot;
  */
 @TeleOp(name = "Manual Drive")
 public class ManualDriveOpMode extends LinearOpMode {
-    private LEDBot robot = new LEDBot(this);
+    private EndgameBot robot = new EndgameBot(this);
 
     @Override
     public void runOpMode() {
@@ -41,6 +42,8 @@ public class ManualDriveOpMode extends LinearOpMode {
             robot.directionToForward(gamepad1.dpad_left);
             robot.directionToReverse(gamepad1.dpad_right);
             robot.lineUpShot(gamepad1.dpad_up, robot.towerGoalY, robot.yBlue, robot.shootingDistance);
+            robot.endgame(gamepad2.a);
+            robot.resetOdometry(gamepad2.b);
             if (robot.isForward) {
                 telemetry.addData("Intake Direction: Forward", true);
             } else {
