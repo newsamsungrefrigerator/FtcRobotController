@@ -5,6 +5,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Date;
+
+import android.content.Context;
+
 public class OdometryBot extends FourWheelDriveBot {
 
     public DcMotor horizontal = null;
@@ -17,6 +28,9 @@ public class OdometryBot extends FourWheelDriveBot {
     double xRed = 0, yRed = 0, xRedChange = 0, yRedChange = 0;
     double hError = 0;
 
+    double savedXBlue, savedYBlue, savedThetaDEG;
+    public double savedStartAngle;
+
     final int vLDirection = 1;
     final int vRDirection = -1;
     final int hDirection = 1;
@@ -28,6 +42,8 @@ public class OdometryBot extends FourWheelDriveBot {
     public double previousVL = 0, previousVR = 0, previousH = 0;
     double angleChange = 0;
 
+    OutputStreamWriter odometryWriter;
+    Context context;
 
     public OdometryBot(LinearOpMode opMode) {
         super(opMode);
@@ -126,6 +142,48 @@ public class OdometryBot extends FourWheelDriveBot {
             previousH = 0;
 
             thetaDEG = 0;
+        }
+    }
+
+    public void savePosition() {
+        try {
+            odometryWriter = new FileWriter("/sdcard/FIRST/odometry positions.txt", true);
+        } catch (IOException e) {
+            throw new RuntimeException("odometry file writer open failed: " + e.toString());
+        }
+        try {
+            RobotLog.d("odometryWriter.write");
+            odometryWriter.write(xBlue + "\n");
+            odometryWriter.write(yBlue + "\n");
+            odometryWriter.write(thetaDEG + "\n");
+        } catch (IOException e) {
+            throw new RuntimeException("odometry file writer write failed: " + e.toString());
+        }
+        try {
+            RobotLog.d("odometryWriter.close");
+            odometryWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException("odometry file writer close failed: " + e.toString());
+        }
+    }
+
+    public void readPosition() {
+        try {
+            InputStream inputStream = context.openFileInput("odometry positions.txt");
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                xBlue = Double.parseDouble(bufferedReader.readLine());
+                yBlue = Double.parseDouble(bufferedReader.readLine());
+                thetaDEG = Double.parseDouble(bufferedReader.readLine());
+                savedStartAngle = thetaDEG;
+
+                inputStream.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

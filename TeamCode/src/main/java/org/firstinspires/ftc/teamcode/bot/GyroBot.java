@@ -16,7 +16,8 @@ import com.stormbots.MiniPID;
 public class GyroBot extends OdometryBot {
 
     BNO055IMU imu;
-    double startAngle, power = 0.14;
+    public double startAngle = 0;
+    double power = 0.14;
 
 
     public GyroBot(LinearOpMode opMode) {
@@ -56,7 +57,7 @@ public class GyroBot extends OdometryBot {
 
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        return angles.firstAngle;
+        return angles.firstAngle - startAngle;
     }
 
     public double getDeltaAngle() {

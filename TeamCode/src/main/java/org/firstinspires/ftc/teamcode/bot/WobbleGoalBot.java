@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-public class WobbleGoalBot extends IntakeBot {
+public class WobbleGoalBot extends ShooterBot {
     public Servo wobblePinch = null;
     public DcMotor wobbleArm = null;
 

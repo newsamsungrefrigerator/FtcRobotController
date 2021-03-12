@@ -128,8 +128,8 @@ public class AutoTest extends LinearOpMode {
             //park on line
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 45000, 1, false, true);
         }
+        robot.savePosition();
         robot.close();
-
     }
 
 }

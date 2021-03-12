@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Date;
 
-public class ShooterBot extends WobbleGoalBot {
+public class ShooterBot extends IntakeBot {
     public DcMotor shooter = null;
     public Servo pusher = null;
 

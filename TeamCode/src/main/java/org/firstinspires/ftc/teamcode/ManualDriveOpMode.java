@@ -27,6 +27,8 @@ public class ManualDriveOpMode extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        robot.readPosition();
+        robot.startAngle = robot.savedStartAngle;
         robot.isAuto = false;
         waitForStart();
         while (opModeIsActive()) {
