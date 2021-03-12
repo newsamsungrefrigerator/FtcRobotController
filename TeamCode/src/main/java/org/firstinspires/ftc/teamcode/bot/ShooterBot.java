@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Date;
 
-public class ShooterBot extends GyroBot {
+public class ShooterBot extends WobbleGoalBot {
     public DcMotor shooter = null;
     public Servo pusher = null;
 
@@ -23,7 +23,7 @@ public class ShooterBot extends GyroBot {
     double lastPosition = 0;
     double positionDifference = 0;
 
-    double currentShooterSpeed = 1;
+    public double currentShooterSpeed = 1;
 
     //change these values to control what speed the shooter spins around
     double highShooterSpeedThreshold = 1.4;
@@ -61,7 +61,7 @@ public class ShooterBot extends GyroBot {
     }
 
     public void toggleShooter(boolean input) {
-        if (input) {
+        if (!isDown) {
             shooterIsOn = true;
         } else {
             shooterIsOn = false;

@@ -19,12 +19,12 @@ public class AutoTest extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         waitForStart();
+        robot.toggleFeeder(true);
         robot.toggleShooter(true);
         int numberOfRings = robot.detectRings();
         //telemetry.addData("Number of rings:", numberOfRings);
         //telemetry.update();
         robot.setArmPositionNoWait(-390);
-        robot.toggleFeeder(true);
         robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 95000, 1, false, true);
 
         robot.goToAngle(-20 , 0.2);

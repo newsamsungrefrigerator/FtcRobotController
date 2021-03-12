@@ -60,12 +60,12 @@ public class OdometryBot extends FourWheelDriveBot {
     protected void onTick(){
         RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
         RobotLog.d(String.format("v1: %d v2: %d h: %d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition()));
-        opMode.telemetry.addData("X:", xBlue);
-        opMode.telemetry.addData("Y:", yBlue);
-        opMode.telemetry.addData("Theta:", thetaDEG);
-        opMode.telemetry.addData("v1", leftFront.getCurrentPosition());
-        opMode.telemetry.addData("v2", rightFront.getCurrentPosition());
-        opMode.telemetry.addData("h", horizontal.getCurrentPosition());
+//        opMode.telemetry.addData("X:", xBlue);
+//        opMode.telemetry.addData("Y:", yBlue);
+//        opMode.telemetry.addData("Theta:", thetaDEG);
+//        opMode.telemetry.addData("v1", leftFront.getCurrentPosition());
+//        opMode.telemetry.addData("v2", rightFront.getCurrentPosition());
+//        opMode.telemetry.addData("h", horizontal.getCurrentPosition());
         //opMode.telemetry.update();
         super.onTick();
         calculateCaseThree(leftFront.getCurrentPosition() - vLOffset, rightFront.getCurrentPosition() - vROffset, horizontal.getCurrentPosition() - hOffset, thetaDEG);
@@ -115,15 +115,17 @@ public class OdometryBot extends FourWheelDriveBot {
     }
 
     public void resetOdometry(boolean button) {
-        vLOffset = leftFront.getCurrentPosition();
-        vROffset = rightFront.getCurrentPosition();
-        hOffset = horizontal.getCurrentPosition();
 
-        previousVL = 0;
-        previousVR = 0;
-        previousH = 0;
+        if (button) {
+            vLOffset = leftFront.getCurrentPosition();
+            vROffset = rightFront.getCurrentPosition();
+            hOffset = horizontal.getCurrentPosition();
 
-        thetaDEG = 0;
+            previousVL = 0;
+            previousVR = 0;
+            previousH = 0;
 
+            thetaDEG = 0;
+        }
     }
 }

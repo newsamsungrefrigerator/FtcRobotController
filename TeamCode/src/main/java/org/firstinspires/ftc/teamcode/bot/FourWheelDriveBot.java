@@ -35,6 +35,12 @@ public class FourWheelDriveBot
     public DcMotorEx leftRear = null;
     public DcMotorEx rightRear = null;
 
+    boolean isSlow = false;
+
+    long timeSinceToggle5 = 0;
+    long lastToggleDone5 = 0;
+    double multiplier = 1;
+
     HardwareMap hwMap = null;
     private ElapsedTime runtime = new ElapsedTime();
     private Orientation angles;
@@ -76,11 +82,27 @@ public class FourWheelDriveBot
 
 
     //    public void driveByHand(double _lf, double _lr, double _rf, double _rr) {
-    public void driveByHand(double left_stick_x, double left_stick_y, double right_stick_x) {
+    public void driveByHand(double left_stick_x, double left_stick_y, double right_stick_x, boolean button) {
 
         double drive  = - left_stick_y;
         double strafe = left_stick_x;
         double twist  = right_stick_x;
+
+        timeSinceToggle5 = System.currentTimeMillis() - lastToggleDone5;
+        if (button && timeSinceToggle5 > 300) {
+            if (isSlow) {
+                multiplier = 1;
+                isSlow = false;
+                opMode.telemetry.addData("NOT SLOW", multiplier);
+                lastToggleDone5 = System.currentTimeMillis();
+            } else if (!isSlow) {
+                multiplier = 0.25;
+                isSlow = true;
+                opMode.telemetry.addData("SLOW", multiplier);
+                lastToggleDone5 = System.currentTimeMillis();
+            }
+            opMode.telemetry.update();
+        }
 
 
         double[] speeds = {
@@ -101,10 +123,10 @@ public class FourWheelDriveBot
         }
 
         // apply the calculated values to the motors.
-        leftFront.setPower(speeds[0]);
-        rightFront.setPower(speeds[1]);
-        leftRear.setPower(speeds[2]);
-        rightRear.setPower(speeds[3]);
+        leftFront.setPower(speeds[0] * multiplier);
+        rightFront.setPower(speeds[1] * multiplier);
+        leftRear.setPower(speeds[2] * multiplier);
+        rightRear.setPower(speeds[3] * multiplier);
 
 
 

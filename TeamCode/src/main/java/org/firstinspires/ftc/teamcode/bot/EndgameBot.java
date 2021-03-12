@@ -9,55 +9,59 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class EndgameBot extends LEDBot{
 
-    long startTime = 0;
-    long timeElapsed = 0;
-
     public EndgameBot(LinearOpMode opMode) {
         super(opMode);
     }
 
     public void init(HardwareMap ahwMap) {
         super.init(ahwMap);
-        startTime = System.currentTimeMillis();
     }
 
     public void endgame(boolean button) {
-        timeElapsed = System.currentTimeMillis() - startTime;
-        if (button && timeElapsed > 88 * 1000) {
+        if (button) {
+            isAuto = true;
+            goToAnglePID(0);
+            toggleFeeder(true);
             toggleShooter(true);
             controlWobbleArm(true, false);
-            driveByGyroWithEncodersVertical(DIRECTION_BACKWARD, 30000, 0.8, false, true);
-            toggleFeeder(true);
-            driveByGyroWithEncodersVertical(DIRECTION_FORWARD, 95000, 1, false, true);
+            driveByGyroWithEncodersVertical(DIRECTION_BACKWARD, 55000, 1, false, true);
+            driveByGyroWithEncodersHorizontal(DIRECTION_LEFT, 5000, 0.3, false, false);
 
             goToAngle(-20 , 0.2);
 
             goToAngle(1 , 0.14);
             waitForThreshold();
-            sleep(300, "before shooting");
             launchRing(true);
 
             goToAngle(5.8, 0.14);
             waitForThreshold();
-            sleep(300, "before shooting");
             launchRing(true);
 
             goToAngle(11.8, 0.14);
             waitForThreshold();
-            sleep(300, "before shooting");
             launchRing(true);
 
-            goBacktoStartAngle();
+            leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            leftFront.setPower(-0.9);
+            rightFront.setPower(0.9);
+            leftRear.setPower(-0.9);
+            rightRear.setPower(0.9);
+            onLoop(800, "180 degrees");
+
             toggleShooter(false);
 
             controlWobbleArm(true, false);
 
-            driveByGyroWithEncodersVertical(DIRECTION_BACKWARD, 95000, 1, false, true);
+            driveWithEncodersVertical(DIRECTION_FORWARD, 90000, 1, true);
 
             controlWobbleArm(false, true);
-            sleep(200);
+            sleep(400);
             toggleWobble(true);
-            driveByGyroWithEncodersVertical(DIRECTION_FORWARD, 95000, 1, false, true);
+            driveWithEncodersVertical(DIRECTION_BACKWARD, 106000, 1, true);
         }
     }
 

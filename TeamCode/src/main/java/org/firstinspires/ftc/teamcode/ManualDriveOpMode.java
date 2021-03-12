@@ -30,7 +30,7 @@ public class ManualDriveOpMode extends LinearOpMode {
         robot.isAuto = false;
         waitForStart();
         while (opModeIsActive()) {
-            robot.driveByHand(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+            robot.driveByHand(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_button);
             if (!robot.isDown) {
                 robot.launchRing(gamepad1.right_bumper);
             }
@@ -45,12 +45,12 @@ public class ManualDriveOpMode extends LinearOpMode {
             robot.endgame(gamepad2.a);
             robot.resetOdometry(gamepad2.b);
             if (robot.isForward) {
-                telemetry.addData("Intake Direction: Forward", true);
+                //telemetry.addData("Intake Direction: Forward", true);
             } else {
-                telemetry.addData("Intake Direction: Backward", true);
+                //telemetry.addData("Intake Direction: Backward", true);
             }
             //telemetry.update();
-            robot.onLoop(100, "manual drive");
+            robot.onLoop(50, "manual drive");
         }
         robot.close();
     }

@@ -164,8 +164,8 @@ public class GyroBot extends OdometryBot {
 
     public void goToAnglePID(double targetAngle) {
 
-        MiniPID pid = new MiniPID(0.03, 0, 0);
-        pid.setOutputLimits(0.5);
+        MiniPID pid = new MiniPID(0.025, 0.005, 0.015);
+        pid.setOutputLimits(0.7);
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -173,17 +173,21 @@ public class GyroBot extends OdometryBot {
         double angle;
         angle = getAngle();
         double power = pid.getOutput(angle, targetAngle);
-        while (Math.abs(power) > 0.06) {
+        while (Math.abs(power) > 0.1) {
             onLoop("goBacktoStartAnglePID");
             RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, targetAngle, power));
             leftFront.setPower(-power);
             rightFront.setPower(power);
             leftRear.setPower(-power);
             rightRear.setPower(power);
-            opMode.sleep(50);
+            opMode.sleep(30);
             angle = getAngle();
             power = pid.getOutput(angle, targetAngle);
         };
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setPower(0);
         rightFront.setPower(0);
         leftRear.setPower(0);
@@ -194,7 +198,10 @@ public class GyroBot extends OdometryBot {
         if (button) {
             double adjacent = Math.abs(towerGoalY - currentY);
 
-            double targetAngle = Math.acos(adjacent/hypotenuse);
+//            RobotLog.d(String.format("adjacent: %.2f", adjacent));
+//            RobotLog.d(String.format("hypotenuse: %.2f", hypotenuse));
+//            RobotLog.d(String.format("target angle: %.2f", Math.acos((adjacent / hypotenuse))));
+            double targetAngle = (Math.toDegrees(Math.acos(adjacent / hypotenuse)) * -1) + 5;
 
             goToAnglePID(targetAngle);
 
@@ -449,5 +456,58 @@ public class GyroBot extends OdometryBot {
         leftRear.setPower(0);
         rightRear.setPower(0);
         sleep(500, "after gyro wait");
+    }
+
+    public void driveWithEncodersVertical(int direction, double distance, double maxPower, boolean decelerate) {
+        if (direction != DIRECTION_FORWARD && direction != DIRECTION_BACKWARD && direction != DIRECTION_LEFT && direction != DIRECTION_RIGHT){
+            String msg = String.format("Unaccepted direction value (%d) for driveStraightByGyro()", direction);
+            print(msg);
+            return;
+        }
+
+        // distance (in mm) = revolution * pi * diameter (100 mm)
+        int distanceTicks = (int) distance;
+        int startingPosition = leftFront.getCurrentPosition();
+
+        double powerMultiplier = 1;
+        double increment = 0.8;
+
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        int currentPosition = leftFront.getCurrentPosition();
+        while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
+            onLoop(60, "gyro drive 1");
+            if (Math.abs(currentPosition - startingPosition) > distanceTicks - (40000 * increment) && decelerate) {
+                powerMultiplier = powerMultiplier * increment;
+                increment -= 0.1;
+                RobotLog.d(String.format("Current Position: %d Powermultiplier: %.1f Increment: %.1f", currentPosition, powerMultiplier, increment));
+            }
+            switch (direction){
+                case DIRECTION_FORWARD:
+                    leftFront.setPower((maxPower) * powerMultiplier);
+                    rightFront.setPower((maxPower) * powerMultiplier);
+                    leftRear.setPower((maxPower) * powerMultiplier);
+                    rightRear.setPower((maxPower) * powerMultiplier);
+                    break;
+                case DIRECTION_BACKWARD:
+                    leftFront.setPower((- maxPower) * powerMultiplier);
+                    rightFront.setPower((- maxPower) * powerMultiplier);
+                    leftRear.setPower((- maxPower) * powerMultiplier);
+                    rightRear.setPower((- maxPower) * powerMultiplier);
+                    break;
+            }
+            currentPosition = leftFront.getCurrentPosition();
+        }
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+        leftRear.setPower(0);
+        rightRear.setPower(0);
+        sleep(500, "after driving wait");
     }
 }

@@ -3,15 +3,16 @@ package org.firstinspires.ftc.teamcode.bot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.RobotLog;
 
-public class LEDBot extends IntakeBot{
+public class LEDBot extends ShooterBot{
     public Servo LEDControl = null;
 
     public double shootingDistance = 0;
 
     final double defaultPattern = 0.2525; //rainbow, glitter
     final int towerGoalX = -36000;
-    public final int towerGoalY = -229000;
+    public final int towerGoalY = -229000; //124000 108331
 
     final double shootingDistanceFar = 155000;
     final double shootingDistanceClose = 135000;
@@ -45,8 +46,18 @@ public class LEDBot extends IntakeBot{
         }
     }
 
+    public boolean checkShooterSpeed() {
+        if (currentShooterSpeed > lowShooterSpeedThreshold) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void updateLED() {
-        if (checkShootingDistance()) {
+        if (checkShooterSpeed() && checkShootingDistance()) {
+            switchPattern(0.7145); //green
+        } else if (checkShootingDistance()) {
             switchPattern(0.6995); //lawn green
         } else {
             switchPattern(0.6695); //red
@@ -56,8 +67,9 @@ public class LEDBot extends IntakeBot{
     protected void onTick(){
         calculateShootingDistance();
         updateLED();
-        opMode.telemetry.addData("Shooting Distance", shootingDistance);
-        opMode.telemetry.update();
+        RobotLog.d(String.format("Distance to tower: %.2f", shootingDistance));
+        //opMode.telemetry.addData("Shooting Distance", shootingDistance);
+        //opMode.telemetry.update();
         super.onTick();
     }
 }
