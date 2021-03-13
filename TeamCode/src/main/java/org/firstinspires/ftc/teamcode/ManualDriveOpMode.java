@@ -46,13 +46,17 @@ public class ManualDriveOpMode extends LinearOpMode {
             robot.lineUpShot(gamepad1.dpad_up, robot.towerGoalY, robot.yBlue, robot.shootingDistance);
             robot.endgame(gamepad2.a);
             robot.resetOdometry(gamepad2.b);
+            if (gamepad2.x) {
+                robot.resetAngle();
+            }
             if (robot.isForward) {
                 //telemetry.addData("Intake Direction: Forward", true);
             } else {
                 //telemetry.addData("Intake Direction: Backward", true);
             }
-            //telemetry.update();
+
             robot.onLoop(50, "manual drive");
+            robot.getAngle();
         }
         robot.close();
     }

@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-public class IntakeBot extends GyroBot{
+public class IntakeBot extends OdometryBot{
     public DcMotor intakeMotor = null;
     public Servo intakeArm = null;
 

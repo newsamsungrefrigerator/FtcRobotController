@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
+import com.stormbots.MiniPID;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -12,11 +13,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Method;
 import java.util.Date;
 
+import android.app.ActivityManager;
+import android.app.Application;
 import android.content.Context;
 
-public class OdometryBot extends FourWheelDriveBot {
+public class OdometryBot extends GyroBot {
 
     public DcMotor horizontal = null;
     public DcMotor verticalLeft = null;
@@ -43,7 +47,6 @@ public class OdometryBot extends FourWheelDriveBot {
     double angleChange = 0;
 
     OutputStreamWriter odometryWriter;
-    Context context;
 
     public OdometryBot(LinearOpMode opMode) {
         super(opMode);
@@ -53,6 +56,7 @@ public class OdometryBot extends FourWheelDriveBot {
     public void init(HardwareMap ahwMap) {
         super.init(ahwMap);
         initDriveHardwareMap(ahwMap);
+        context = hwMap.appContext;
         opMode.telemetry.addData("Status", "Init Complete");
         opMode.telemetry.update();
     }
@@ -73,6 +77,8 @@ public class OdometryBot extends FourWheelDriveBot {
         opMode.telemetry.update();
     }
 
+    Context context;
+
     protected void onTick(){
         RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
         RobotLog.d(String.format("v1: %d v2: %d h: %d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition()));
@@ -82,7 +88,7 @@ public class OdometryBot extends FourWheelDriveBot {
 //        opMode.telemetry.addData("v1", leftFront.getCurrentPosition());
 //        opMode.telemetry.addData("v2", rightFront.getCurrentPosition());
 //        opMode.telemetry.addData("h", horizontal.getCurrentPosition());
-        //opMode.telemetry.update();
+//        opMode.telemetry.update();
         super.onTick();
         calculateCaseThree(leftFront.getCurrentPosition() - vLOffset, rightFront.getCurrentPosition() - vROffset, horizontal.getCurrentPosition() - hOffset, thetaDEG);
     }
@@ -145,40 +151,128 @@ public class OdometryBot extends FourWheelDriveBot {
         }
     }
 
+    public void driveByGyroWithEncodersHorizontal(int direction, double distance, double maxPower, boolean useCurrentAngle, boolean decelerate) {
+        if (direction != DIRECTION_FORWARD && direction != DIRECTION_BACKWARD && direction != DIRECTION_LEFT && direction != DIRECTION_RIGHT){
+            String msg = String.format("Unaccepted direction value (%d) for driveStraightByGyro()", direction);
+            print(msg);
+            return;
+        }
+        double originalAngle;
+        if (useCurrentAngle) {
+            originalAngle = getAngle();
+        } else {
+            originalAngle = startAngle;
+        }
+
+        // distance (in mm) = revolution * pi * diameter (100 mm)
+        int distanceTicks = (int) distance;
+        int startingPosition = horizontal.getCurrentPosition();
+
+        double powerMultiplier = 1;
+        double increment = 0.8;
+
+        MiniPID pid = new MiniPID(0.03, 0, 0);
+        pid.setOutputLimits(maxPower);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        double angle;
+        angle = getAngle();
+        double adjustPower = pid.getOutput(angle, originalAngle);
+        int currentPosition = horizontal.getCurrentPosition();
+        while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
+            onLoop(60, "gyro drive 1");
+            RobotLog.d(String.format("driveStraightByGyro : Current: %d - Start:%d > 10 => power: %.3f  +/- PID(source: %.3f, target: %.3f) = adjustPower: %.3f", currentPosition, startingPosition, maxPower, angle, originalAngle, adjustPower));
+            if (Math.abs(currentPosition - startingPosition) > distanceTicks - (20000 * increment) && decelerate) {
+                powerMultiplier = powerMultiplier * increment;
+                increment -= 0.1;
+                RobotLog.d(String.format("Current Position: %d Powermultiplier: %.1f Increment: %.1f", currentPosition, powerMultiplier, increment));
+            }
+            switch (direction){
+                case DIRECTION_LEFT:
+                    leftFront.setPower((- maxPower - adjustPower) * powerMultiplier);
+                    rightFront.setPower((+ maxPower + adjustPower) * powerMultiplier);
+                    leftRear.setPower((+ maxPower - adjustPower) * powerMultiplier);
+                    rightRear.setPower((- maxPower + adjustPower) * powerMultiplier);
+                    break;
+                case DIRECTION_RIGHT:
+                    leftFront.setPower((+ maxPower - adjustPower) * powerMultiplier);
+                    rightFront.setPower((- maxPower + adjustPower) * powerMultiplier);
+                    leftRear.setPower((- maxPower - adjustPower) * powerMultiplier);
+                    rightRear.setPower((+ maxPower + adjustPower) * powerMultiplier);
+                    break;
+            }
+            //onLoop(30, "gyro drive 2");
+            angle = getAngle();
+            adjustPower = pid.getOutput(angle, originalAngle);
+            currentPosition = horizontal.getCurrentPosition();
+        }
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+        leftRear.setPower(0);
+        rightRear.setPower(0);
+        sleep(500, "after gyro wait");
+    }
+
     public void savePosition() {
+//        try {
+//            odometryWriter = new FileWriter("/sdcard/FIRST/odometry positions.txt", false);
+//        } catch (IOException e) {
+//            throw new RuntimeException("odometry file writer open failed: " + e.toString());
+//        }
+//        try {
+//            RobotLog.d("odometryWriter.write");
+//            odometryWriter.write(xBlue + "\n");
+//            odometryWriter.write(yBlue + "\n");
+//            odometryWriter.write(thetaDEG + "\n");
+//            odometryWriter.write(getAngle() + "\n");
+//        } catch (IOException e) {
+//            throw new RuntimeException("odometry file writer write failed: " + e.toString());
+//        }
+//        try {
+//            RobotLog.d("odometryWriter.close");
+//            odometryWriter.close();
+//        } catch (IOException e) {
+//            throw new RuntimeException("odometry file writer close failed: " + e.toString());
+//        }
         try {
-            odometryWriter = new FileWriter("/sdcard/FIRST/odometry positions.txt", true);
-        } catch (IOException e) {
-            throw new RuntimeException("odometry file writer open failed: " + e.toString());
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("odometry positions.txt", Context.MODE_PRIVATE));
+
+            // write each configuration parameter as a string on its own line
+            outputStreamWriter.write(xBlue + "\n");
+            outputStreamWriter.write(yBlue + "\n");
+            outputStreamWriter.write(thetaDEG + "\n");
+            outputStreamWriter.write(getAngle() + "\n");
+
+            outputStreamWriter.close();
         }
-        try {
-            RobotLog.d("odometryWriter.write");
-            odometryWriter.write(xBlue + "\n");
-            odometryWriter.write(yBlue + "\n");
-            odometryWriter.write(thetaDEG + "\n");
-        } catch (IOException e) {
-            throw new RuntimeException("odometry file writer write failed: " + e.toString());
+        catch (IOException e) {
+            opMode.telemetry.addData("Exception", "Configuration file write failed: " + e.toString());
         }
-        try {
-            RobotLog.d("odometryWriter.close");
-            odometryWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException("odometry file writer close failed: " + e.toString());
-        }
+
     }
 
     public void readPosition() {
         try {
             InputStream inputStream = context.openFileInput("odometry positions.txt");
-
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
                 xBlue = Double.parseDouble(bufferedReader.readLine());
+                opMode.telemetry.addData("X:", xBlue);
                 yBlue = Double.parseDouble(bufferedReader.readLine());
+                opMode.telemetry.addData("Y:", yBlue);
+                opMode.telemetry.update();
+                RobotLog.d(String.format("odometry bodoo: %.2f, %.2f", xBlue, yBlue));
                 thetaDEG = Double.parseDouble(bufferedReader.readLine());
-                savedStartAngle = thetaDEG;
+                savedStartAngle = Double.parseDouble(bufferedReader.readLine());
+                thetaDEG = savedStartAngle;
 
                 inputStream.close();
             }
