@@ -338,7 +338,7 @@ public class GyroBot extends FourWheelDriveBot {
         if (useCurrentAngle) {
             originalAngle = getAngle();
         } else {
-            originalAngle = startAngle;
+            originalAngle = 0;
         }
 
         // distance (in mm) = revolution * pi * diameter (100 mm)

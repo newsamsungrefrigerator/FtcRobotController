@@ -46,6 +46,7 @@ public class EndgameBot extends LEDBot{
             leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+            toggleFeeder(true);
             leftFront.setPower(-0.9);
             rightFront.setPower(0.9);
             leftRear.setPower(-0.9);

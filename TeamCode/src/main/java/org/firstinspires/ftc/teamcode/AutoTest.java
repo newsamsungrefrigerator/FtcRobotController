@@ -25,7 +25,7 @@ public class AutoTest extends LinearOpMode {
         //telemetry.addData("Number of rings:", numberOfRings);
         //telemetry.update();
         robot.setArmPositionNoWait(-390);
-        robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 95000, 1, false, true);
+        robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 90000, 1, false, true);
 
         robot.goToAngle(-20 , 0.2);
 
@@ -45,20 +45,21 @@ public class AutoTest extends LinearOpMode {
         robot.launchRing(true);
 
         robot.goBacktoStartAngle();
+        robot.toggleFeeder(true);
         robot.toggleShooter(false);
         if (numberOfRings == 0) {
             //arm to drop position
             robot.setArmPositionNoWait(-750);
             //drive to drop zone
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 69000, 0.8, false, true);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 5000, 0.8, false, true);
+            //robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 5000, 0.8, false, true);
             //drop wobble goal
             robot.openPinch();
             robot.sleep(150, "after drop");
             //drive to pickup wobble goal
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 50000, 0.8, false, true);
             robot.setArmPositionNoWait(-1000);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 94000, 0.8, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 89000, 0.8, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 21000, 0.6, false, false);
             //pickup wobble goal
             robot.closePinch();
@@ -77,7 +78,7 @@ public class AutoTest extends LinearOpMode {
             //arm to drop position
             robot.setArmPositionNoWait(-750);
             //drive to drop zone
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 25000, 0.7, false, false);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 30000, 0.7, false, false);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 21000, 0.6, false, false);
             //drop wobble goal
             robot.sleep(500, "before drop");
@@ -86,7 +87,7 @@ public class AutoTest extends LinearOpMode {
             //drive to pickup wobble goal
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 11000, 0.6, false, false);
             robot.setArmPositionNoWait(-950);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 125000, 1, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 120000, 1, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 30000, 0.8, false, true);
             //pickup wobble goal
             robot.closePinch();
@@ -105,7 +106,7 @@ public class AutoTest extends LinearOpMode {
             //arm to drop position
             robot.setArmPositionNoWait(-750);
             //drive to drop zone
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 55000, 1, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 60000, 1, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 60000, 0.8, false, true);
             //drop wobble goal
             robot.openPinch();
@@ -113,7 +114,7 @@ public class AutoTest extends LinearOpMode {
             //drive to pickup wobble goal
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 55000, 0.8, false, true);
             robot.setArmPositionNoWait(-1000);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 157000, 1, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 152000, 1, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 30000, 0.8, false, true);
             //pickup wobble goal
             robot.closePinch();
