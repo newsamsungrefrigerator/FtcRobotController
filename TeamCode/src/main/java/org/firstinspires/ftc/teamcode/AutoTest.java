@@ -87,7 +87,7 @@ public class AutoTest extends LinearOpMode {
             //drive to pickup wobble goal
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 11000, 0.6, false, false);
             robot.setArmPositionNoWait(-950);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 120000, 1, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 124000, 1, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 30000, 0.8, false, true);
             //pickup wobble goal
             robot.closePinch();
@@ -121,7 +121,7 @@ public class AutoTest extends LinearOpMode {
             robot.sleep(500, "after pickup");
             robot.setArmPositionNoWait(-750);
             //drive back to drop zone
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 4000, 0.7, false, false);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 7000, 0.7, false, false);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 155000, 1, false, true);
             //drop wobble goal
             robot.openPinch();
