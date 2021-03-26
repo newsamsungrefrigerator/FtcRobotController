@@ -21,6 +21,7 @@ public class AutoTest extends LinearOpMode {
         waitForStart();
         robot.toggleFeeder(true);
         robot.toggleShooter(true);
+        robot.raiseIntake();
         int numberOfRings = robot.detectRings();
         //telemetry.addData("Number of rings:", numberOfRings);
         //telemetry.update();

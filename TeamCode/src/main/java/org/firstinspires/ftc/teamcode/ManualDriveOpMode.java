@@ -30,8 +30,10 @@ public class ManualDriveOpMode extends LinearOpMode {
         robot.readPosition();
         robot.startAngle = robot.savedStartAngle;
         robot.isAuto = false;
+        robot.lowerIntake();
         waitForStart();
         while (opModeIsActive()) {
+
             robot.driveByHand(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_button);
             if (!robot.isDown) {
                 robot.launchRing(gamepad1.right_bumper);

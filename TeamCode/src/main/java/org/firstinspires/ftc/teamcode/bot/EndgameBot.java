@@ -20,6 +20,7 @@ public class EndgameBot extends LEDBot{
     public void endgame(boolean button) {
         if (button) {
             isAuto = true;
+            raiseIntake();
             goToAnglePID(0);
             toggleFeeder(true);
             toggleShooter(true);
