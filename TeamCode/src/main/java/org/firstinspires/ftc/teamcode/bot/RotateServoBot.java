@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.bot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class RotateServoBot extends FourWheelDriveBot {
     public CRServo parkArm = null;
 
-    public RotateServo(LinearOpMode opMode) {
+    public RotateServoBot(LinearOpMode opMode) {
         super(opMode);
     }
 

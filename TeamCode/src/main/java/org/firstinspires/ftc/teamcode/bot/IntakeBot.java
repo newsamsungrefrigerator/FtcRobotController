@@ -45,9 +45,8 @@ public class IntakeBot extends OdometryBot{
     }
 
     public void startIntake() {
-        intakeMotor.setPower(0.85);
+        intakeMotor.setPower(1);
     }
-
     public void stopIntake() {
         intakeMotor.setPower(0);
     }
@@ -74,10 +73,12 @@ public class IntakeBot extends OdometryBot{
         if (button && timeSinceToggle3 > 400) {
             if (intakeOn) {
                 stopIntake();
+                raiseIntake();
                 intakeOn = false;
                 lastToggleDone3 = System.currentTimeMillis();
             } else if (!intakeOn && isDown) {
                 startIntake();
+                lowerIntake();
                 intakeOn = true;
                 lastToggleDone3 = System.currentTimeMillis();
             }
