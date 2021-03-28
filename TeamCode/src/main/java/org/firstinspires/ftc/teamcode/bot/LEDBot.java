@@ -55,10 +55,15 @@ public class LEDBot extends WobbleGoalBot{
     }
 
     public void updateLED() {
-        if (checkShooterSpeed() && checkShootingDistance()) {
+//        if (checkShooterSpeed() && checkShootingDistance()) {
+//            switchPattern(0.7145); //green
+//        } else if (checkShootingDistance()) {
+//            switchPattern(0.6995); //lawn green
+//        } else {
+//            switchPattern(0.6695); //red
+//        }
+        if (checkShooterSpeed()) {
             switchPattern(0.7145); //green
-        } else if (checkShootingDistance()) {
-            switchPattern(0.6995); //lawn green
         } else {
             switchPattern(0.6695); //red
         }

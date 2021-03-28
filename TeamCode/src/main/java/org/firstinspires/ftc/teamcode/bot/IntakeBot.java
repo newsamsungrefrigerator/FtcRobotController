@@ -17,7 +17,7 @@ public class IntakeBot extends OdometryBot{
     final double feederUp = 0.50;
 
     final double heightHigh = 0.4;
-    final double heightLow = 0.33;
+    final double heightLow = 0.36;
 
     public boolean isDown = true;
     public boolean intakeOn = false;
@@ -76,7 +76,7 @@ public class IntakeBot extends OdometryBot{
                 raiseIntake();
                 intakeOn = false;
                 lastToggleDone3 = System.currentTimeMillis();
-            } else if (!intakeOn && isDown) {
+            } else if (!intakeOn) {
                 startIntake();
                 lowerIntake();
                 intakeOn = true;
