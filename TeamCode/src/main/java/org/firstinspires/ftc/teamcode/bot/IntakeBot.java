@@ -12,12 +12,12 @@ public class IntakeBot extends OdometryBot{
     public Servo intakeArm = null;
     public Servo intakeHeight = null;
 
-    final double feederDown = 0.16;
+    final double feederDown = 0.18;
     final double feederShake = 0.29;
     final double feederUp = 0.50;
 
-    final double heightHigh = 0.4;
-    final double heightLow = 0.36;
+    final double heightHigh = 0.3;
+    final double heightLow = 0.359;
 
     public boolean isDown = true;
     public boolean intakeOn = false;
@@ -76,7 +76,7 @@ public class IntakeBot extends OdometryBot{
                 raiseIntake();
                 intakeOn = false;
                 lastToggleDone3 = System.currentTimeMillis();
-            } else if (!intakeOn) {
+            } else if (!intakeOn && isDown) {
                 startIntake();
                 lowerIntake();
                 intakeOn = true;

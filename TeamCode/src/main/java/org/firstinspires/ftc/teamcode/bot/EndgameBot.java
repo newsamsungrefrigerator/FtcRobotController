@@ -26,11 +26,11 @@ public class EndgameBot extends LEDBot{
             toggleShooter(true);
             controlWobbleArm(true, false);
             driveByGyroWithEncodersVertical(DIRECTION_BACKWARD, 55000, 1, false, true);
-            driveByGyroWithEncodersHorizontal(DIRECTION_LEFT, 5000, 0.3, false, false);
+            driveWithEncodersHorizontal(DIRECTION_LEFT, 7000, 0.3, false);
 
             goToAngle(-20 , 0.2);
 
-            goToAngle(1 , 0.14);
+            goToAngle(-0.5 , 0.14);
             waitForThreshold();
             launchRing(true);
 

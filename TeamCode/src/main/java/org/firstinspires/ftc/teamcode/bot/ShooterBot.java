@@ -34,7 +34,7 @@ public class ShooterBot extends IntakeBot {
     final double lowShooterSpeed = -0.285;
 
     //two positions of the pusher servo
-    final double pusherRetracted = 0.51;
+    final double pusherRetracted = 0.5;
     final double pusherPushing = 0.605;
 
     boolean shooterIsOn = false;
@@ -119,9 +119,9 @@ public class ShooterBot extends IntakeBot {
     public void launchRing(boolean rightBumper) {
         if (rightBumper) {
             pusher.setPosition(pusherPushing);
-            sleep(700, "launch ring 1");
+            sleep(200, "launch ring 1"); //700 ms for normal servo
             pusher.setPosition(pusherRetracted);
-            sleep(700, "launch ring 2");
+            sleep(200, "launch ring 2"); //700 ms for normal servo
         }
     }
 
