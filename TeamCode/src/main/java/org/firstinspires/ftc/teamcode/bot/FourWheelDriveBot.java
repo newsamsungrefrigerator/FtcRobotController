@@ -47,7 +47,7 @@ public class FourWheelDriveBot
     private Orientation angles;
     private boolean arcadeMode = false;
     private double headingOffset = 0.0;
-    protected LinearOpMode opMode;
+    public LinearOpMode opMode;
 
     OutputStreamWriter onLoopWriter;
 

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.bot.NewCameraBot;
 
 
-@Autonomous(name="Auto 1 (Rotate)", group="Auto")
+@Autonomous(name="Auto 1 (PS, 2 WG)", group="Auto")
 
 public class Auto1 extends LinearOpMode {
 
