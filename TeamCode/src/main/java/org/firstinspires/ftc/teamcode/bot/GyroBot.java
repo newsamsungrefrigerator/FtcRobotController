@@ -40,7 +40,7 @@ public class GyroBot extends FourWheelDriveBot {
         parameters.loggingTag = "IMU";
 
 
-        imu = hwMap.get(BNO055IMU.class, "imu");
+        imu = hwMap.get(BNO055IMU.class, "imu 1");
         imu.initialize(parameters);
 
     }

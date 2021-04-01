@@ -61,7 +61,7 @@ public class Auto1 extends LinearOpMode {
             robot.sleep(150, "after drop");
             //drive to pickup wobble goal
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 50000, 0.8, false, true);
-            robot.setArmPositionNoWait(-1000);
+            robot.setArmPositionNoWait(-950);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 84000, 0.8, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 21000, 0.6, false, false);
             //pickup wobble goal
@@ -116,7 +116,7 @@ public class Auto1 extends LinearOpMode {
             robot.sleep(500, "after drop");
             //drive to pickup wobble goal
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 62000, 0.8, false, true);
-            robot.setArmPositionNoWait(-1000);
+            robot.setArmPositionNoWait(-950);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 158000, 1, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 30000, 0.8, false, true);
             //pickup wobble goal

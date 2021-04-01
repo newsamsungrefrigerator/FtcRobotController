@@ -26,12 +26,12 @@ public class ShooterBot extends IntakeBot {
     public double currentShooterSpeed = 1;
 
     //change these values to control what speed the shooter spins around
-    double highShooterSpeedThreshold = 1.4;
-    double lowShooterSpeedThreshold = 1.395;
+    double highShooterSpeedThreshold = 1.385; //1.4
+    double lowShooterSpeedThreshold = 1.38; //1.395
 
     //the two speeds the shooter switches between to control itself
-    final double highShooterSpeed = -0.7;
-    final double lowShooterSpeed = -0.285;
+    double highShooterSpeed = -0.7;
+    double lowShooterSpeed = -0.285;
 
     //two positions of the pusher servo
     final double pusherRetracted = 0.5;
@@ -72,6 +72,8 @@ public class ShooterBot extends IntakeBot {
         if (!isAuto) {
             highShooterSpeedThreshold = 1.6;
             lowShooterSpeedThreshold = 1.595;
+            highShooterSpeed = -0.9;
+            lowShooterSpeed = -0.285;
         }
         if (shooterIsOn) {
             //calculate difference in time between last and current cycle
