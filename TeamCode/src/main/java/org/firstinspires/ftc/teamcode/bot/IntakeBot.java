@@ -16,8 +16,8 @@ public class IntakeBot extends OdometryBot{
     final double feederShake = 0.29;
     final double feederUp = 0.50;
 
-    final double heightHigh = 0.3;
-    final double heightLow = 0.359;
+    final double heightHigh = 0.28;
+    final double heightLow = 0.319;
 
     public boolean isDown = true;
     public boolean intakeOn = false;

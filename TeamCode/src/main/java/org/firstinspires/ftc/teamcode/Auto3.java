@@ -105,7 +105,7 @@ public class Auto3 extends LinearOpMode {
             //drive to pickup wobble goal
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 62000, 0.8, false, true);
             robot.setArmPositionNoWait(-900);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 163000, 1, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 161000, 1, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 30000, 0.8, false, true);
             //pickup wobble goal
             robot.closePinch();
