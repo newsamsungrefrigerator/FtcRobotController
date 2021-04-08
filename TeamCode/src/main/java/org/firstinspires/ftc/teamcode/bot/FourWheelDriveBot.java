@@ -40,7 +40,6 @@ public class FourWheelDriveBot
 
     long timeSinceToggle5 = 0;
     long lastToggleDone5 = 0;
-    double multiplier = 1;
 
     HardwareMap hwMap = null;
     private ElapsedTime runtime = new ElapsedTime();
@@ -89,6 +88,7 @@ public class FourWheelDriveBot
         double strafe = left_stick_x;
         double twist  = right_stick_x;
 
+        double multiplier = 1;
         timeSinceToggle5 = System.currentTimeMillis() - lastToggleDone5;
         if (button && timeSinceToggle5 > 300) {
             if (isSlow) {
@@ -105,7 +105,10 @@ public class FourWheelDriveBot
             opMode.telemetry.update();
         }
 
+        driveByVector(drive, strafe, twist, multiplier);
+    }
 
+    public void driveByVector(double drive, double strafe, double twist, double multiplier) {
         double[] speeds = {
                 (drive + strafe + twist),
                 (drive - strafe - twist),
@@ -128,9 +131,13 @@ public class FourWheelDriveBot
         rightFront.setPower(speeds[1] * multiplier);
         leftRear.setPower(speeds[2] * multiplier);
         rightRear.setPower(speeds[3] * multiplier);
+    }
 
-
-
+    public void readControllerValues(double left_stick_x, double left_stick_y, double right_stick_x) {
+        opMode.telemetry.addData("Left Stick X", left_stick_x);
+        opMode.telemetry.addData("Left Stick Y", left_stick_y);
+        opMode.telemetry.addData("Right Stick X", right_stick_x);
+        opMode.telemetry.update();
     }
 
     public void print(String message){
@@ -238,31 +245,6 @@ public class FourWheelDriveBot
     public void sleep(int milliseconds){
         sleep(milliseconds, "default sleep");
     }
-
-    public void driveByVector(double vectorX, double vectorY){
-        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        // the vector x positive value means right direction
-        // the vector y positive value means backward direction
-        //
-        // assume rightFront and leftRear runs at same speed as a
-        // assume leftFront and rightRear runs at same speed as b
-        // 4x = -2a + 2b
-        // -4y = 2a + 2b
-        // =====>
-        // a = -x - y
-        // b = x - y
-        double a = -vectorX - vectorY;
-        double b = vectorX - vectorY;
-        rightFront.setPower(a);
-        leftFront.setPower(b);
-        rightRear.setPower(b);
-        leftRear.setPower(a);
-        print(String.format("driveByVector(%.2f, %.2f) => leftFront|rightRear : %.2f, rightFront|leftRear : %.2f", vectorX, vectorY, b, a));
-    }
-
 
     public void testOneMotor(DcMotor motor, double speed, int direction){
         // reset the timeout time and start motion.

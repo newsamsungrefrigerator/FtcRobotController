@@ -272,6 +272,36 @@ public class OdometryBot extends GyroBot {
         sleep(500, "after driving wait");
     }
 
+//    public void driveToCoordinate(int targetX, int targetY, double targetTheta, int tolerance) {
+//        double drive;
+//        double strafe;
+//        double twist;
+//        double driveAngle;
+//        double thetaDifference = targetTheta - thetaDEG;
+//
+//        while (targetX + tolerance > xBlue && targetX - tolerance < xBlue && targetY + tolerance > yBlue && targetY - tolerance < targetY) {
+//            if (Math.abs(thetaDifference) > 20) {
+//                if (thetaDifference < 0) {
+//                    twist = 1;
+//                } else {
+//                    twist = -1;
+//                }
+//            } else {
+//                if (thetaDifference < 0) {
+//                    twist = 0.2;
+//                } else {
+//                    twist = -0.2;
+//                }
+//            }
+//
+//            driveAngle = Math.atan((targetX - xBlue) / (targetY - yBlue));
+//
+//
+//
+//            driveByVector(drive, strafe, twist, 1);
+//        }
+//    }
+
     public void savePosition() {
 //        try {
 //            odometryWriter = new FileWriter("/sdcard/FIRST/odometry positions.txt", false);
