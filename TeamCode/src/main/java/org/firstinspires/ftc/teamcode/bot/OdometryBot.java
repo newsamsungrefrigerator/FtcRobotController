@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.bot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.RobotLog;
 import com.stormbots.MiniPID;
 
@@ -82,13 +83,13 @@ public class OdometryBot extends GyroBot {
     protected void onTick(){
         RobotLog.d(String.format("Position, heading: %.2f, %.2f, %.2f", xBlue, yBlue, thetaDEG));
         RobotLog.d(String.format("v1: %d v2: %d h: %d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition(), horizontal.getCurrentPosition()));
-//        opMode.telemetry.addData("X:", xBlue);
-//        opMode.telemetry.addData("Y:", yBlue);
-//        opMode.telemetry.addData("Theta:", thetaDEG);
-//        opMode.telemetry.addData("v1", leftFront.getCurrentPosition());
-//        opMode.telemetry.addData("v2", rightFront.getCurrentPosition());
-//        opMode.telemetry.addData("h", horizontal.getCurrentPosition());
-//        opMode.telemetry.update();
+        opMode.telemetry.addData("X:", xBlue);
+        opMode.telemetry.addData("Y:", yBlue);
+        opMode.telemetry.addData("Theta:", thetaDEG);
+        opMode.telemetry.addData("v1", leftFront.getCurrentPosition());
+        opMode.telemetry.addData("v2", rightFront.getCurrentPosition());
+        opMode.telemetry.addData("h", horizontal.getCurrentPosition());
+        opMode.telemetry.update();
         super.onTick();
         calculateCaseThree(leftFront.getCurrentPosition() - vLOffset, rightFront.getCurrentPosition() - vROffset, horizontal.getCurrentPosition() - hOffset, thetaDEG);
     }
@@ -272,34 +273,67 @@ public class OdometryBot extends GyroBot {
         sleep(500, "after driving wait");
     }
 
-    public void driveToCoordinate(int targetX, int targetY, double targetTheta, int tolerance, double magnitude) {
+    public void driveToCoordinate(double targetX, double targetY, double targetTheta, int tolerance, double magnitude) {
         double drive;
         double strafe;
         double twist;
         double driveAngle;
         double thetaDifference = targetTheta - thetaDEG;
+        RobotLog.d(String.format("BlueX: %f BlueY: %f Theta: %f", xBlue, yBlue, thetaDEG));
 
-        while (targetX + tolerance > xBlue && targetX - tolerance < xBlue && targetY + tolerance > yBlue && targetY - tolerance < targetY) {
+        while (true) {
             if (Math.abs(thetaDifference) > 20) {
                 if (thetaDifference < 0) {
-                    twist = 1;
+                    twist = 0.4;
                 } else {
-                    twist = -1;
+                    twist = -0.4;
                 }
-            } else {
+            } else if (Math.abs(thetaDifference) > 8) {
                 if (thetaDifference < 0) {
                     twist = 0.2;
                 } else {
                     twist = -0.2;
                 }
+            } else if (Math.abs(thetaDifference) > 2) {
+                if (thetaDifference < 0) {
+                    twist = 0.1;
+                } else {
+                    twist = -0.1;
+                }
+            } else {
+                twist = 0;
             }
+            thetaDifference = targetTheta - thetaDEG;
 
-            driveAngle = Math.atan((targetX - xBlue) / (targetY - yBlue)) - thetaDEG;
-            drive = Math.cos(driveAngle) * magnitude;
-            strafe = Math.sin(driveAngle) * magnitude;
+            double rawDriveAngle = Math.toDegrees(Math.atan(Math.abs(xBlue - targetX) / Math.abs(yBlue - targetY)));
+            if (xBlue > targetX && yBlue < targetY) {
+                rawDriveAngle = rawDriveAngle * -1;
+            } else if (xBlue > targetX && yBlue > targetY) {
+                rawDriveAngle = rawDriveAngle * -1;
+                rawDriveAngle-= 90;
+            } else if (xBlue < targetX && yBlue > targetY) {
+                rawDriveAngle+= 90;
+            }
+            driveAngle = rawDriveAngle - thetaDEG;
+            drive = -(Math.cos(Math.toRadians(driveAngle)) * magnitude);
+            strafe = Math.sin(Math.toRadians(driveAngle)) * magnitude;
 
             driveByVector(drive, strafe, twist, 1);
+            RobotLog.d(String.format("BlueX: %f BlueY: %f Theta: %f Angle: %f Drive: %f Strafe: %f Twist: %f", xBlue, yBlue, thetaDEG, driveAngle, drive, strafe, twist));
+
+            sleep(10, "coordinate drive");
+            if ((targetX + tolerance > xBlue) && (targetX - tolerance < xBlue) && (targetY + tolerance > yBlue) && (targetY - tolerance < targetY) && Math.abs(thetaDifference) < 2) {
+                break;
+            }
         }
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+        leftRear.setPower(0);
+        rightRear.setPower(0);
     }
 
     public void savePosition() {
