@@ -136,7 +136,9 @@ public class NewCameraBot extends LEDBot {
 //                    RobotLog.d(String.format("Box %d,%d has coordinates: %d, %d", i, j, boxes[i][j].x, boxes[i][j].y));
 //                }
 //            }
+            
             int viablePixels = getNumberOfViablePixels(bmp, 20, 140);
+            printAndSave(bmp, viablePixels, "full");
             RobotLog.d("Counted pixels");
             int numberOfRings = chooseRings(viablePixels);
             RobotLog.d("Determine # of rings through number of viable pixels");
@@ -240,6 +242,8 @@ public class NewCameraBot extends LEDBot {
                 int average = (red + green + blue) / 3;
                 int redGreenDifference = Math.abs(red - green);
                 int greenBlueDifference = Math.abs(green - blue);
+
+                bmp.setPixel(x, y, Color.RED);
 
                 if (red >= average && green > blue && red > green && green > red/2 && greenBlueDifference > 20 && redGreenDifference > 10
                         && ((70 < red && 220 > red && 50 < green && 150 > green) || (70 < red && 220 > red && 100 > blue))) {
