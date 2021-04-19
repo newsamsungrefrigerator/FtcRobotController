@@ -278,12 +278,18 @@ public class OdometryBot extends GyroBot {
         double strafe;
         double twist;
         double driveAngle;
-        double thetaDifference = targetTheta - thetaDEG;
-        double distanceToTarget = Math.sqrt(Math.pow(xBlue - targetX, 2) + Math.pow(yBlue - targetY, 2));
-        int slowDownDist = 8000;
-        MiniPID drivePID = new MiniPID(0.025, 0.005, 0.03);
+        double thetaDifference;
+        double distanceToTarget;
+        if (xBlue > targetX) {
+            distanceToTarget = - Math.sqrt(Math.pow(xBlue - targetX, 2) + Math.pow(yBlue - targetY, 2));
+        } else {
+            distanceToTarget = Math.sqrt(Math.pow(xBlue - targetX, 2) + Math.pow(yBlue - targetY, 2));
+        }
+        MiniPID drivePID = new MiniPID(0.05, 0, 0);//i: 0.006 d: 0.06
+        //MiniPID yPID = new MiniPID(0.025, 0.005, 0.1);
         MiniPID twistPID = new MiniPID(0.025, 0.005, 0.03);
         drivePID.setOutputLimits(1);
+        //yPID.setOutputLimits(1);
         twistPID.setOutputLimits(1);
         RobotLog.d(String.format("BlueX: %f BlueY: %f Theta: %f", xBlue, yBlue, thetaDEG));
         while (true) {
@@ -291,15 +297,23 @@ public class OdometryBot extends GyroBot {
             twist = - twistPID.getOutput(thetaDEG, targetTheta);
             double rawDriveAngle = Math.toDegrees(Math.atan2(targetX - xBlue, targetY - yBlue));
             driveAngle = rawDriveAngle - thetaDEG;
-            magnitude = drivePID.getOutput(distanceToTarget, 0);
-            distanceToTarget = Math.sqrt(Math.pow(xBlue - targetX, 2) + Math.pow(yBlue - targetY, 2));
+            magnitude = Math.min(1.0, Math.abs(drivePID.getOutput(distanceToTarget/5000, 0))*2);
+            if (distanceToTarget < 10000) {
+                magnitude = Math.min(1.0, Math.abs(drivePID.getOutput(distanceToTarget/5000, 0))*6);
+            }
+            if (xBlue > targetX) {
+                distanceToTarget = - Math.sqrt(Math.pow(xBlue - targetX, 2) + Math.pow(yBlue - targetY, 2));
+            } else {
+                distanceToTarget = Math.sqrt(Math.pow(xBlue - targetX, 2) + Math.pow(yBlue - targetY, 2));
+            }
             drive = -(Math.cos(Math.toRadians(driveAngle)) * magnitude);
             strafe = Math.sin(Math.toRadians(driveAngle)) * magnitude;
 
             driveByVector(drive, strafe, twist, 1);
             RobotLog.d(String.format("BlueX: %f BlueY: %f Theta: %f Angle: %f Drive: %f Strafe: %f Twist: %f", xBlue, yBlue, thetaDEG, driveAngle, drive, strafe, twist));
+            RobotLog.d(String.format("Distance: %f Magnitude: %f", distanceToTarget, magnitude));
 
-            sleep(10, "coordinate drive");
+            sleep(5, "coordinate drive");
             if ((targetX + tolerance > xBlue) && (targetX - tolerance < xBlue) && (targetY + tolerance > yBlue) && (targetY - tolerance < yBlue) && Math.abs(thetaDifference) < 2) {
                 break;
             }
