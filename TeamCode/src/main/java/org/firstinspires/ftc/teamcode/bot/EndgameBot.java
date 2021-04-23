@@ -67,4 +67,8 @@ public class EndgameBot extends LEDBot{
         }
     }
 
+    public void goToShoot(boolean start){
+
+    }
+
 }
