@@ -142,11 +142,11 @@ public class OdometryBot extends GyroBot {
         if (button) {
             vLOffset = leftFront.getCurrentPosition();
             vROffset = rightFront.getCurrentPosition();
-            hOffset = horizontal.getCurrentPosition();
+            hOffset = horizontal.getCurrentPosition() + 79000;
 
             previousVL = 0;
             previousVR = 0;
-            previousH = 0;
+            previousH = 79000;
 
             thetaDEG = 0;
         }

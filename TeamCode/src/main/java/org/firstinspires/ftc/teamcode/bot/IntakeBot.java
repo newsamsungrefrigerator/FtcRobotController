@@ -10,13 +10,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class IntakeBot extends OdometryBot{
     public DcMotor intakeMotor = null;
     public Servo intakeArm = null;
-    public Servo intakeHeight = null;
+    public Servo intakeHeight1 = null;
+    public Servo intakeHeight2 = null;
 
     final double feederDown = 0.19;
     final double feederShake = 0.29;
     final double feederUp = 0.50;
 
-    final double heightHigh = 0.28;
+    final double heightHigh = 0.265;
     final double heightLow = 0.305;
 
     public boolean isDown = true;
@@ -40,8 +41,10 @@ public class IntakeBot extends OdometryBot{
         intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeArm = hwMap.get(Servo.class, "intakeArm");
         intakeArm.setPosition(feederDown);
-        intakeHeight = hwMap.get(Servo.class, "intakeHeight");
-        intakeHeight.setPosition(heightHigh);
+        intakeHeight1 = hwMap.get(Servo.class, "intakeHeight1");
+        intakeHeight1.setPosition(heightHigh);
+        intakeHeight2 = hwMap.get(Servo.class, "intakeHeight2");
+        intakeHeight2.setPosition(heightHigh);
     }
 
     public void startIntake() {
@@ -111,10 +114,12 @@ public class IntakeBot extends OdometryBot{
     }
 
     public void raiseIntake() {
-        intakeHeight.setPosition(heightHigh);
+        intakeHeight1.setPosition(heightHigh);
+        intakeHeight2.setPosition(heightHigh);
     }
     public void lowerIntake() {
-        intakeHeight.setPosition(heightLow);
+        intakeHeight1.setPosition(heightLow);
+        intakeHeight2.setPosition(heightLow);
     }
 
 }
