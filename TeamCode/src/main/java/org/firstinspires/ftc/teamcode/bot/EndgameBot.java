@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class EndgameBot extends LEDBot{
 
+    final double optimalDistance = 145000;
+
     public EndgameBot(LinearOpMode opMode) {
         super(opMode);
     }
@@ -67,8 +69,12 @@ public class EndgameBot extends LEDBot{
         }
     }
 
-    public void goToShoot(boolean start){
-
+    public void goToShoot(){
+        toggleFeeder(true);
+        double angleToGoal = Math.toDegrees(Math.atan2(towerGoalX - xBlue, towerGoalY - yBlue));
+        double xTarget = (Math.cos(angleToGoal) * optimalDistance) + towerGoalX;
+        double yTarget = (Math.sin(angleToGoal) * optimalDistance) + towerGoalY;
+        driveToCoordinate(xTarget, yTarget, angleToGoal, 1000, 0.8);
     }
 
 }

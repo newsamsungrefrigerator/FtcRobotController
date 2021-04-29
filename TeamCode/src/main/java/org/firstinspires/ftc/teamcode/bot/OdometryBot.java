@@ -273,17 +273,19 @@ public class OdometryBot extends GyroBot {
         sleep(500, "after driving wait");
     }
 
-    public void driveToCoordinate(double targetX, double targetY, double targetTheta, int tolerance, double magnitude) {
+    public void driveToCoordinate(double xTarget, double yTarget, double targetTheta, int tolerance, double magnitude) {
         double drive;
         double strafe;
         double twist;
         double driveAngle;
         double thetaDifference;
         double distanceToTarget;
-        if (xBlue > targetX) {
-            distanceToTarget = - Math.sqrt(Math.pow(xBlue - targetX, 2) + Math.pow(yBlue - targetY, 2));
+        long startTime = System.currentTimeMillis();
+        long elapsedTime = 0;
+        if (xBlue > xTarget) {
+            distanceToTarget = - Math.sqrt(Math.pow(xBlue - xTarget, 2) + Math.pow(yBlue - yTarget, 2));
         } else {
-            distanceToTarget = Math.sqrt(Math.pow(xBlue - targetX, 2) + Math.pow(yBlue - targetY, 2));
+            distanceToTarget = Math.sqrt(Math.pow(xBlue - xTarget, 2) + Math.pow(yBlue - yTarget, 2));
         }
         MiniPID drivePID = new MiniPID(0.05, 0, 0);//i: 0.006 d: 0.06
         //MiniPID yPID = new MiniPID(0.025, 0.005, 0.1);
@@ -295,16 +297,16 @@ public class OdometryBot extends GyroBot {
         while (true) {
             thetaDifference = targetTheta - thetaDEG;
             twist = - twistPID.getOutput(thetaDEG, targetTheta);
-            double rawDriveAngle = Math.toDegrees(Math.atan2(targetX - xBlue, targetY - yBlue));
+            double rawDriveAngle = Math.toDegrees(Math.atan2(xTarget - xBlue, yTarget - yBlue));
             driveAngle = rawDriveAngle - thetaDEG;
             magnitude = Math.min(1.0, Math.abs(drivePID.getOutput(distanceToTarget/5000, 0))*2);
             if (distanceToTarget < 10000) {
                 magnitude = Math.min(1.0, Math.abs(drivePID.getOutput(distanceToTarget/5000, 0))*6);
             }
-            if (xBlue > targetX) {
-                distanceToTarget = - Math.sqrt(Math.pow(xBlue - targetX, 2) + Math.pow(yBlue - targetY, 2));
+            if (xBlue > xTarget) {
+                distanceToTarget = - Math.sqrt(Math.pow(xBlue - xTarget, 2) + Math.pow(yBlue - yTarget, 2));
             } else {
-                distanceToTarget = Math.sqrt(Math.pow(xBlue - targetX, 2) + Math.pow(yBlue - targetY, 2));
+                distanceToTarget = Math.sqrt(Math.pow(xBlue - xTarget, 2) + Math.pow(yBlue - yTarget, 2));
             }
             drive = -(Math.cos(Math.toRadians(driveAngle)) * magnitude);
             strafe = Math.sin(Math.toRadians(driveAngle)) * magnitude;
@@ -314,12 +316,16 @@ public class OdometryBot extends GyroBot {
             RobotLog.d(String.format("Distance: %f Magnitude: %f", distanceToTarget, magnitude));
 
             sleep(5, "coordinate drive");
-            if ((targetX + tolerance > xBlue) && (targetX - tolerance < xBlue) && (targetY + tolerance > yBlue) && (targetY - tolerance < yBlue) && Math.abs(thetaDifference) < 2) {
+            if ((xTarget + tolerance > xBlue) && (xTarget - tolerance < xBlue) && (yTarget + tolerance > yBlue) && (yTarget - tolerance < yBlue) && Math.abs(thetaDifference) < 2) {
                 break;
             }
 //            if ((targetX + slowDownDist > xBlue) && (targetX - slowDownDist < xBlue) && (targetY + slowDownDist > yBlue) && (targetY - slowDownDist < yBlue)) {
 //                magnitude = 0.16;
 //            }
+            elapsedTime = System.currentTimeMillis() - startTime;
+            if (elapsedTime > 10000) {
+                break;
+            }
         }
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

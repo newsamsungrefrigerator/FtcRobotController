@@ -43,7 +43,6 @@ public class Auto2 extends LinearOpMode {
         robot.launchRing(true);
         robot.sleep(200);
 
-
         if (numberOfRings == 0) {
             robot.toggleFeeder(true);
             robot.toggleShooter(false);
@@ -75,13 +74,15 @@ public class Auto2 extends LinearOpMode {
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 10000, 0.5, false, false);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 15000, 0.5, false, false);
         } else if (numberOfRings == 1) {
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 3000, 0.5, false, false);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 18000, 0.5, false, false);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 3000, 0.5, false, false);
             robot.lowerIntake();
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 2000, 0.5, false, false);
+            robot.startIntake();
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 5000, 0.5, false, false);
             robot.raiseIntake();
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 5000, 0.5, false, false);
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 3000, 0.5, false, false);
+            robot.stopIntake();
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 8000, 0.5, false, false);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 18000, 0.5, false, false);
             robot.goBacktoStartAngle();
             robot.launchRing(true);
             robot.toggleFeeder(true);
@@ -114,11 +115,13 @@ public class Auto2 extends LinearOpMode {
             //park on line
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 5000, 1, false, false);
         } else if (numberOfRings == 4) {
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 3000, 0.5, false, false);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 18000, 0.5, false, false);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 3000, 0.5, false, false);
             robot.lowerIntake();
+            robot.startIntake();
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 4000, 0.5, false, false);
             robot.raiseIntake();
+            robot.stopIntake();
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 7000, 0.5, false, false);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 3000, 0.5, false, false);
             robot.goBacktoStartAngle();

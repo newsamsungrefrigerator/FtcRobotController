@@ -3,14 +3,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.bot.EndgameBot;
-import org.firstinspires.ftc.teamcode.bot.IntakeBot;
-import org.firstinspires.ftc.teamcode.bot.LEDBot;
-import org.firstinspires.ftc.teamcode.bot.OdometryBot;
-import org.firstinspires.ftc.teamcode.bot.ShooterBot;
-import org.firstinspires.ftc.teamcode.bot.WobbleGoalBot;
 
 /**
  * Mecanum teleop (with an optional arcade mode)
@@ -46,18 +40,20 @@ public class ManualDriveOpMode extends LinearOpMode {
             robot.directionToReverse(gamepad1.dpad_right);
             robot.lineUpShot(gamepad1.dpad_up, robot.towerGoalY, robot.yBlue, robot.shootingDistance);
             robot.endgame(gamepad2.y);
-            //robot.resetOdometry(gamepad2.b);
+            robot.resetOdometry(gamepad2.dpad_up);
+            if (gamepad2.dpad_down) {
+                robot.goToShoot();
+            }
             if (gamepad2.x) {
                 robot.resetAngle();
             }
-            if (robot.isForward) {
-                //telemetry.addData("Intake Direction: Forward", true);
-            } else {
-                //telemetry.addData("Intake Direction: Backward", true);
-            }
+//            if (robot.isForward) {
+//                telemetry.addData("Intake Direction: Forward", true);
+//            } else {
+//                telemetry.addData("Intake Direction: Backward", true);
+//            }
 
             robot.onLoop(50, "manual drive");
-            robot.getAngle();
         }
         robot.close();
     }
