@@ -17,12 +17,13 @@ public class Auto2 extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         waitForStart();
+        robot.setArmPositionNoWait(-390);
         robot.lowerIntake();
         robot.sleep(100);
-        robot.highShooterSpeedThreshold = 1.59;
-        robot.lowShooterSpeedThreshold = 1.585;
-        robot.highShooterSpeed = -0.9;
-        robot.lowShooterSpeed = -0.285;
+        robot.highShooterSpeedThreshold = 1.587;
+        robot.lowShooterSpeedThreshold = 1.582;
+        robot.highShooterSpeed = -0.78;
+        robot.lowShooterSpeed = -0.4;
         robot.toggleFeeder(true);
         robot.toggleShooter(true);
         robot.raiseIntake();
@@ -30,16 +31,15 @@ public class Auto2 extends LinearOpMode {
         robot.sleep(500);
         //telemetry.addData("Number of rings:", numberOfRings);
         //telemetry.update();
-        robot.setArmPositionNoWait(-390);
-
-        robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 39000, 1, false, true);
+        robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 40000, 1, false, true);
         robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 15000, 0.8, false, false);
         robot.goBacktoStartAngle();
 
-        robot.sleep(400);
+        robot.waitForThreshold(1.587, 1.592);
         robot.launchRing(true);
         robot.launchRing(true);
-        robot.sleep(300);
+        robot.sleep(100);
+        robot.waitForThreshold(1.587, 1.592);
         robot.launchRing(true);
         robot.sleep(100);
         robot.toggleFeeder(true);
@@ -49,7 +49,7 @@ public class Auto2 extends LinearOpMode {
             //arm to drop position
             robot.setArmPositionNoWait(-750);
             //drive to drop zone
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 46000, 1, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 45000, 1, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 45000, 0.8, false, false);
             //drop wobble goal
             robot.sleep(500, "before drop");
@@ -74,36 +74,40 @@ public class Auto2 extends LinearOpMode {
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 10000, 0.5, false, false);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 15000, 0.5, false, false);
         } else if (numberOfRings == 1) {
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 8000, 0.4, false, false);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 8500, 0.4, false, false);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 1000, 0.3, false, false);
             robot.lowerIntake();
             robot.startIntake();
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 7000, 0.3, false, false);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 12000, 0.3, false, false);
             robot.raiseIntake();
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 7000, 0.5, false, false);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 10700, 0.5, false, false);
+
+            robot.sleep(400);
             robot.stopIntake();
             robot.toggleFeeder(true);
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 7000, 0.5, false, false);
+
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 10000, 0.6, false, false);
             robot.goBacktoStartAngle();
-            robot.waitForThreshold();
+            robot.waitForThreshold(1.585, 1.595);
             robot.launchRing(true);
             robot.sleep(100);
             robot.toggleFeeder(true);
             //arm to drop position
             robot.setArmPositionNoWait(-750);
             //drive to drop zone
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 81000, 0.7, false, false);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 78000, 0.9, false, true);
             robot.toggleShooter(false);
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 3000, 0.6, false, false);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 4800, 0.6, false, false);
+            robot.goBacktoStartAngle();
             //drop wobble goal
             robot.sleep(500, "before drop");
             robot.openPinch();
             robot.sleep(500, "after drop");
             //drive to pickup wobble goal
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 8000, 0.6, false, false);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 2000, 0.5, false, false);
             robot.setArmPositionNoWait(-900);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 120000, 1, false, true);
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 22000, 0.8, false, false);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 118000, 1, false, true);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 12000, 0.6, false, false);
             //pickup wobble goal
             robot.closePinch();
             robot.sleep(500, "after pickup");
@@ -137,7 +141,7 @@ public class Auto2 extends LinearOpMode {
             robot.setArmPositionNoWait(-750);
             //drive to drop zone
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 10000, 0.8, false, false);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 121000, 1, false, true);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 120000, 1, false, true);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 55000, 0.9, false, false);
             //drop wobble goal
             robot.openPinch();

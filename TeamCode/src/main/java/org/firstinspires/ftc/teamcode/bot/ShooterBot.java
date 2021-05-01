@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Date;
 
+import com.stormbots.MiniPID;
+
 public class ShooterBot extends IntakeBot {
     public DcMotor shooter = null;
     public Servo pusher = null;
@@ -43,6 +45,8 @@ public class ShooterBot extends IntakeBot {
 
     OutputStreamWriter shooterWriter;
 
+    MiniPID shooterPID = new MiniPID(0.5, 0.2, 0.4);
+
     public ShooterBot(LinearOpMode opMode) {
         super(opMode);
     }
@@ -54,6 +58,7 @@ public class ShooterBot extends IntakeBot {
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pusher = hwMap.get(Servo.class, "Pusher");
         pusher.setPosition(pusherRetracted);
+        shooterPID.setOutputLimits(0.9);
         try {
             shooterWriter = new FileWriter("/sdcard/FIRST/shooterlog_" + java.text.DateFormat.getDateTimeInstance().format(new Date()) + ".csv", true);
         } catch (IOException e) {
@@ -86,14 +91,16 @@ public class ShooterBot extends IntakeBot {
             //calculate current shooter speed
             currentShooterSpeed = positionDifference / (double)timeDifference;
             //check if current speed is less than or high than the two thresholds
-            if (currentShooterSpeed < lowShooterSpeedThreshold) {
-                //increase shooter power to compensate
-                shooter.setPower(highShooterSpeed);
-            }
-            if (currentShooterSpeed > highShooterSpeedThreshold) {
-                //decrease shooter power to compensate
-                shooter.setPower(lowShooterSpeed);
-            }
+            double adjustSpeed = shooterPID.getOutput(currentShooterSpeed, 1.59);
+            shooter.setPower(- adjustSpeed);
+//            if (currentShooterSpeed < lowShooterSpeedThreshold) {
+//                //increase shooter power to compensate
+//                shooter.setPower(highShooterSpeed);
+//            }
+//            if (currentShooterSpeed > highShooterSpeedThreshold) {
+//                //decrease shooter power to compensate
+//                shooter.setPower(lowShooterSpeed);
+//            }
             //save current time and position for next cycle
             lastTime = currentTime;
             lastPosition = currentPosition;
@@ -104,7 +111,7 @@ public class ShooterBot extends IntakeBot {
             opMode.telemetry.update();
             try {
                 RobotLog.d("shooterWriter.write");
-                shooterWriter.write(String.format("%d, %f\n", currentTime, currentShooterSpeed));
+                shooterWriter.write(String.format("%d, %f, %f\n", currentTime, currentShooterSpeed, adjustSpeed));
             } catch (IOException e) {
                 throw new RuntimeException("shooter log file writer write failed: " + e.toString());
             }
@@ -114,8 +121,13 @@ public class ShooterBot extends IntakeBot {
     }
 
     public void waitForThreshold() {
-        while (currentShooterSpeed > lowShooterSpeedThreshold) {
-            onLoop(50, "wait between shots");
+        while (currentShooterSpeed < lowShooterSpeedThreshold || currentShooterSpeed > highShooterSpeedThreshold) {
+            onLoop(20, "wait between shots");
+        }
+    }
+    public void waitForThreshold(double low, double high) {
+        while (currentShooterSpeed < low || currentShooterSpeed > high) {
+            onLoop(20, "wait between shots");
         }
     }
 

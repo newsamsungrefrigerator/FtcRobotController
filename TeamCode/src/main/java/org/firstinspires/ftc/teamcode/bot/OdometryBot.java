@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.bot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.robot.Robot;
@@ -182,7 +183,7 @@ public class OdometryBot extends GyroBot {
         angle = getAngle();
         double adjustPower = pid.getOutput(angle, originalAngle);
         int currentPosition = horizontal.getCurrentPosition();
-        while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
+        while (Math.abs(currentPosition - startingPosition) < distanceTicks && this.opMode.opModeIsActive()) {
             onLoop(60, "gyro drive 1");
             RobotLog.d(String.format("driveStraightByGyro : Current: %d - Start:%d > 10 => power: %.3f  +/- PID(source: %.3f, target: %.3f) = adjustPower: %.3f", currentPosition, startingPosition, maxPower, angle, originalAngle, adjustPower));
             if (Math.abs(currentPosition - startingPosition) > distanceTicks - (20000 * increment) && decelerate) {
@@ -239,7 +240,7 @@ public class OdometryBot extends GyroBot {
         leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         int currentPosition = horizontal.getCurrentPosition();
-        while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
+        while (Math.abs(currentPosition - startingPosition) < distanceTicks && this.opMode.opModeIsActive()) {
             onLoop(60, "gyro drive 1");
             if (Math.abs(currentPosition - startingPosition) > distanceTicks - (40000 * increment) && decelerate) {
                 powerMultiplier = powerMultiplier * increment;
@@ -294,7 +295,7 @@ public class OdometryBot extends GyroBot {
         //yPID.setOutputLimits(1);
         twistPID.setOutputLimits(1);
         RobotLog.d(String.format("BlueX: %f BlueY: %f Theta: %f", xBlue, yBlue, thetaDEG));
-        while (true) {
+        while (this.opMode.opModeIsActive()) {
             thetaDifference = targetTheta - thetaDEG;
             twist = - twistPID.getOutput(thetaDEG, targetTheta);
             double rawDriveAngle = Math.toDegrees(Math.atan2(xTarget - xBlue, yTarget - yBlue));

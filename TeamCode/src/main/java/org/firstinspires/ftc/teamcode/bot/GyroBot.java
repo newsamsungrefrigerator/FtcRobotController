@@ -84,7 +84,7 @@ public class GyroBot extends FourWheelDriveBot {
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         double delta = getDeltaAngle();
 
-        while (Math.abs(delta) > 2) {
+        while (Math.abs(delta) > 2 && this.opMode.opModeIsActive()) {
             onLoop("goBacktoStartAngle");
             if (delta < 0) {
                 // turn clockwize
@@ -144,7 +144,7 @@ public class GyroBot extends FourWheelDriveBot {
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         double delta = getAngle() - targetAngle;
 
-        while (Math.abs(delta) > 1) {
+        while (Math.abs(delta) > 1 && this.opMode.opModeIsActive()) {
             onLoop(50, "goBacktoStartAngle");
             if (delta < 0) {
                 // turn clockwize
@@ -179,7 +179,7 @@ public class GyroBot extends FourWheelDriveBot {
         double angle;
         angle = getAngle();
         double power = pid.getOutput(angle, targetAngle);
-        while (Math.abs(power) > 0.1) {
+        while (Math.abs(power) > 0.1 && this.opMode.opModeIsActive()) {
             onLoop("goBacktoStartAnglePID");
             RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, targetAngle, power));
             leftFront.setPower(-power);
@@ -230,7 +230,7 @@ public class GyroBot extends FourWheelDriveBot {
 
         double delta = getAngle() - targetAngle;
 
-        while (Math.abs(delta) > 1) {
+        while (Math.abs(delta) > 1 && this.opMode.opModeIsActive()) {
             onLoop(30, "goBacktoStartAngle");
             if (delta < 0) {
                 // turn clockwize
@@ -281,7 +281,7 @@ public class GyroBot extends FourWheelDriveBot {
         angle = getAngle();
         double adjustPower = pid.getOutput(angle, originalAngle);
         int currentPosition = leftFront.getCurrentPosition();
-        while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
+        while (Math.abs(currentPosition - startingPosition) < distanceTicks && this.opMode.opModeIsActive()) {
             onLoop(30, "gyro drive 1");
             RobotLog.d(String.format("driveStraightByGyro : Current: %d - Start:%d > 10 => power: %.3f  +/- PID(source: %.3f, target: %.3f) = adjustPower: %.3f", currentPosition, startingPosition, maxPower, angle, originalAngle, adjustPower));
             switch (direction){
@@ -358,7 +358,7 @@ public class GyroBot extends FourWheelDriveBot {
         angle = getAngle();
         double adjustPower = pid.getOutput(angle, originalAngle);
         int currentPosition = leftFront.getCurrentPosition();
-        while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
+        while (Math.abs(currentPosition - startingPosition) < distanceTicks && this.opMode.opModeIsActive()) {
             onLoop(60, "gyro drive 1");
             RobotLog.d(String.format("driveStraightByGyro : Current: %d - Start:%d > 10 => power: %.3f  +/- PID(source: %.3f, target: %.3f) = adjustPower: %.3f", currentPosition, startingPosition, maxPower, angle, originalAngle, adjustPower));
             if (Math.abs(currentPosition - startingPosition) > distanceTicks - (40000 * increment) && decelerate) {
@@ -417,7 +417,7 @@ public class GyroBot extends FourWheelDriveBot {
         leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         int currentPosition = leftFront.getCurrentPosition();
-        while (Math.abs(currentPosition - startingPosition) < distanceTicks) {
+        while (Math.abs(currentPosition - startingPosition) < distanceTicks && this.opMode.opModeIsActive()) {
             onLoop(60, "gyro drive 1");
             if (Math.abs(currentPosition - startingPosition) > distanceTicks - (40000 * increment) && decelerate) {
                 powerMultiplier = powerMultiplier * increment;
