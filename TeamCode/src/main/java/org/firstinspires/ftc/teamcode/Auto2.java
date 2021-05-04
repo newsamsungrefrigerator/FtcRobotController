@@ -35,11 +35,11 @@ public class Auto2 extends LinearOpMode {
         robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 15000, 0.8, false, false);
         robot.goBacktoStartAngle();
 
-        robot.waitForThreshold(1.587, 1.592);
+        robot.waitForThreshold(1.586, 1.596);
         robot.launchRing(true);
         robot.launchRing(true);
-        robot.sleep(100);
-        robot.waitForThreshold(1.587, 1.592);
+        //robot.sleep(300);
+        //robot.waitForThreshold(1.587, 1.592);
         robot.launchRing(true);
         robot.sleep(100);
         robot.toggleFeeder(true);
@@ -47,12 +47,13 @@ public class Auto2 extends LinearOpMode {
         if (numberOfRings == 0) {
             robot.toggleShooter(false);
             //arm to drop position
-            robot.setArmPositionNoWait(-750);
+            robot.setArmPositionNoWait(-470);
             //drive to drop zone
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 45000, 1, false, true);
+            robot.setArmPositionNoWait(-750);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 45000, 0.8, false, false);
             //drop wobble goal
-            robot.sleep(500, "before drop");
+            robot.sleep(200, "before drop");
             robot.openPinch();
             robot.sleep(500, "after drop");
             //drive to pickup wobble goal
@@ -69,7 +70,7 @@ public class Auto2 extends LinearOpMode {
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 7000, 0.7, false, false);
             //drop wobble goal
             robot.openPinch();
-            robot.sleep(150, "after drop");
+            robot.sleep(300, "after drop");
             //park on line
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 10000, 0.5, false, false);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 15000, 0.5, false, false);
@@ -88,7 +89,7 @@ public class Auto2 extends LinearOpMode {
 
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 10000, 0.6, false, false);
             robot.goBacktoStartAngle();
-            robot.waitForThreshold(1.585, 1.595);
+            robot.waitForThreshold(1.586, 1.598);
             robot.launchRing(true);
             robot.sleep(100);
             robot.toggleFeeder(true);

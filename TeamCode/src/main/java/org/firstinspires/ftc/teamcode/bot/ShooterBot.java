@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.bot;
 
+
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -45,7 +47,7 @@ public class ShooterBot extends IntakeBot {
 
     OutputStreamWriter shooterWriter;
 
-    MiniPID shooterPID = new MiniPID(0.5, 0.2, 0.4);
+    MiniPID shooterPID = new MiniPID(0.6, 0.2, 0.5);
 
     public ShooterBot(LinearOpMode opMode) {
         super(opMode);
@@ -91,7 +93,7 @@ public class ShooterBot extends IntakeBot {
             //calculate current shooter speed
             currentShooterSpeed = positionDifference / (double)timeDifference;
             //check if current speed is less than or high than the two thresholds
-            double adjustSpeed = shooterPID.getOutput(currentShooterSpeed, 1.59);
+            double adjustSpeed = shooterPID.getOutput(currentShooterSpeed, 1.591);
             shooter.setPower(- adjustSpeed);
 //            if (currentShooterSpeed < lowShooterSpeedThreshold) {
 //                //increase shooter power to compensate
