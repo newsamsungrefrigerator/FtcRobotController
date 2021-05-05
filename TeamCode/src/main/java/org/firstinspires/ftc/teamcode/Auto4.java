@@ -2,14 +2,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.bot.NewCameraBot;
 
 
-@Autonomous(name="Auto 2 (HG, 2 WG)", group="Auto")
+@Autonomous(name="Auto 4 (HG, 2 WG)", group="Auto")
 
-public class Auto2 extends LinearOpMode {
+public class Auto4 extends LinearOpMode {
 
     protected NewCameraBot robot = new NewCameraBot(this);
 
@@ -177,23 +176,7 @@ public class Auto2 extends LinearOpMode {
             //drop wobble goal
             robot.openPinch();
             robot.sleep(100, "after drop");
-            //drive to pickup wobble goal
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 40000, 1, false, false, 250);
-            robot.setArmPositionNoWait(-900);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 163500, 1, false, true, 250);
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 15000, 1, false, false, 250);
-            //pickup wobble goal
-            robot.closePinch();
-            robot.sleep(400, "after pickup");
-            robot.setArmPositionNoWait(-750);
-            //drive back to drop zone
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 7000, 0.9, false, false, 250);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 162000, 1, false, true, 250);
-            //drop wobble goal
-            robot.openPinch();
-            robot.sleep(150, "after drop");
-            //park on line
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 45000, 1, false, true, 250);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 45000, 1, false, true, 0);
         }
         robot.savePosition();
         robot.close();

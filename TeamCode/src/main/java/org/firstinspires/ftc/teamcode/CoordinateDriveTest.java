@@ -17,7 +17,7 @@ public class CoordinateDriveTest extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         waitForStart();
-        robot.driveToCoordinate(40000, 80000, 90, 1000, 0.8);
+        robot.driveToCoordinate(80000, 120000, 90, 1000, 0.8);
         robot.switchPattern(0.7145);
         sleep(10000);
     }

@@ -56,7 +56,7 @@ public class IntakeBot extends OdometryBot{
 
     public void toggleFeeder(boolean button) {
         timeSinceToggle2 = System.currentTimeMillis() - lastToggleDone2;
-        if (button && timeSinceToggle2 > 400) {
+        if (button && timeSinceToggle2 > 290) {
             if (isDown) {
                 intakeArm.setPosition(feederUp);
                 isDown = false;

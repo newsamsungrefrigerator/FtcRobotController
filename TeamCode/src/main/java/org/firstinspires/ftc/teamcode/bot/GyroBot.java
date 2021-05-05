@@ -119,7 +119,7 @@ public class GyroBot extends FourWheelDriveBot {
         double angle;
         angle = getAngle();
         double power = pid.getOutput(angle, startAngle);
-        while (Math.abs(power) > 0.06) {
+        while (Math.abs(power) > 0.06 && this.opMode.opModeIsActive()) {
             onLoop("goBacktoStartAnglePID");
             RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, startAngle, power));
             leftFront.setPower(-power);
@@ -329,6 +329,10 @@ public class GyroBot extends FourWheelDriveBot {
     }
 
     public void driveByGyroWithEncodersVertical(int direction, double distance, double maxPower, boolean useCurrentAngle, boolean decelerate) {
+        driveByGyroWithEncodersVertical(direction, distance, maxPower, useCurrentAngle, decelerate, 500);
+    }
+
+    public void driveByGyroWithEncodersVertical(int direction, double distance, double maxPower, boolean useCurrentAngle, boolean decelerate, int wait) {
         if (direction != DIRECTION_FORWARD && direction != DIRECTION_BACKWARD && direction != DIRECTION_LEFT && direction != DIRECTION_RIGHT){
             String msg = String.format("Unaccepted direction value (%d) for driveStraightByGyro()", direction);
             print(msg);
@@ -393,10 +397,8 @@ public class GyroBot extends FourWheelDriveBot {
         rightFront.setPower(0);
         leftRear.setPower(0);
         rightRear.setPower(0);
-        sleep(500, "after gyro wait");
+        sleep(wait, "after gyro wait");
     }
-
-
 
     public void driveWithEncodersVertical(int direction, double distance, double maxPower, boolean decelerate) {
         if (direction != DIRECTION_FORWARD && direction != DIRECTION_BACKWARD && direction != DIRECTION_LEFT && direction != DIRECTION_RIGHT){

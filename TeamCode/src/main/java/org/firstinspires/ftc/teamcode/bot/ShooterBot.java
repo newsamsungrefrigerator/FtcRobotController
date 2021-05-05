@@ -33,6 +33,7 @@ public class ShooterBot extends IntakeBot {
     //change these values to control what speed the shooter spins around
     public double highShooterSpeedThreshold = 1.385; //1.4
     public double lowShooterSpeedThreshold = 1.38; //1.395
+    public double setShooterSpeed = 1.591;
 
     //the two speeds the shooter switches between to control itself
     public double highShooterSpeed = -0.7;
@@ -93,7 +94,7 @@ public class ShooterBot extends IntakeBot {
             //calculate current shooter speed
             currentShooterSpeed = positionDifference / (double)timeDifference;
             //check if current speed is less than or high than the two thresholds
-            double adjustSpeed = shooterPID.getOutput(currentShooterSpeed, 1.591);
+            double adjustSpeed = shooterPID.getOutput(currentShooterSpeed, setShooterSpeed);
             shooter.setPower(- adjustSpeed);
 //            if (currentShooterSpeed < lowShooterSpeedThreshold) {
 //                //increase shooter power to compensate
