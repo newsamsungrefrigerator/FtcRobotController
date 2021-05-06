@@ -172,7 +172,7 @@ public class Auto4 extends LinearOpMode {
             //robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 15000, 1, false, false);
             robot.toggleShooter(false);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 115000, 1, false, true, 250);
-            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 33000, 1, false, false, 250);
+            robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 26000, 1, false, false, 250);
             //drop wobble goal
             robot.openPinch();
             robot.sleep(100, "after drop");

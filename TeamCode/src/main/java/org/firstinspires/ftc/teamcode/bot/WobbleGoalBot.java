@@ -12,7 +12,7 @@ public class WobbleGoalBot extends ShooterBot {
 
     //two positions of the wobble servo
     final double wobblePinched = 0.9;
-    final double wobbleOpened = 0.4;
+    final double wobbleOpened = 0.48;
 
     final int[] armPositions = new int[]{50, 300, 700};
     int armPosIndex = 0;
