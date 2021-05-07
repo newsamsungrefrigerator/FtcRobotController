@@ -80,7 +80,7 @@ public class ShooterBot extends IntakeBot {
     public void spinShooter() {
         if (!isAuto) {
             highShooterSpeedThreshold = 1.6;
-            lowShooterSpeedThreshold = 1.595;
+            lowShooterSpeedThreshold = 1.582;
             highShooterSpeed = -0.9;
             lowShooterSpeed = -0.285;
         }

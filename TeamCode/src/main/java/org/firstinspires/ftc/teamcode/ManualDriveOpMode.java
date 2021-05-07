@@ -16,6 +16,9 @@ import org.firstinspires.ftc.teamcode.bot.EndgameBot;
  */
 @TeleOp(name = "Manual Drive")
 public class ManualDriveOpMode extends LinearOpMode {
+
+    int count = 0;
+
     private EndgameBot robot = new EndgameBot(this);
 
     @Override
@@ -24,9 +27,12 @@ public class ManualDriveOpMode extends LinearOpMode {
         robot.readPosition();
         robot.startAngle = robot.savedStartAngle;
         robot.isAuto = false;
+        robot.setShooterSpeed = 1.591;
         waitForStart();
         while (opModeIsActive()) {
-            robot.driveByHand(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_button);
+            if (!robot.isCoordinateDriving) {
+                robot.driveByHand(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_button);
+            }
             if (!robot.isDown) {
                 robot.launchRing(gamepad1.right_bumper);
             }
@@ -42,8 +48,13 @@ public class ManualDriveOpMode extends LinearOpMode {
             robot.endgame(gamepad2.y);
             robot.resetOdometry(gamepad2.dpad_up);
             if (gamepad2.dpad_down) {
-                robot.goToShoot();
+                robot.isCoordinateDriving = true;
+                robot.goToShoot(count);
+            } else {
+                robot.isCoordinateDriving = false;
+                count = 0;
             }
+            count++;
             if (gamepad2.x) {
                 robot.resetAngle();
             }
@@ -53,7 +64,7 @@ public class ManualDriveOpMode extends LinearOpMode {
 //                telemetry.addData("Intake Direction: Backward", true);
 //            }
 
-            robot.onLoop(50, "manual drive");
+            robot.onLoop(15, "manual drive");
         }
         robot.close();
     }

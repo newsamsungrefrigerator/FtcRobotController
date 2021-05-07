@@ -11,7 +11,7 @@ public class LEDBot extends WobbleGoalBot{
     public double shootingDistance = 0;
 
     final double defaultPattern = 0.2525; //rainbow, glitter
-    public final int towerGoalX = -36000;
+    public final int towerGoalX = 36000;
     public final int towerGoalY = -229000; //124000 108331
 
     final double shootingDistanceFar = 155000;

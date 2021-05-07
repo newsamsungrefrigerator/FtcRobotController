@@ -5,11 +5,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.RobotLog;
 
 
 public class EndgameBot extends LEDBot{
 
-    final double optimalDistance = 145000;
+    final double optimalDistance = 180000;
+
+    double angleToGoal;
+    double xTarget;
+    double yTarget;
 
     public EndgameBot(LinearOpMode opMode) {
         super(opMode);
@@ -72,12 +77,15 @@ public class EndgameBot extends LEDBot{
         }
     }
 
-    public void goToShoot(){
-        toggleFeeder(true);
-        double angleToGoal = Math.toDegrees(Math.atan2(towerGoalX - xBlue, towerGoalY - yBlue));
-        double xTarget = (Math.cos(angleToGoal) * optimalDistance) + towerGoalX;
-        double yTarget = (Math.sin(angleToGoal) * optimalDistance) + towerGoalY;
-        driveToCoordinate(xTarget, yTarget, angleToGoal, 1000, 0.8);
+    public void goToShoot(int count){
+        if (count == 1) {
+            angleToGoal = Math.toDegrees(Math.atan2((towerGoalX - xBlue)*-1, (towerGoalY - yBlue)*-1));
+            xTarget = (Math.sin(Math.toRadians(angleToGoal)) * optimalDistance) + towerGoalX;
+            yTarget = (Math.cos(Math.toRadians(angleToGoal)) * optimalDistance) + towerGoalY;
+        }
+        driveToCoordinate(xTarget, yTarget, angleToGoal + 3, 4000, 0.8);
+        RobotLog.d(String.format("Angle: %.2f xTarget: %.2f yTarget: %.2f", angleToGoal, xTarget, yTarget));
+
     }
 
 }

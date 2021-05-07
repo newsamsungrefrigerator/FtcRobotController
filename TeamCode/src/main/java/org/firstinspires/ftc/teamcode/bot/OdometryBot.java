@@ -47,6 +47,7 @@ public class OdometryBot extends GyroBot {
 
     public double previousVL = 0, previousVR = 0, previousH = 0;
     double angleChange = 0;
+
     double drive;
     double strafe;
     double twist;
@@ -55,6 +56,7 @@ public class OdometryBot extends GyroBot {
     double distanceToTarget;
     long startTime;
     long elapsedTime = 0;
+    public boolean isCoordinateDriving = false;
 
     OutputStreamWriter odometryWriter;
 
@@ -149,13 +151,24 @@ public class OdometryBot extends GyroBot {
     public void resetOdometry(boolean button) {
 
         if (button) {
-            vLOffset = leftFront.getCurrentPosition();
-            vROffset = rightFront.getCurrentPosition();
-            hOffset = horizontal.getCurrentPosition() + 79000;
+//            vLOffset = leftFront.getCurrentPosition();
+//            vROffset = rightFront.getCurrentPosition();
+//            hOffset = horizontal.getCurrentPosition() + 79000;
+
+            horizontal.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            horizontal.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             previousVL = 0;
             previousVR = 0;
-            previousH = 79000;
+            previousH = 0;
+
+            xBlue = 79000;
+            yBlue = 0;
 
             thetaDEG = 0;
         }
@@ -293,24 +306,19 @@ public class OdometryBot extends GyroBot {
         }
         RobotLog.d(String.format("BlueX: %f BlueY: %f Theta: %f", xBlue, yBlue, thetaDEG));
         startTime = System.currentTimeMillis();
-        while (this.opMode.opModeIsActive()) {
+        if (isCoordinateDriving){
             driveToCoordinateUpdate(xTarget, yTarget, targetTheta, tolerance, magnitude);
-            if ((xTarget + tolerance > xBlue) && (xTarget - tolerance < xBlue) && (yTarget + tolerance > yBlue) && (yTarget - tolerance < yBlue) && Math.abs(thetaDifference) < 2) {
-                break;
-            }
-            elapsedTime = System.currentTimeMillis() - startTime;
-            if (elapsedTime > 10000) {
-                break;
-            }
         }
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFront.setPower(0);
-        rightFront.setPower(0);
-        leftRear.setPower(0);
-        rightRear.setPower(0);
+//            driveToCoordinateUpdate(xTarget, yTarget, targetTheta, tolerance, magnitude);
+        if ((xTarget + tolerance > xBlue) && (xTarget - tolerance < xBlue) && (yTarget + tolerance > yBlue) && (yTarget - tolerance < yBlue) && Math.abs(thetaDifference) < 2) {
+            isCoordinateDriving = false;
+            RobotLog.d("TARGET REACHED");
+
+        }
+//            elapsedTime = System.currentTimeMillis() - startTime;
+//            if (elapsedTime > 10000) {
+//                break;
+//            }
     }
 
     public void driveToCoordinateUpdate(double xTarget, double yTarget, double targetTheta, int tolerance, double magnitude) {
@@ -337,8 +345,6 @@ public class OdometryBot extends GyroBot {
         driveByVector(drive, strafe, twist, 1);
         RobotLog.d(String.format("BlueX: %f BlueY: %f Theta: %f Angle: %f Drive: %f Strafe: %f Twist: %f", xBlue, yBlue, thetaDEG, driveAngle, drive, strafe, twist));
         RobotLog.d(String.format("Distance: %f Magnitude: %f", distanceToTarget, magnitude));
-
-        sleep(5, "coordinate drive");
     }
 
     public void savePosition() {
