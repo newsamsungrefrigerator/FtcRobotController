@@ -21,10 +21,10 @@ public class Auto2 extends LinearOpMode {
         robot.lowerIntake();
         robot.sleep(100);
         robot.setShooterSpeed = 1.591;
-        robot.highShooterSpeedThreshold = 1.587;
-        robot.lowShooterSpeedThreshold = 1.582;
-        robot.highShooterSpeed = -0.78;
-        robot.lowShooterSpeed = -0.4;
+        robot.highShooterSpeedThreshold = 1.6;
+        robot.lowShooterSpeedThreshold = 1.595;
+        robot.highShooterSpeed = -0.9;
+        robot.lowShooterSpeed = -0.285;
         robot.toggleFeeder(true);
         robot.toggleShooter(true);
         robot.raiseIntake();

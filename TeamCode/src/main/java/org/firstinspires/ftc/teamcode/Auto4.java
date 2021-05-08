@@ -20,22 +20,22 @@ public class Auto4 extends LinearOpMode {
         robot.lowerIntake();
         robot.sleep(100);
         robot.setShooterSpeed = 1.591;
-        robot.highShooterSpeedThreshold = 1.587;
-        robot.lowShooterSpeedThreshold = 1.582;
-        robot.highShooterSpeed = -0.78;
-        robot.lowShooterSpeed = -0.4;
+        robot.highShooterSpeedThreshold = 1.545;
+        robot.lowShooterSpeedThreshold = 1.543;
+        robot.highShooterSpeed = -0.95;
+        robot.lowShooterSpeed = -0.1;
         robot.toggleFeeder(true);
         robot.toggleShooter(true);
         robot.raiseIntake();
         int numberOfRings = robot.detectRings();
-        robot.sleep(500);
+        robot.sleep(400);
         //telemetry.addData("Number of rings:", numberOfRings);
         //telemetry.update();
         robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 40000, 1, false, true);
         robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 16000, 0.8, false, false, 100);
         robot.goBacktoStartAngle();
 
-        robot.waitForThreshold(1.586, 1.596);
+        robot.waitForThreshold(1.541, 1.545);
         robot.launchRing(true);
         robot.launchRing(true);
         //robot.sleep(300);
@@ -89,7 +89,7 @@ public class Auto4 extends LinearOpMode {
 
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 10000, 0.6, false, false);
             robot.goBacktoStartAngle();
-            robot.waitForThreshold(1.586, 1.598);
+            robot.waitForThreshold(1.541, 1.545);
             robot.launchRing(true);
             robot.sleep(100);
             robot.toggleFeeder(true);
@@ -132,7 +132,7 @@ public class Auto4 extends LinearOpMode {
             robot.sleep(100);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 5000, 0.3, false, false, 250);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 15000, 1, false, false, 250);
-            robot.sleep(1000);
+            robot.sleep(800);
             robot.stopIntake();
             robot.toggleFeeder(true);
             robot.sleep(300);
@@ -143,7 +143,7 @@ public class Auto4 extends LinearOpMode {
             robot.raiseIntake();
             robot.goToAngle(6, 0.2);
             robot.sleep(200);
-            robot.waitForThreshold(1.586, 1.598);
+            robot.waitForThreshold(1.541, 1.545);
             robot.launchRing(true);
             robot.launchRing(true);
             robot.sleep(100);
@@ -156,12 +156,17 @@ public class Auto4 extends LinearOpMode {
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 7000, 0.4, false, false, 800);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 35000, 1, false, false, 250);
             robot.stopIntake();
-            robot.sleep(100);
+            robot.sleep(500);
+            robot.toggleFeeder(true);
+            robot.sleep(300);
+            robot.toggleFeeder(true);
+            robot.sleep(300);
             robot.toggleFeeder(true);
             robot.sleep(300);
             robot.raiseIntake();
             robot.goToAngle(6, 0.2);
-            robot.waitForThreshold(1.586, 1.598);
+            robot.waitForThreshold(1.541, 1.545);
+            robot.launchRing(true);
             robot.launchRing(true);
             robot.launchRing(true);
             robot.sleep(100);
@@ -171,11 +176,11 @@ public class Auto4 extends LinearOpMode {
             //drive to drop zone
             //robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 15000, 1, false, false);
             robot.toggleShooter(false);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 115000, 1, false, true, 250);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 120000, 1, false, true, 250);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 26000, 1, false, false, 250);
             //drop wobble goal
             robot.openPinch();
-            robot.sleep(100, "after drop");
+            robot.sleep(500, "after drop");
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 45000, 1, false, true, 0);
         }
         robot.savePosition();
