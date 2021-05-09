@@ -165,7 +165,7 @@ public class NewCameraBot extends LEDBot {
 
     public int chooseRings (int pixels){
 
-        if (pixels <= 250) {
+        if (pixels <= 210) {
             return NORINGS;
         } else if (pixels <= 400) {
             return ONERING;

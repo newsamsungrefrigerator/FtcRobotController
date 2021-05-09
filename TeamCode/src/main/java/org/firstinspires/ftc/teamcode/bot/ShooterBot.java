@@ -79,10 +79,10 @@ public class ShooterBot extends IntakeBot {
 
     public void spinShooter() {
         if (!isAuto) {
-            highShooterSpeedThreshold = 1.6;
-            lowShooterSpeedThreshold = 1.595;
-            highShooterSpeed = -0.9;
-            lowShooterSpeed = -0.285;
+            highShooterSpeedThreshold = 1.545;
+            lowShooterSpeedThreshold = 1.543;
+            highShooterSpeed = -0.95;
+            lowShooterSpeed = -0.1;
         }
         if (shooterIsOn) {
             //calculate difference in time between last and current cycle

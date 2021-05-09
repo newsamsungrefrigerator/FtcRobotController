@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 public class EndgameBot extends LEDBot{
 
-    final double optimalDistance = 180000;
+    final double optimalDistance = 150000;
 
     double angleToGoal;
     double xTarget;
@@ -28,8 +28,8 @@ public class EndgameBot extends LEDBot{
         if (button) {
             isAuto = true;
             setShooterSpeed = 1.382;
-            highShooterSpeedThreshold = 1.385;
-            lowShooterSpeedThreshold = 1.38;
+            highShooterSpeedThreshold = 1.405; //1.385
+            lowShooterSpeedThreshold = 1.4; //1.38
             raiseIntake();
             goToAnglePID(0);
             toggleFeeder(true);

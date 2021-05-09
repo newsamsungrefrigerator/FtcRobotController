@@ -11,8 +11,8 @@ public class WobbleGoalBot extends ShooterBot {
     public DcMotor wobbleArm = null;
 
     //two positions of the wobble servo
-    final double wobblePinched = 0.9;
-    final double wobbleOpened = 0.48;
+    final double wobblePinched = 0.8;
+    final double wobbleOpened = 0.44;
 
     final int[] armPositions = new int[]{50, 300, 700};
     int armPosIndex = 0;

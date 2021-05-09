@@ -35,7 +35,7 @@ public class Auto4 extends LinearOpMode {
         robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 16000, 0.8, false, false, 100);
         robot.goBacktoStartAngle();
 
-        robot.waitForThreshold(1.541, 1.545);
+        robot.waitForThreshold(1.541, 1.547);
         robot.launchRing(true);
         robot.launchRing(true);
         //robot.sleep(300);
@@ -89,7 +89,7 @@ public class Auto4 extends LinearOpMode {
 
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 10000, 0.6, false, false);
             robot.goBacktoStartAngle();
-            robot.waitForThreshold(1.541, 1.545);
+            robot.waitForThreshold(1.541, 1.547);
             robot.launchRing(true);
             robot.sleep(100);
             robot.toggleFeeder(true);
@@ -143,7 +143,7 @@ public class Auto4 extends LinearOpMode {
             robot.raiseIntake();
             robot.goToAngle(6, 0.2);
             robot.sleep(200);
-            robot.waitForThreshold(1.541, 1.545);
+            robot.waitForThreshold(1.541, 1.547);
             robot.launchRing(true);
             robot.launchRing(true);
             robot.sleep(100);
@@ -165,7 +165,7 @@ public class Auto4 extends LinearOpMode {
             robot.sleep(300);
             robot.raiseIntake();
             robot.goToAngle(6, 0.2);
-            robot.waitForThreshold(1.541, 1.545);
+            robot.waitForThreshold(1.541, 1.547);
             robot.launchRing(true);
             robot.launchRing(true);
             robot.launchRing(true);
