@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
 
@@ -40,6 +41,7 @@ public class FourWheelDriveBot
 
     long timeSinceToggle5 = 0;
     long lastToggleDone5 = 0;
+    double driveMultiplier = 1;
 
     HardwareMap hwMap = null;
     private ElapsedTime runtime = new ElapsedTime();
@@ -88,24 +90,25 @@ public class FourWheelDriveBot
         double strafe = left_stick_x;
         double twist  = right_stick_x;
 
-        double multiplier = 1;
         timeSinceToggle5 = System.currentTimeMillis() - lastToggleDone5;
         if (button && timeSinceToggle5 > 300) {
             if (isSlow) {
-                multiplier = 1;
+                driveMultiplier = 1;
                 isSlow = false;
-                opMode.telemetry.addData("NOT SLOW", multiplier);
+                opMode.telemetry.addData("NOT SLOW", driveMultiplier);
                 lastToggleDone5 = System.currentTimeMillis();
+                //RobotLog.d("robot not slow");
             } else if (!isSlow) {
-                multiplier = 0.25;
+                driveMultiplier = 0.25;
                 isSlow = true;
-                opMode.telemetry.addData("SLOW", multiplier);
+                opMode.telemetry.addData("SLOW", driveMultiplier);
                 lastToggleDone5 = System.currentTimeMillis();
+                //RobotLog.d("robot slow");
             }
             opMode.telemetry.update();
+            //RobotLog.d("stick button pressed");
         }
-
-        driveByVector(drive, strafe, twist, multiplier);
+        driveByVector(drive, strafe, twist, driveMultiplier);
     }
 
     public void driveByVector(double drive, double strafe, double twist, double multiplier) {
@@ -125,7 +128,7 @@ public class FourWheelDriveBot
         if (max > 1) {
             for (int i = 0; i < speeds.length; i++) speeds[i] /= max;
         }
-
+        //RobotLog.d(String.format("multiplier: %f speeds 0: %f", multiplier, speeds[0]));
         // apply the calculated values to the motors.
         leftFront.setPower(speeds[0] * multiplier);
         rightFront.setPower(speeds[1] * multiplier);
