@@ -47,7 +47,7 @@ public class LEDBot extends WobbleGoalBot{
     }
 
     public boolean checkShooterSpeed() {
-        if (currentShooterSpeed > 1.541) {
+        if (currentShooterSpeed > 1.321) {
             return true;
         } else {
             return false;

@@ -27,7 +27,6 @@ public class ManualDriveOpMode extends LinearOpMode {
         robot.readPosition();
         robot.startAngle = robot.savedStartAngle;
         robot.isAuto = false;
-        robot.setShooterSpeed = 1.591;
         waitForStart();
         while (opModeIsActive()) {
             if (!robot.isCoordinateDriving) {

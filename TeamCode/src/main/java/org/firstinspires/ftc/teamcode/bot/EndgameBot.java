@@ -27,9 +27,8 @@ public class EndgameBot extends LEDBot{
     public void endgame(boolean button) {
         if (button) {
             isAuto = true;
-            setShooterSpeed = 1.382;
-            highShooterSpeedThreshold = 1.405; //1.385
-            lowShooterSpeedThreshold = 1.4; //1.38
+            highShooterSpeedThreshold = 1.205; //1.385
+            lowShooterSpeedThreshold = 1.2; //1.38
             raiseIntake();
             goToAnglePID(0);
             toggleFeeder(true);

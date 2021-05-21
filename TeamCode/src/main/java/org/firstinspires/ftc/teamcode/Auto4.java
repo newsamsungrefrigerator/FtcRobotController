@@ -19,10 +19,9 @@ public class Auto4 extends LinearOpMode {
         robot.setArmPositionNoWait(-390);
         robot.lowerIntake();
         robot.sleep(100);
-        robot.setShooterSpeed = 1.591;
-        robot.highShooterSpeedThreshold = 1.545;
-        robot.lowShooterSpeedThreshold = 1.543;
-        robot.highShooterSpeed = -0.95;
+        robot.highShooterSpeedThreshold = 1.325;
+        robot.lowShooterSpeedThreshold = 1.323;
+        robot.highShooterSpeed = -0.65;
         robot.lowShooterSpeed = -0.1;
         robot.toggleFeeder(true);
         robot.toggleShooter(true);
@@ -35,13 +34,13 @@ public class Auto4 extends LinearOpMode {
         robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 16000, 0.8, false, false, 100);
         robot.goBacktoStartAngle();
 
-        robot.waitForThreshold(1.541, 1.547);
+        robot.waitForThreshold(1.321, 1.327);
         robot.launchRing(true);
         robot.launchRing(true);
-        //robot.sleep(300);
+        robot.sleep(200);
         //robot.waitForThreshold(1.587, 1.592);
         robot.launchRing(true);
-        robot.sleep(100);
+        robot.sleep(200);
         robot.toggleFeeder(true);
 
         if (numberOfRings == 0) {
@@ -89,7 +88,7 @@ public class Auto4 extends LinearOpMode {
 
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 10000, 0.6, false, false);
             robot.goBacktoStartAngle();
-            robot.waitForThreshold(1.541, 1.547);
+            robot.waitForThreshold(1.321, 1.327);
             robot.launchRing(true);
             robot.sleep(100);
             robot.toggleFeeder(true);
@@ -143,10 +142,11 @@ public class Auto4 extends LinearOpMode {
             robot.raiseIntake();
             robot.goToAngle(6, 0.2);
             robot.sleep(200);
-            robot.waitForThreshold(1.541, 1.547);
+            robot.waitForThreshold(1.321, 1.327);
             robot.launchRing(true);
+            robot.sleep(200);
             robot.launchRing(true);
-            robot.sleep(100);
+            robot.sleep(200);
             robot.toggleFeeder(true);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 15000, 1, false, false, 250);
             robot.lowerIntake();
@@ -154,7 +154,7 @@ public class Auto4 extends LinearOpMode {
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 11000, 0.3, false, false, 250);
             robot.sleep(500);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 7000, 0.4, false, false, 800);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 35000, 1, false, false, 250);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 5000, 1, false, false, 250);
             robot.stopIntake();
             robot.sleep(500);
             robot.toggleFeeder(true);
@@ -164,19 +164,20 @@ public class Auto4 extends LinearOpMode {
             robot.toggleFeeder(true);
             robot.sleep(300);
             robot.raiseIntake();
-            robot.goToAngle(6, 0.2);
-            robot.waitForThreshold(1.541, 1.547);
+            robot.goToAngle(3, 0.2);
+            robot.waitForThreshold(1.321, 1.327);
+            robot.launchRing(true);
+            robot.sleep(200);
             robot.launchRing(true);
             robot.launchRing(true);
-            robot.launchRing(true);
-            robot.sleep(100);
+            robot.sleep(200);
             robot.toggleFeeder(true);
             //arm to drop position
             robot.setArmPositionNoWait(-750);
             //drive to drop zone
             //robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_LEFT, 15000, 1, false, false);
             robot.toggleShooter(false);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 120000, 1, false, true, 250);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 83000, 1, false, true, 250);
             robot.driveByGyroWithEncodersHorizontal(robot.DIRECTION_RIGHT, 26000, 1, false, false, 250);
             //drop wobble goal
             robot.openPinch();
