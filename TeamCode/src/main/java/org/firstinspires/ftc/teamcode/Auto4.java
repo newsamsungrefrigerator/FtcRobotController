@@ -129,8 +129,8 @@ public class Auto4 extends LinearOpMode {
             robot.startIntake();
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 7000, 0.4, false, false, 250);
             robot.sleep(100);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 5000, 0.3, false, false, 250);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 15000, 1, false, false, 250);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 3000, 0.3, false, false, 250);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 14000, 1, false, false, 250);
             robot.sleep(800);
             robot.stopIntake();
             robot.toggleFeeder(true);
