@@ -13,9 +13,9 @@ public class IntakeBot extends OdometryBot{
     public Servo intakeHeight1 = null;
     public Servo intakeHeight2 = null;
 
-    final double feederDown = 0.18;//0.21
+    final double feederDown = 0.195;//0.21
     final double feederShake = 0.29;
-    final double feederUp = 0.50;
+    final double feederUp = 0.47;
 
     final double heightHigh = 0.275;//0.265
     final double heightLow = 0.303;

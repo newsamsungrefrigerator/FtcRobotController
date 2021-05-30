@@ -41,7 +41,7 @@ public class ShooterBot extends IntakeBot {
 
     //two positions of the pusher servo
     final double pusherRetracted = 0.5;
-    final double pusherPushing = 0.605;
+    final double pusherPushing = 0.57;//0.605
 
     boolean shooterIsOn = false;
     public boolean isAuto = true;
