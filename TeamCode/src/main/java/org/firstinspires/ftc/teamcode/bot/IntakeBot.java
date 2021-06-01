@@ -48,7 +48,7 @@ public class IntakeBot extends OdometryBot{
     }
 
     public void startIntake() {
-        intakeMotor.setPower(0.7);
+        intakeMotor.setPower(0.8);
     }
     public void stopIntake() {
         intakeMotor.setPower(0);

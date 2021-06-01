@@ -40,7 +40,7 @@ public class Auto4 extends LinearOpMode {
         robot.sleep(200);
         //robot.waitForThreshold(1.587, 1.592);
         robot.launchRing(true);
-        robot.sleep(200);
+        robot.sleep(100);
         robot.toggleFeeder(true);
 
         if (numberOfRings == 0) {
@@ -127,8 +127,8 @@ public class Auto4 extends LinearOpMode {
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 1000, 1, false, false, 250);
             robot.lowerIntake();
             robot.startIntake();
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 3500, 0.4, false, false, 450);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 2500, 0.25, false, false, 250);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 3500, 0.4, false, false, 750);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 2500, 0.25, false, false, 350);
             robot.sleep(200);
             //robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 3000, 0.3, false, false, 250);
             robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 12000, 1, false, false, 250);
@@ -147,15 +147,15 @@ public class Auto4 extends LinearOpMode {
             robot.launchRing(true);
             robot.sleep(200);
             robot.launchRing(true);
-            robot.sleep(200);
+            robot.sleep(100);
             robot.toggleFeeder(true);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 15000, 1, false, false, 250);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 13000, 1, false, false, 250);
             robot.lowerIntake();
             robot.startIntake();
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 11000, 0.3, false, false, 250);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 7000, 0.3, false, false, 250);
             robot.sleep(500);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 7000, 0.4, false, false, 800);
-            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 5000, 1, false, false, 550);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_FORWARD, 4000, 0.4, false, false, 900);
+            robot.driveByGyroWithEncodersVertical(robot.DIRECTION_BACKWARD, 2000, 1, false, false, 550);
             robot.stopIntake();
             robot.sleep(500);
             robot.toggleFeeder(true);
@@ -171,7 +171,7 @@ public class Auto4 extends LinearOpMode {
             robot.sleep(200);
             robot.launchRing(true);
             robot.launchRing(true);
-            robot.sleep(200);
+            robot.sleep(100);
             robot.toggleFeeder(true);
             //arm to drop position
             robot.setArmPositionNoWait(-750);
