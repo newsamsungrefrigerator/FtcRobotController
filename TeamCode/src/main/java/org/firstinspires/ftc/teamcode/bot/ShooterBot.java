@@ -173,7 +173,7 @@ public class ShooterBot extends IntakeBot {
             }
 
             leftFront.setPower(- maxPower - adjustPower);
-            rightFront.setPower(+ maxPower + adjustPower);
+            rightFront.setPower(+ maxPower + adjustPower * highRPMToLowRPM);
             leftRear.setPower(+ maxPower - adjustPower * highRPMToLowRPM);
             rightRear.setPower(- maxPower + adjustPower);
 

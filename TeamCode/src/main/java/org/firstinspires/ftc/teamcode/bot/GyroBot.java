@@ -94,7 +94,7 @@ public class GyroBot extends FourWheelDriveBot {
                 direction = 1;
             }
             leftFront.setPower(power * direction);
-            rightFront.setPower(-power * direction);
+            rightFront.setPower(-power * direction * highRPMToLowRPM);
             leftRear.setPower(power * direction * highRPMToLowRPM);
             rightRear.setPower(-power * direction);
 
@@ -123,7 +123,7 @@ public class GyroBot extends FourWheelDriveBot {
             onLoop("goBacktoStartAnglePID");
             RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, startAngle, power));
             leftFront.setPower(-power);
-            rightFront.setPower(power);
+            rightFront.setPower(power * highRPMToLowRPM);
             leftRear.setPower(-power * highRPMToLowRPM);
             rightRear.setPower(power);
             opMode.sleep(50);
@@ -154,7 +154,7 @@ public class GyroBot extends FourWheelDriveBot {
                 direction = 1;
             }
             leftFront.setPower(power * direction);
-            rightFront.setPower(-power * direction);
+            rightFront.setPower(-power * direction * highRPMToLowRPM);
             leftRear.setPower(power * direction * highRPMToLowRPM);
             rightRear.setPower(-power * direction);
 
@@ -183,7 +183,7 @@ public class GyroBot extends FourWheelDriveBot {
             onLoop("goBacktoStartAnglePID");
             RobotLog.d(String.format("PID(source: %.3f, target: %.3f) = power: %.3f", angle, targetAngle, power));
             leftFront.setPower(-power);
-            rightFront.setPower(power);
+            rightFront.setPower(power * highRPMToLowRPM);
             leftRear.setPower(-power * highRPMToLowRPM);
             rightRear.setPower(power);
             opMode.sleep(30);
@@ -223,7 +223,7 @@ public class GyroBot extends FourWheelDriveBot {
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         leftFront.setPower(power);
-        rightFront.setPower(-power);
+        rightFront.setPower(-power * highRPMToLowRPM);
         leftRear.setPower(power * highRPMToLowRPM);
         rightRear.setPower(-power);
         onLoop(8000, "180 degrees");
@@ -240,7 +240,7 @@ public class GyroBot extends FourWheelDriveBot {
                 direction = 1;
             }
             leftFront.setPower(power * direction);
-            rightFront.setPower(-power * direction);
+            rightFront.setPower(-power * direction * highRPMToLowRPM);
             leftRear.setPower(power * direction * highRPMToLowRPM);
             rightRear.setPower(-power * direction);
 
@@ -287,25 +287,25 @@ public class GyroBot extends FourWheelDriveBot {
             switch (direction){
                 case DIRECTION_FORWARD:
                     leftFront.setPower(maxPower - adjustPower);
-                    rightFront.setPower(maxPower + adjustPower);
+                    rightFront.setPower(maxPower + adjustPower * highRPMToLowRPM);
                     leftRear.setPower(maxPower - adjustPower * highRPMToLowRPM);
                     rightRear.setPower(maxPower + adjustPower);
                     break;
                 case DIRECTION_BACKWARD:
                     leftFront.setPower(- maxPower - adjustPower);
-                    rightFront.setPower(- maxPower + adjustPower);
+                    rightFront.setPower(- maxPower + adjustPower * highRPMToLowRPM);
                     leftRear.setPower(- maxPower - adjustPower * highRPMToLowRPM);
                     rightRear.setPower(- maxPower + adjustPower);
                     break;
                 case DIRECTION_LEFT:
                     leftFront.setPower(- maxPower - adjustPower);
-                    rightFront.setPower(+ maxPower + adjustPower);
+                    rightFront.setPower(+ maxPower + adjustPower * highRPMToLowRPM);
                     leftRear.setPower(+ maxPower - adjustPower * highRPMToLowRPM);
                     rightRear.setPower(- maxPower + adjustPower);
                     break;
                 case DIRECTION_RIGHT:
                     leftFront.setPower(+ maxPower - adjustPower);
-                    rightFront.setPower(- maxPower + adjustPower);
+                    rightFront.setPower(- maxPower + adjustPower * highRPMToLowRPM);
                     leftRear.setPower(- maxPower - adjustPower * highRPMToLowRPM);
                     rightRear.setPower(+ maxPower + adjustPower);
                     break;
@@ -373,13 +373,13 @@ public class GyroBot extends FourWheelDriveBot {
             switch (direction){
                 case DIRECTION_FORWARD:
                     leftFront.setPower((maxPower - adjustPower) * powerMultiplier);
-                    rightFront.setPower((maxPower + adjustPower) * powerMultiplier);
+                    rightFront.setPower((maxPower + adjustPower) * powerMultiplier * highRPMToLowRPM);
                     leftRear.setPower((maxPower - adjustPower) * powerMultiplier * highRPMToLowRPM);
                     rightRear.setPower((maxPower + adjustPower) * powerMultiplier);
                     break;
                 case DIRECTION_BACKWARD:
                     leftFront.setPower((- maxPower - adjustPower) * powerMultiplier);
-                    rightFront.setPower((- maxPower + adjustPower) * powerMultiplier);
+                    rightFront.setPower((- maxPower + adjustPower) * powerMultiplier * highRPMToLowRPM);
                     leftRear.setPower((- maxPower - adjustPower) * powerMultiplier * highRPMToLowRPM);
                     rightRear.setPower((- maxPower + adjustPower) * powerMultiplier);
                     break;
@@ -429,13 +429,13 @@ public class GyroBot extends FourWheelDriveBot {
             switch (direction){
                 case DIRECTION_FORWARD:
                     leftFront.setPower((maxPower) * powerMultiplier);
-                    rightFront.setPower((maxPower) * powerMultiplier);
+                    rightFront.setPower((maxPower) * powerMultiplier * highRPMToLowRPM);
                     leftRear.setPower((maxPower) * powerMultiplier * highRPMToLowRPM);
                     rightRear.setPower((maxPower) * powerMultiplier);
                     break;
                 case DIRECTION_BACKWARD:
                     leftFront.setPower((- maxPower) * powerMultiplier);
-                    rightFront.setPower((- maxPower) * powerMultiplier);
+                    rightFront.setPower((- maxPower) * powerMultiplier * highRPMToLowRPM);
                     leftRear.setPower((- maxPower) * powerMultiplier * highRPMToLowRPM);
                     rightRear.setPower((- maxPower) * powerMultiplier);
                     break;
