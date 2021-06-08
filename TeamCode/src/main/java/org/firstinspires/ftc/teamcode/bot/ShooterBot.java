@@ -173,8 +173,13 @@ public class ShooterBot extends IntakeBot {
             }
 
             leftFront.setPower(- maxPower - adjustPower);
+<<<<<<< HEAD
             rightFront.setPower(+ maxPower + adjustPower * highRPMToLowRPM);
             leftRear.setPower(+ maxPower - adjustPower * highRPMToLowRPM);
+=======
+            rightFront.setPower(+ maxPower + adjustPower);
+            leftRear.setPower(+ maxPower - adjustPower);
+>>>>>>> parent of b315754 (TEMPORARY: multiplied all of leftrears to be able to use 435 RPM motor)
             rightRear.setPower(- maxPower + adjustPower);
 
             //onLoop(30, "gyro drive 2");
