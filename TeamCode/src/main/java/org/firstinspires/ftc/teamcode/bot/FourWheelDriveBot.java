@@ -32,6 +32,8 @@ public class FourWheelDriveBot
     public static final int DIRECTION_RQUARTER = 5;
     public static final int DIRECTION_LQUARTER = 6;
 
+    public static final double highRPMToLowRPM = 71.724137931034482758620689655171;
+
     public DcMotorEx leftFront = null;
     public DcMotorEx rightFront = null;
     public DcMotorEx leftRear = null;
@@ -132,7 +134,7 @@ public class FourWheelDriveBot
         // apply the calculated values to the motors.
         leftFront.setPower(speeds[0] * multiplier);
         rightFront.setPower(speeds[1] * multiplier);
-        leftRear.setPower(speeds[2] * multiplier);
+        leftRear.setPower(speeds[2] * multiplier * highRPMToLowRPM);
         rightRear.setPower(speeds[3] * multiplier);
     }
 

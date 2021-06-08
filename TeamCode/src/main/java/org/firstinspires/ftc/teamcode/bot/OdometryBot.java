@@ -219,13 +219,13 @@ public class OdometryBot extends GyroBot {
                 case DIRECTION_LEFT:
                     leftFront.setPower((- maxPower - adjustPower) * powerMultiplier);
                     rightFront.setPower((+ maxPower + adjustPower) * powerMultiplier);
-                    leftRear.setPower((+ maxPower - adjustPower) * powerMultiplier);
+                    leftRear.setPower((+ maxPower - adjustPower) * powerMultiplier * highRPMToLowRPM);
                     rightRear.setPower((- maxPower + adjustPower) * powerMultiplier);
                     break;
                 case DIRECTION_RIGHT:
                     leftFront.setPower((+ maxPower - adjustPower) * powerMultiplier);
                     rightFront.setPower((- maxPower + adjustPower) * powerMultiplier);
-                    leftRear.setPower((- maxPower - adjustPower) * powerMultiplier);
+                    leftRear.setPower((- maxPower - adjustPower) * powerMultiplier * highRPMToLowRPM);
                     rightRear.setPower((+ maxPower + adjustPower) * powerMultiplier);
                     break;
             }
@@ -275,13 +275,13 @@ public class OdometryBot extends GyroBot {
                 case DIRECTION_LEFT:
                     leftFront.setPower((- maxPower) * powerMultiplier);
                     rightFront.setPower((+ maxPower) * powerMultiplier);
-                    leftRear.setPower((+ maxPower) * powerMultiplier);
+                    leftRear.setPower((+ maxPower) * powerMultiplier * highRPMToLowRPM);
                     rightRear.setPower((- maxPower) * powerMultiplier);
                     break;
                 case DIRECTION_RIGHT:
                     leftFront.setPower((+ maxPower) * powerMultiplier);
                     rightFront.setPower((- maxPower) * powerMultiplier);
-                    leftRear.setPower((- maxPower) * powerMultiplier);
+                    leftRear.setPower((- maxPower) * powerMultiplier * highRPMToLowRPM);
                     rightRear.setPower((+ maxPower) * powerMultiplier);
                     break;
             }

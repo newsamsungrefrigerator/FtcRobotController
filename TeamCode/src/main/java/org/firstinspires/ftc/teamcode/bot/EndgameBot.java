@@ -59,7 +59,7 @@ public class EndgameBot extends LEDBot{
             toggleFeeder(true);
             leftFront.setPower(-0.9);
             rightFront.setPower(0.9);
-            leftRear.setPower(-0.9);
+            leftRear.setPower(-0.9 * highRPMToLowRPM);
             rightRear.setPower(0.9);
             onLoop(800, "180 degrees");
 
