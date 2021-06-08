@@ -32,11 +32,8 @@ public class FourWheelDriveBot
     public static final int DIRECTION_RQUARTER = 5;
     public static final int DIRECTION_LQUARTER = 6;
 
-<<<<<<< HEAD
     public static final double highRPMToLowRPM = 0.71724137931034482758620689655171;
 
-=======
->>>>>>> parent of b315754 (TEMPORARY: multiplied all of leftrears to be able to use 435 RPM motor)
     public DcMotorEx leftFront = null;
     public DcMotorEx rightFront = null;
     public DcMotorEx leftRear = null;
@@ -136,13 +133,8 @@ public class FourWheelDriveBot
         //RobotLog.d(String.format("multiplier: %f speeds 0: %f", multiplier, speeds[0]));
         // apply the calculated values to the motors.
         leftFront.setPower(speeds[0] * multiplier);
-<<<<<<< HEAD
         rightFront.setPower(speeds[1] * multiplier * highRPMToLowRPM);
         leftRear.setPower(speeds[2] * multiplier * highRPMToLowRPM);
-=======
-        rightFront.setPower(speeds[1] * multiplier);
-        leftRear.setPower(speeds[2] * multiplier);
->>>>>>> parent of b315754 (TEMPORARY: multiplied all of leftrears to be able to use 435 RPM motor)
         rightRear.setPower(speeds[3] * multiplier);
     }
 

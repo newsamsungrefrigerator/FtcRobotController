@@ -218,24 +218,14 @@ public class OdometryBot extends GyroBot {
             switch (direction){
                 case DIRECTION_LEFT:
                     leftFront.setPower((- maxPower - adjustPower) * powerMultiplier);
-<<<<<<< HEAD
                     rightFront.setPower((+ maxPower + adjustPower) * powerMultiplier * highRPMToLowRPM);
                     leftRear.setPower((+ maxPower - adjustPower) * powerMultiplier * highRPMToLowRPM);
-=======
-                    rightFront.setPower((+ maxPower + adjustPower) * powerMultiplier);
-                    leftRear.setPower((+ maxPower - adjustPower) * powerMultiplier);
->>>>>>> parent of b315754 (TEMPORARY: multiplied all of leftrears to be able to use 435 RPM motor)
                     rightRear.setPower((- maxPower + adjustPower) * powerMultiplier);
                     break;
                 case DIRECTION_RIGHT:
                     leftFront.setPower((+ maxPower - adjustPower) * powerMultiplier);
-<<<<<<< HEAD
                     rightFront.setPower((- maxPower + adjustPower) * powerMultiplier * highRPMToLowRPM);
                     leftRear.setPower((- maxPower - adjustPower) * powerMultiplier * highRPMToLowRPM);
-=======
-                    rightFront.setPower((- maxPower + adjustPower) * powerMultiplier);
-                    leftRear.setPower((- maxPower - adjustPower) * powerMultiplier);
->>>>>>> parent of b315754 (TEMPORARY: multiplied all of leftrears to be able to use 435 RPM motor)
                     rightRear.setPower((+ maxPower + adjustPower) * powerMultiplier);
                     break;
             }
@@ -284,24 +274,14 @@ public class OdometryBot extends GyroBot {
             switch (direction){
                 case DIRECTION_LEFT:
                     leftFront.setPower((- maxPower) * powerMultiplier);
-<<<<<<< HEAD
                     rightFront.setPower((+ maxPower) * powerMultiplier * highRPMToLowRPM);
                     leftRear.setPower((+ maxPower) * powerMultiplier * highRPMToLowRPM);
-=======
-                    rightFront.setPower((+ maxPower) * powerMultiplier);
-                    leftRear.setPower((+ maxPower) * powerMultiplier);
->>>>>>> parent of b315754 (TEMPORARY: multiplied all of leftrears to be able to use 435 RPM motor)
                     rightRear.setPower((- maxPower) * powerMultiplier);
                     break;
                 case DIRECTION_RIGHT:
                     leftFront.setPower((+ maxPower) * powerMultiplier);
-<<<<<<< HEAD
                     rightFront.setPower((- maxPower) * powerMultiplier * highRPMToLowRPM);
                     leftRear.setPower((- maxPower) * powerMultiplier * highRPMToLowRPM);
-=======
-                    rightFront.setPower((- maxPower) * powerMultiplier);
-                    leftRear.setPower((- maxPower) * powerMultiplier);
->>>>>>> parent of b315754 (TEMPORARY: multiplied all of leftrears to be able to use 435 RPM motor)
                     rightRear.setPower((+ maxPower) * powerMultiplier);
                     break;
             }

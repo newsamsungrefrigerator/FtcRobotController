@@ -58,13 +58,8 @@ public class EndgameBot extends LEDBot{
 
             toggleFeeder(true);
             leftFront.setPower(-0.9);
-<<<<<<< HEAD
             rightFront.setPower(0.9 * highRPMToLowRPM);
             leftRear.setPower(-0.9 * highRPMToLowRPM);
-=======
-            rightFront.setPower(0.9);
-            leftRear.setPower(-0.9);
->>>>>>> parent of b315754 (TEMPORARY: multiplied all of leftrears to be able to use 435 RPM motor)
             rightRear.setPower(0.9);
             onLoop(800, "180 degrees");
 
